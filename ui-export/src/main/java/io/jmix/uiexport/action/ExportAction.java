@@ -42,8 +42,6 @@ public class ExportAction extends ListAction {
 
     public static final String ID = "export";
 
-    public static final Class<? extends TableExporter> DEFAULT_EXPORTER = ExcelExporter.class;
-
     protected BeanLocator beanLocator;
 
     @Autowired
@@ -67,9 +65,8 @@ public class ExportAction extends ListAction {
     }
 
     @Autowired
-    protected void setBeanLocator(BeanLocator beanLocator){
+    protected void setBeanLocator(BeanLocator beanLocator) {
         this.beanLocator = beanLocator;
-        setTableExporter(beanLocator.getPrototype(DEFAULT_EXPORTER));
     }
 
     public void setTableExporter(TableExporter tableExporter) {
@@ -94,7 +91,7 @@ public class ExportAction extends ListAction {
 
     private void execute() {
         if (tableExporter == null) {
-            tableExporter = beanLocator.getPrototype(DEFAULT_EXPORTER);
+            throw new IllegalStateException("Table exporter is not defined");
         }
         if (needExportAll()) {
             tableExporter.download(downloader, (Table<JmixEntity>) getTarget(), ExportMode.ALL);
