@@ -93,8 +93,6 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
 
     protected boolean exportAggregation = true;
 
-    protected List<String> filterDescription;
-
     protected Boolean exportExpanded;
 
     protected ExportFormat exportFormat = ExportFormat.XLSX;
@@ -143,20 +141,7 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
         createFormats();
 
         int r = 0;
-        if (filterDescription != null) {
-            for (r = 0; r < filterDescription.size(); r++) {
-                String line = filterDescription.get(r);
-                Row row = sheet.createRow(r);
-                if (r == 0) {
-                    RichTextString richTextFilterName = createStringCellValue(line);
-                    richTextFilterName.applyFont(boldFont);
-                    row.createCell(0).setCellValue(richTextFilterName);
-                } else {
-                    row.createCell(0).setCellValue(line);
-                }
-            }
-            r++;
-        }
+
         Row row = sheet.createRow(r);
         createAutoColumnSizers(columns.size());
 
@@ -693,19 +678,6 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
             }
         }
         return false;
-    }
-
-    public List<String> getFilterDescription() {
-        return filterDescription;
-    }
-
-    public void setFilterDescription(List<String> filterDescription) {
-        this.filterDescription = filterDescription;
-    }
-
-    public ExcelExporter withFilterDescription(List<String> filterDescription) {
-        setFilterDescription(filterDescription);
-        return this;
     }
 
     public Boolean getExportExpanded() {
