@@ -45,6 +45,12 @@ public class JsonExporter extends AbstractTableExporter<JsonExporter> {
 
     protected Function<GsonBuilder, GsonBuilder> gsonConfigurer;
 
+    /**
+     * Configure Gson builder for export
+     *
+     * @param gsonConfigurator Gson configurator function
+     * @return exporter instance
+     */
     public JsonExporter withGsonConfigurator(Function<GsonBuilder, GsonBuilder> gsonConfigurator) {
         this.gsonConfigurer = gsonConfigurator;
         return this;

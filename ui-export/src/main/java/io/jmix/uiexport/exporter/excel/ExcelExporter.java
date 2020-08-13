@@ -93,7 +93,7 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
 
     protected boolean exportAggregation = true;
 
-    protected Boolean exportExpanded;
+    protected Boolean exportExpanded = true;
 
     protected ExportFormat exportFormat = ExportFormat.XLSX;
 
@@ -680,14 +680,28 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
         return false;
     }
 
+    /**
+     * @return tree table export expanded
+     */
     public Boolean getExportExpanded() {
         return exportExpanded;
     }
 
+    /**
+     * Export tree table with expanded rows
+     *
+     * @param exportExpanded set to true to export collapsed items in expanded view
+     */
     public void setExportExpanded(Boolean exportExpanded) {
         this.exportExpanded = exportExpanded;
     }
 
+    /**
+     * Export tree table with expanded rows
+     *
+     * @param exportExpanded set to true to export collapsed items in expanded view
+     * @return exporter instance
+     */
     public ExcelExporter withExportExpanded(Boolean exportExpanded) {
         setExportExpanded(exportExpanded);
         return this;
