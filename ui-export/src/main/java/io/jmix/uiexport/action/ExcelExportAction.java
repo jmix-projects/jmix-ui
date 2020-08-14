@@ -7,6 +7,11 @@ import io.jmix.ui.meta.StudioAction;
 import io.jmix.uiexport.exporter.excel.ExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Action for export table content in XLSX or XLS formats
+ * <p>
+ * Should be defined for a list component ({@code Table}, {@code DataGrid}, etc.) in a screen XML descriptor.
+ */
 @StudioAction(category = "List Actions", description = "Export selected entities to Excel")
 @ActionType(ExcelExportAction.ID)
 public class ExcelExportAction extends ExportAction {

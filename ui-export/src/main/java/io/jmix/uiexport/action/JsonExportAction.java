@@ -7,6 +7,11 @@ import io.jmix.ui.meta.StudioAction;
 import io.jmix.uiexport.exporter.json.JsonExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+/**
+ * Action for export table content as JSON
+ * <p>
+ * Should be defined for a list component ({@code Table}, {@code DataGrid}, etc.) in a screen XML descriptor.
+ */
 @StudioAction(category = "List Actions", description = "Export selected entities to JSON")
 @ActionType(JsonExportAction.ID)
 public class JsonExportAction extends ExportAction {

@@ -33,6 +33,7 @@ import io.jmix.ui.download.ByteArrayDataProvider;
 import io.jmix.ui.download.DownloadFormat;
 import io.jmix.ui.download.Downloader;
 import io.jmix.ui.gui.data.GroupInfo;
+import io.jmix.uiexport.action.ExportAction;
 import io.jmix.uiexport.exporter.AbstractTableExporter;
 import io.jmix.uiexport.exporter.ExportMode;
 import org.apache.commons.lang3.BooleanUtils;
@@ -56,8 +57,7 @@ import java.util.stream.Collectors;
 
 /**
  * Use this class to export {@link Table} into Excel format
- * and show using {@link Downloader}.
- * <br>Just create an instance of this class and invoke one of <code>exportTable</code> methods.
+ * <br>Just create an instance of {@link ExportAction} with <code>withExporter</code> method.
  */
 @SuppressWarnings("rawtypes")
 @Component(ExcelExporter.NAME)

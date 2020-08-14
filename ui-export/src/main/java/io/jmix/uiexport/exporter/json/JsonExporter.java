@@ -24,6 +24,7 @@ import io.jmix.ui.component.Table;
 import io.jmix.ui.download.ByteArrayDataProvider;
 import io.jmix.ui.download.DownloadFormat;
 import io.jmix.ui.download.Downloader;
+import io.jmix.uiexport.action.ExportAction;
 import io.jmix.uiexport.exporter.AbstractTableExporter;
 import io.jmix.uiexport.exporter.ExportMode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,10 @@ import org.springframework.stereotype.Component;
 import java.util.Collection;
 import java.util.function.Function;
 
+/**
+ * Use this class to export {@link Table} into JSON format.
+ * <br>Just create an instance of {@link ExportAction} with <code>withExporter</code> method.
+ */
 @Component(JsonExporter.NAME)
 @Scope(BeanDefinition.SCOPE_PROTOTYPE)
 public class JsonExporter extends AbstractTableExporter<JsonExporter> {

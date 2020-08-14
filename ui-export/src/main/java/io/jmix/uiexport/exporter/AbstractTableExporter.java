@@ -27,6 +27,7 @@ import io.jmix.ui.UiProperties;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.component.data.table.ContainerTableItems;
 import io.jmix.ui.component.formatter.Formatter;
+import io.jmix.uiexport.action.ExportAction;
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,10 @@ import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Base table exporter class.
+ * <br>Just create an instance of {@link ExportAction} with <code>withExporter</code> method.
+ */
 @SuppressWarnings({"unchecked", "rawtypes"})
 public abstract class AbstractTableExporter<T extends AbstractTableExporter> implements TableExporter {
 

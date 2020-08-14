@@ -19,10 +19,21 @@ package io.jmix.uiexport.exporter;
 import io.jmix.core.JmixEntity;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.download.Downloader;
+import io.jmix.uiexport.action.ExportAction;
 
+/**
+ * Table exporter interface.
+ * <br>Just create an instance of {@link ExportAction} with <code>withExporter</code> method.
+ */
 public interface TableExporter {
 
+    /**
+     * download <code>table</code> content via <code>downloader</code>
+     */
     void download(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode);
 
+    /**
+     * returns exporter caption
+     */
     String getCaption();
 }

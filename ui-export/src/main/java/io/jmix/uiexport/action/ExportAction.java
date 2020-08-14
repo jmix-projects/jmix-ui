@@ -35,6 +35,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
 
+/**
+ * Base action for export table content with defined exporter.
+ * <code>tableExporter</code> is required for this action
+ * <p>
+ * Should be defined for a list component ({@code Table}, {@code DataGrid}, etc.) in a screen XML descriptor.
+ */
 @SuppressWarnings("rawtypes")
 @StudioAction(category = "List Actions", description = "Export selected entities")
 @ActionType(ExportAction.ID)
@@ -69,11 +75,17 @@ public class ExportAction extends ListAction {
         this.beanLocator = beanLocator;
     }
 
+    /**
+     * Sets the table exporter instance
+     */
     public void setTableExporter(TableExporter tableExporter) {
         this.tableExporter = tableExporter;
         this.caption = tableExporter.getCaption() != null ? tableExporter.getCaption() : this.caption;
     }
 
+    /**
+     * Autowire table exporter instance by exporter class
+     */
     public <T> T withExporter(Class<T> exporterClass) {
         setTableExporter((TableExporter) beanLocator.getPrototype(exporterClass));
         return (T) tableExporter;
@@ -89,7 +101,7 @@ public class ExportAction extends ListAction {
         }
     }
 
-    private void execute() {
+    protected void execute() {
         if (tableExporter == null) {
             throw new IllegalStateException("Table exporter is not defined");
         }
