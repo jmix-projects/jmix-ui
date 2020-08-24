@@ -17,7 +17,10 @@ package io.jmix.ui.sys;
 
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.Layout;
-import io.jmix.core.*;
+import io.jmix.core.AccessManager;
+import io.jmix.core.Events;
+import io.jmix.core.Messages;
+import io.jmix.core.UuidProvider;
 import io.jmix.core.security.AccessDeniedException;
 import io.jmix.core.security.PermissionType;
 import io.jmix.ui.*;
@@ -42,7 +45,7 @@ import io.jmix.ui.icon.IconResolver;
 import io.jmix.ui.icon.Icons;
 import io.jmix.ui.icon.JmixIcon;
 import io.jmix.ui.logging.UserActionsLogger;
-import io.jmix.ui.model.impl.ScreenDataImpl;
+import io.jmix.ui.model.ScreenData;
 import io.jmix.ui.monitoring.ScreenLifeCycle;
 import io.jmix.ui.navigation.NavigationState;
 import io.jmix.ui.navigation.UrlTools;
@@ -62,6 +65,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Element;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import javax.annotation.Nullable;
 import javax.annotation.ParametersAreNonnullByDefault;
@@ -85,7 +89,7 @@ public class WebScreens implements Screens {
     private static final org.slf4j.Logger userActionsLog = LoggerFactory.getLogger(UserActionsLogger.class);
 
     @Autowired
-    protected BeanLocator beanLocator;
+    protected ApplicationContext applicationContext;
 
     @Autowired
     protected WindowConfig windowConfig;
@@ -185,7 +189,7 @@ public class WebScreens implements Screens {
                         ui.getUrlRouting(),
                         ui.getWebBrowserTools())
         );
-        setScreenData(controller, new ScreenDataImpl());
+        setScreenData(controller, applicationContext.getBean(ScreenData.class));
 
         WindowImplementation windowImpl = (WindowImplementation) window;
         windowImpl.setFrameOwner(controller);
@@ -199,7 +203,7 @@ public class WebScreens implements Screens {
 
         ComponentLoaderContext componentLoaderContext = !(controller instanceof CubaLegacyFrame)
                 ? new ComponentLoaderContext(options)
-                : beanLocator.get(DsSupport.class).createComponentLoaderContext(options); // TODO refactor
+                : applicationContext.getBean(DsSupport.class).createComponentLoaderContext(options); // TODO refactor
 
         componentLoaderContext.setFullFrameId(windowInfo.getId());
         componentLoaderContext.setCurrentFrameId(windowInfo.getId());
@@ -216,7 +220,7 @@ public class WebScreens implements Screens {
         Timer.Sample injectSample = Timer.start(meterRegistry);
 
         UiControllerDependencyInjector dependencyInjector =
-                beanLocator.getPrototype(UiControllerDependencyInjector.NAME, controller, options);
+                (UiControllerDependencyInjector) applicationContext.getBean(UiControllerDependencyInjector.NAME, controller, options);
         dependencyInjector.inject();
 
         injectSample.stop(createScreenTimer(meterRegistry, ScreenLifeCycle.INJECTION, windowInfo.getId()));
@@ -326,13 +330,13 @@ public class WebScreens implements Screens {
             }
         }
 
-        LayoutLoader layoutLoader = beanLocator.getPrototype(LayoutLoader.NAME, componentLoaderContext);
+        LayoutLoader layoutLoader = (LayoutLoader) applicationContext.getBean(LayoutLoader.NAME, componentLoaderContext);
         ComponentLoader<Window> windowLoader = layoutLoader.createWindowContent(window, element);
 
         if (controller instanceof CubaLegacyFrame) {
             screenViewsLoader.deployViews(element);
 
-            beanLocator.get(DsSupport.class)
+            applicationContext.getBean(DsSupport.class)
                     .initDsContext(controller, element, componentLoaderContext);
         }
 
@@ -367,7 +371,7 @@ public class WebScreens implements Screens {
 
         fireEvent(screen, BeforeShowEvent.class, new BeforeShowEvent(screen));
 
-        loadDataBeforeShow(screen);
+        internalBeforeShow(screen);
 
         beforeShowSample.stop(createScreenTimer(meterRegistry, ScreenLifeCycle.BEFORE_SHOW, screen.getId()));
 
@@ -476,8 +480,7 @@ public class WebScreens implements Screens {
         return OperationResult.success();
     }
 
-    protected void loadDataBeforeShow(Screen screen) {
-        UiControllerUtils.getScreenData(screen).getLoadBeforeShowStrategy().loadData(screen);
+    protected void internalBeforeShow(Screen screen) {
     }
 
     protected void changeUrl(Screen screen) {
@@ -1076,7 +1079,7 @@ public class WebScreens implements Screens {
 
         WindowBreadCrumbs windowBreadCrumbs = new WindowBreadCrumbs(appWorkArea.getMode());
         windowBreadCrumbs.setUI(ui);
-        windowBreadCrumbs.setBeanLocator(beanLocator);
+        windowBreadCrumbs.setApplicationContext(applicationContext);
 
         boolean showBreadCrumbs = uiProperties.isShowBreadCrumbs() || appWorkArea.getMode() == Mode.SINGLE;
         windowBreadCrumbs.setVisible(showBreadCrumbs);

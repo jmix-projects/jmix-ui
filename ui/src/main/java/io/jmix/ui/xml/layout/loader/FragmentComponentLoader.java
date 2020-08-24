@@ -21,8 +21,8 @@ import io.jmix.ui.WindowInfo;
 import io.jmix.ui.component.Fragment;
 import io.jmix.ui.component.impl.FragmentImplementation;
 import io.jmix.ui.component.impl.FrameImplementation;
+import io.jmix.ui.model.ScreenData;
 import io.jmix.ui.monitoring.ScreenLifeCycle;
-import io.jmix.ui.model.impl.ScreenDataImpl;
 import io.jmix.ui.screen.FrameOwner;
 import io.jmix.ui.screen.ScreenFragment;
 import io.jmix.ui.screen.ScreenOptions;
@@ -92,7 +92,7 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
         setScreenContext(controller,
                 new ScreenContextImpl(windowInfo, parentContext.getOptions(), getScreenContext(hostController))
         );
-        setScreenData(controller, new ScreenDataImpl());
+        setScreenData(controller, applicationContext.getBean(ScreenData.class));
 
         FragmentImplementation fragmentImpl = (FragmentImplementation) fragment;
         fragmentImpl.setFrameOwner(controller);
@@ -119,7 +119,7 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
 
             LayoutLoader layoutLoader = getLayoutLoader(innerContext);
 
-            ScreenXmlLoader screenXmlLoader = beanLocator.get(ScreenXmlLoader.NAME);
+            ScreenXmlLoader screenXmlLoader = (ScreenXmlLoader) applicationContext.getBean(ScreenXmlLoader.NAME);
 
             Element rootElement = screenXmlLoader.load(windowInfo.getTemplate(), windowInfo.getId(),
                     getComponentContext().getParams());
@@ -142,7 +142,7 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
     }
 
     protected FragmentHelper getFragmentHelper() {
-        return beanLocator.get(NAME);
+        return (FragmentHelper) applicationContext.getBean(NAME);
     }
 
     @Override
@@ -206,9 +206,9 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
         }
 
         ScreenOptions options = parentContext.getOptions();
-        parentContext.addInjectTask(new FragmentLoaderInjectTask(resultComponent, options, beanLocator));
+        parentContext.addInjectTask(new FragmentLoaderInjectTask(resultComponent, options, applicationContext));
         if (innerContext != null) {
-            parentContext.addInitTask(new FragmentLoaderInitTask(resultComponent, options, innerContext, beanLocator));
+            parentContext.addInitTask(new FragmentLoaderInitTask(resultComponent, options, innerContext, applicationContext));
         }
     }
 
@@ -266,6 +266,6 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
     }
 
     protected WindowConfig getWindowConfig() {
-        return beanLocator.get(WindowConfig.NAME);
+        return (WindowConfig) applicationContext.getBean(WindowConfig.NAME);
     }
 }

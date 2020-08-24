@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package io.jmix.ui.model;
+package io.jmix.widgetsaddon.client;
 
-import io.jmix.ui.screen.Screen;
+import com.vaadin.shared.ui.button.ButtonState;
 
-public interface LoadBeforeShowStrategy {
+public class CustomButtonState extends ButtonState {
 
-    void loadData(Screen screen);
+    public String color = "";
 }

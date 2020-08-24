@@ -29,6 +29,7 @@ import io.jmix.ui.component.data.meta.EntityValueSource;
 import io.jmix.ui.component.data.meta.OptionsBinding;
 import io.jmix.ui.component.data.options.ContainerOptions;
 import io.jmix.ui.component.data.options.OptionsBinder;
+import io.jmix.ui.component.formatter.Formatter;
 import io.jmix.ui.icon.IconResolver;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.ui.widget.JmixComboBoxPickerField;
@@ -66,8 +67,6 @@ public class WebEntityComboBox<V extends JmixEntity> extends WebEntityPicker<V>
 
     protected IconResolver iconResolver;
 
-    protected boolean refreshOptionsOnLookupClose = false;
-
     public WebEntityComboBox() {
     }
 
@@ -90,7 +89,7 @@ public class WebEntityComboBox<V extends JmixEntity> extends WebEntityPicker<V>
     public void afterPropertiesSet() {
         super.afterPropertiesSet();
 
-        setPageLength(beanLocator.get(UiProperties.class).getLookupFieldPageLength());
+        setPageLength(applicationContext.getBean(UiProperties.class).getLookupFieldPageLength());
     }
 
     @Override
@@ -177,7 +176,23 @@ public class WebEntityComboBox<V extends JmixEntity> extends WebEntityPicker<V>
     }
 
     @Override
+    public boolean isFieldEditable() {
+        return false;
+    }
+
+    @Override
     public void setFieldEditable(boolean editable) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Nullable
+    @Override
+    public Formatter<V> getFormatter() {
+        return null;
+    }
+
+    @Override
+    public void setFormatter(@Nullable Formatter<? super V> formatter) {
         throw new UnsupportedOperationException();
     }
 
@@ -362,7 +377,7 @@ public class WebEntityComboBox<V extends JmixEntity> extends WebEntityPicker<V>
         }
 
         if (options != null) {
-            OptionsBinder optionsBinder = beanLocator.get(OptionsBinder.NAME);
+            OptionsBinder optionsBinder = (OptionsBinder) applicationContext.getBean(OptionsBinder.NAME);
             this.optionsBinding = optionsBinder.bind(options, this, this::setItemsToPresentation);
             this.optionsBinding.activate();
 
@@ -406,16 +421,6 @@ public class WebEntityComboBox<V extends JmixEntity> extends WebEntityPicker<V>
             // reset item captions
             getComponent().setItemCaptionGenerator(this::generateItemCaption);
         }
-    }
-
-    @Override
-    public void setRefreshOptionsOnLookupClose(boolean refresh) {
-        refreshOptionsOnLookupClose = refresh;
-    }
-
-    @Override
-    public boolean isRefreshOptionsOnLookupClose() {
-        return refreshOptionsOnLookupClose;
     }
 
     @SuppressWarnings("unchecked")

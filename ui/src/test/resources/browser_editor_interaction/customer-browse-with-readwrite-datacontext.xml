@@ -22,11 +22,14 @@
             <fetchPlan extends="_local"/>
             <loader id="customersDl">
                 <query>
-                    <![CDATA[select e from test$Customer e]]>
+                    <![CDATA[select e from test_Customer e]]>
                 </query>
             </loader>
         </collection>
     </data>
+    <facets>
+        <dataLoadCoordinator auto="true"/>
+    </facets>
     <layout>
         <groupTable id="customersTable"
                     dataContainer="customersDc">

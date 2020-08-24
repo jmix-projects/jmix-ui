@@ -39,7 +39,6 @@ import java.util.function.Function;
  */
 public class InstanceLoaderImpl<E extends JmixEntity> implements InstanceLoader<E> {
 
-
     @Autowired
     protected DataManager dataManager;
     @Autowired
@@ -48,6 +47,8 @@ public class InstanceLoaderImpl<E extends JmixEntity> implements InstanceLoader<
     protected QueryStringProcessor queryStringProcessor;
     @Autowired
     protected Metadata metadata;
+    @Autowired
+    protected AccessConstraintsRegistry accessConstraintsRegistry;
 
     protected DataContext dataContext;
     protected InstanceContainer<E> container;
@@ -56,9 +57,9 @@ public class InstanceLoaderImpl<E extends JmixEntity> implements InstanceLoader<
     protected Map<String, Object> parameters = new HashMap<>();
     protected Object entityId;
     protected boolean softDeletion = true;
-    protected boolean loadDynamicAttributes;
     protected FetchPlan fetchPlan;
     protected String fetchPlanName;
+    protected Map<String, Object> hints;
     protected Function<LoadContext<E>, E> delegate;
     protected EventHub events = new EventHub();
 
@@ -130,7 +131,8 @@ public class InstanceLoaderImpl<E extends JmixEntity> implements InstanceLoader<
 
         loadContext.setFetchPlan(resolveFetchPlan());
         loadContext.setSoftDeletion(softDeletion);
-        loadContext.setLoadDynamicAttributes(loadDynamicAttributes);
+        loadContext.setHints(hints);
+        loadContext.setAccessConstraints(accessConstraintsRegistry.getConstraints());
 
         return loadContext;
     }
@@ -240,13 +242,16 @@ public class InstanceLoaderImpl<E extends JmixEntity> implements InstanceLoader<
     }
 
     @Override
-    public boolean isLoadDynamicAttributes() {
-        return loadDynamicAttributes;
+    public void setHint(String hintName, Object value) {
+        if (hints == null) {
+            hints = new HashMap<>();
+        }
+        hints.put(hintName, value);
     }
 
     @Override
-    public void setLoadDynamicAttributes(boolean loadDynamicAttributes) {
-        this.loadDynamicAttributes = loadDynamicAttributes;
+    public Map<String, Object> getHints() {
+        return hints;
     }
 
     @Override

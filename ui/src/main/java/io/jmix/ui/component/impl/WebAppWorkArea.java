@@ -24,7 +24,6 @@ import com.vaadin.ui.ComponentContainer;
 import com.vaadin.ui.CssLayout;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.themes.ValoTheme;
-import io.jmix.core.BeanLocator;
 import io.jmix.core.Events;
 import io.jmix.core.Messages;
 import io.jmix.ui.AppUI;
@@ -44,11 +43,11 @@ import io.jmix.ui.util.OperationResult;
 import io.jmix.ui.widget.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 
+import javax.annotation.Nullable;
 import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -94,20 +93,17 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
     }
 
     @Autowired
-    public void setBeanLocator(BeanLocator beanLocator) {
-        super.setBeanLocator(beanLocator);
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        super.setApplicationContext(applicationContext);
 
-        UiComponents cf = beanLocator.get(UiComponents.NAME);
+        messages = (Messages) applicationContext.getBean(Messages.NAME);
+
+        UiComponents cf = (UiComponents) applicationContext.getBean(UiComponents.NAME);
         setInitialLayout(cf.create(VBoxLayout.NAME));
 
         this.tabbedContainer = createTabbedModeContainer();
 
         loadModeFromSettings();
-    }
-
-    @Autowired
-    public void setMessages(Messages messages) {
-        this.messages = messages;
     }
 
     @Override
@@ -534,7 +530,7 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
     }
 
     protected ShortcutListener createCloseShortcut(RootWindow topLevelWindow) {
-        UiProperties properties = beanLocator.get(UiProperties.class);
+        UiProperties properties = applicationContext.getBean(UiProperties.class);
         String closeShortcut = properties.getCloseShortcut();
         KeyCombination combination = KeyCombination.create(closeShortcut);
 
@@ -546,7 +542,7 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
     }
 
     protected ShortcutListener createNextWindowTabShortcut(RootWindow topLevelWindow) {
-        String nextTabShortcut = beanLocator.get(UiProperties.class).getNextTabShortcut();
+        String nextTabShortcut = applicationContext.getBean(UiProperties.class).getNextTabShortcut();
         KeyCombination combination = KeyCombination.create(nextTabShortcut);
 
         return new ShortcutListenerDelegate(
@@ -572,7 +568,7 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
     }
 
     protected ShortcutListener createPreviousWindowTabShortcut(RootWindow topLevelWindow) {
-        String previousTabShortcut = beanLocator.get(UiProperties.class).getPreviousTabShortcut();
+        String previousTabShortcut = applicationContext.getBean(UiProperties.class).getPreviousTabShortcut();
         KeyCombination combination = KeyCombination.create(previousTabShortcut);
 
         return new ShortcutListenerDelegate("onPreviousTab", combination.getKey().getCode(),
@@ -708,7 +704,7 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
             return true;
         }
 
-        if (beanLocator.get(UiProperties.class).isDefaultScreenCanBeClosed()) {
+        if (applicationContext.getBean(UiProperties.class).isDefaultScreenCanBeClosed()) {
             return false;
         }
 
@@ -738,8 +734,8 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
 
     protected void loadModeFromSettings() {
         UserSettingsTools userSettingsTools =
-                beanLocator.containsBean(UserSettingsTools.NAME) ?
-                        beanLocator.get(UserSettingsTools.NAME)
+                applicationContext.containsBean(UserSettingsTools.NAME) ?
+                        (UserSettingsTools) applicationContext.getBean(UserSettingsTools.NAME)
                         : null;
 
         if (userSettingsTools != null) {
@@ -752,7 +748,7 @@ public class WebAppWorkArea extends WebAbstractComponent<CssLayout> implements A
     }
 
     protected void fireTabChangedEvent(TabSheetBehaviour tabSheet) {
-        beanLocator.get(Events.class)
+        applicationContext.getBean(Events.class)
                 .publish(new WorkAreaTabChangedEvent(tabSheet, this));
     }
 

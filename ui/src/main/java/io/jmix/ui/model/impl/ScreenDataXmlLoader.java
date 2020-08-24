@@ -30,6 +30,7 @@ import io.jmix.ui.model.*;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.dom4j.Element;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Nullable;
@@ -59,7 +60,7 @@ public class ScreenDataXmlLoader {
     protected ConditionXmlLoader conditionXmlLoader;
 
     @Autowired
-    protected BeanLocator beanLocator;
+    protected ApplicationContext applicationContext;
 
     @Autowired
     protected DatatypeRegistry datatypeRegistry;
@@ -76,7 +77,7 @@ public class ScreenDataXmlLoader {
             screenData.setDataContext(hostDataContext);
         } else {
             boolean readOnly = Boolean.parseBoolean(element.attributeValue("readOnly"));
-            DataContext dataContext = readOnly ? new NoopDataContext(beanLocator) : factory.createDataContext();
+            DataContext dataContext = readOnly ? new NoopDataContext(applicationContext) : factory.createDataContext();
             screenData.setDataContext(dataContext);
         }
 
@@ -288,7 +289,6 @@ public class ScreenDataXmlLoader {
             loader.setContainer(container);
 
             loadSoftDeletion(element, loader);
-            loadDynamicAttributes(element, loader);
             loadQuery(element, loader);
             loadEntityId(element, loader);
         }
@@ -315,7 +315,6 @@ public class ScreenDataXmlLoader {
 
             loadQuery(element, loader);
             loadSoftDeletion(element, loader);
-            loadDynamicAttributes(element, loader);
             loadFirstResult(element, loader);
             loadMaxResults(element, loader);
             loadCacheable(element, loader);
@@ -439,17 +438,6 @@ public class ScreenDataXmlLoader {
         String softDeletionVal = element.attributeValue("softDeletion");
         if (!Strings.isNullOrEmpty(softDeletionVal))
             loader.setSoftDeletion(Boolean.parseBoolean(softDeletionVal));
-    }
-
-    protected void loadDynamicAttributes(Element element, DataLoader loader) {
-        String dynamicAttributes = element.attributeValue("dynamicAttributes");
-        if (!Strings.isNullOrEmpty(dynamicAttributes)) {
-            if (loader instanceof InstanceLoader) {
-                ((InstanceLoader) loader).setLoadDynamicAttributes(Boolean.parseBoolean(dynamicAttributes));
-            } else if (loader instanceof CollectionLoader) {
-                ((CollectionLoader) loader).setLoadDynamicAttributes(Boolean.parseBoolean(dynamicAttributes));
-            }
-        }
     }
 
     protected void loadEntityId(Element element, InstanceLoader<JmixEntity> loader) {

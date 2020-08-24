@@ -26,10 +26,9 @@ import test_support.entity.sales.Customer
 
 import javax.inject.Inject
 
-@UiController('test$Customer.browse')
+@UiController('test_Customer.browse')
 @UiDescriptor('customer-browse-with-readwrite-datacontext.xml')
 @LookupComponent('customersTable')
-@LoadDataBeforeShow
 class CustomerBrowseWithReadWriteDataContext extends StandardLookup<Customer> {
 
     @Inject

@@ -750,6 +750,25 @@
         </xs:union>
     </xs:simpleType>
 
+    <xs:simpleType name="valuePickerStylename">
+        <xs:union>
+            <xs:simpleType>
+                <xs:restriction base="xs:string"/>
+            </xs:simpleType>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="tiny"/>
+                    <xs:enumeration value="small"/>
+                    <xs:enumeration value="large"/>
+                    <xs:enumeration value="huge"/>
+                    <xs:enumeration value="borderless"/>
+                    <xs:enumeration value="align-right"/>
+                    <xs:enumeration value="align-center"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:union>
+    </xs:simpleType>
+
     <xs:simpleType name="entityPickerStylename">
         <xs:union>
             <xs:simpleType>
@@ -1428,7 +1447,7 @@
                     <xs:element name="max" minOccurs="0" type="maxMinValidatorType"/>
                     <xs:element name="min" minOccurs="0" type="maxMinValidatorType"/>
                     <xs:element name="email" minOccurs="0" type="messageValidatorType"/>
-                    <xs:element name="custom" minOccurs="0" type="messageValidatorType"/>
+                    <xs:element name="custom" minOccurs="0" type="customValidatorType"/>
                 </xs:sequence>
             </xs:extension>
         </xs:complexContent>
@@ -1999,6 +2018,8 @@
                 <xs:attribute name="datatype" type="dateTimeDatatypeEnum"/>
                 <xs:attribute name="timeMode" type="timeModeEnum"/>
 
+                <xs:attribute name="autofill" type="xs:boolean"/>
+
                 <xs:attributeGroup ref="hasBuffered"/>
                 <xs:attributeGroup ref="hasTabIndex"/>
                 <xs:attributeGroup ref="hasContextHelp"/>
@@ -2151,6 +2172,33 @@
         </xs:complexContent>
     </xs:complexType>
 
+    <!-- ValuePicker -->
+    <xs:complexType name="valuePickerComponent">
+        <xs:complexContent>
+            <xs:extension base="baseFieldComponent">
+                <xs:sequence>
+                    <xs:element name="actions" minOccurs="0" type="componentActions"/>
+                    <xs:element name="validators" minOccurs="0" type="baseValidatorType"/>
+                    <xs:element name="formatter" minOccurs="0" type="componentFormatter"/>
+                </xs:sequence>
+
+                <xs:attributeGroup ref="hasBuffered"/>
+                <xs:attributeGroup ref="hasTabIndex"/>
+
+                <xs:attribute name="fieldEditable" type="xs:boolean"/>
+                <xs:attribute name="stylename" type="valuePickerStylename"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+    <!-- ValuesPicker -->
+    <xs:complexType name="valuesPickerComponent">
+        <xs:complexContent>
+            <xs:extension base="valuePickerComponent">
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
     <!-- EntityPicker -->
     <xs:complexType name="entityPickerComponent">
         <xs:complexContent>
@@ -2158,13 +2206,15 @@
                 <xs:sequence>
                     <xs:element name="actions" minOccurs="0" type="componentActions"/>
                     <xs:element name="validators" minOccurs="0" type="baseValidatorType"/>
+                    <xs:element name="formatter" minOccurs="0" type="componentFormatter"/>
                 </xs:sequence>
 
                 <xs:attributeGroup ref="hasBuffered"/>
-                <xs:attributeGroup ref="hasCaptionSource"/>
+                <xs:attributeGroup ref="hasCaptionSource"/> <!--TODO: remove-->
                 <xs:attributeGroup ref="hasTabIndex"/>
 
                 <xs:attribute name="metaClass" type="xs:string"/>
+                <xs:attribute name="fieldEditable" type="xs:boolean"/>
                 <xs:attribute name="stylename" type="entityPickerStylename"/>
             </xs:extension>
         </xs:complexContent>
@@ -3750,11 +3800,59 @@
         <xs:attribute name="input" type="xs:string"/>
     </xs:complexType>
 
+    <xs:complexType name="dataLoadCoordinatorType">
+        <xs:sequence>
+            <xs:choice minOccurs="0" maxOccurs="unbounded">
+                <xs:element name="refresh" type="dataLoadCoordinatorTriggerType" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:choice>
+        </xs:sequence>
+        <xs:attribute name="id" type="xs:string"/>
+        <xs:attribute name="auto" type="xs:boolean"/>
+        <xs:attribute name="containerPrefix" type="xs:string"/>
+        <xs:attribute name="componentPrefix" type="xs:string"/>
+    </xs:complexType>
+
+    <xs:complexType name="dataLoadCoordinatorTriggerType">
+        <xs:attribute name="loader" type="xs:string" use="required"/>
+        <xs:attribute name="param" type="xs:string"/>
+        <xs:attribute name="onScreenEvent" type="onScreenEventEnum"/>
+        <xs:attribute name="onFragmentEvent" type="onFragmentEventEnum"/>
+        <xs:attribute name="onContainerItemChanged" type="xs:string"/>
+        <xs:attribute name="onComponentValueChanged" type="xs:string"/>
+        <xs:attribute name="likeClause" type="likeClauseEnum"/>
+    </xs:complexType>
+
+    <xs:simpleType name="onScreenEventEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Init"/>
+            <xs:enumeration value="AfterInit"/>
+            <xs:enumeration value="BeforeShow"/>
+            <xs:enumeration value="AfterShow"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="onFragmentEventEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="Init"/>
+            <xs:enumeration value="AfterInit"/>
+            <xs:enumeration value="Attach"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="likeClauseEnum">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="NONE"/>
+            <xs:enumeration value="CASE_SENSITIVE"/>
+            <xs:enumeration value="CASE_INSENSITIVE"/>
+        </xs:restriction>
+    </xs:simpleType>
+
     <xs:complexType name="facets">
         <xs:sequence>
             <xs:choice minOccurs="0" maxOccurs="unbounded">
                 <xs:element name="timer" type="timerType" minOccurs="0" maxOccurs="unbounded"/>
                 <xs:element name="clipboardTrigger" type="clipboardTriggerType" minOccurs="0" maxOccurs="unbounded"/>
+                <xs:element name="dataLoadCoordinator" type="dataLoadCoordinatorType" minOccurs="0"/>
 
                 <xs:element name="notification" type="notificationType" minOccurs="0"/>
 
@@ -3927,6 +4025,8 @@
                 <xs:element name="comboBox" type="comboBoxComponent"/>
                 <xs:element name="suggestionField" type="suggestionFieldComponent"/>
                 <xs:element name="entitySuggestionField" type="entitySuggestionFieldComponent"/>
+                <xs:element name="valuePicker" type="valuePickerComponent"/>
+                <xs:element name="valuesPicker" type="valuesPickerComponent"/>
                 <xs:element name="entityPicker" type="entityPickerComponent"/>
                 <xs:element name="entityComboBox" type="entityComboBoxComponent"/>
 
@@ -4019,6 +4119,11 @@
             <xs:choice maxOccurs="unbounded">
                 <xs:element name="action" type="componentAction"/>
             </xs:choice>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="componentFormatter">
+        <xs:sequence>
+            <xs:group ref="formatters" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 

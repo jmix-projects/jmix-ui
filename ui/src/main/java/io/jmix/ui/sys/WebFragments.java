@@ -16,13 +16,12 @@
 
 package io.jmix.ui.sys;
 
-import io.jmix.core.BeanLocator;
 import io.jmix.ui.*;
 import io.jmix.ui.component.Fragment;
 import io.jmix.ui.component.Frame;
 import io.jmix.ui.component.impl.FragmentImplementation;
 import io.jmix.ui.component.impl.FrameImplementation;
-import io.jmix.ui.model.impl.ScreenDataImpl;
+import io.jmix.ui.model.ScreenData;
 import io.jmix.ui.monitoring.ScreenLifeCycle;
 import io.jmix.ui.screen.*;
 import io.jmix.ui.sys.FragmentHelper.FragmentLoaderInitTask;
@@ -33,9 +32,10 @@ import io.jmix.ui.xml.layout.loader.LayoutLoader;
 import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Timer;
 import org.dom4j.Element;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 import javax.annotation.ParametersAreNonnullByDefault;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import static io.jmix.core.common.util.Preconditions.checkNotNullArgument;
 import static io.jmix.ui.monitoring.UiMonitoring.createScreenTimer;
@@ -50,7 +50,7 @@ public class WebFragments implements Fragments {
     @Autowired
     protected WindowConfig windowConfig;
     @Autowired
-    protected BeanLocator beanLocator;
+    protected ApplicationContext applicationContext;
     @Autowired
     protected UiComponents uiComponents;
     @Autowired
@@ -119,7 +119,7 @@ public class WebFragments implements Fragments {
         setScreenContext(controller,
                 new ScreenContextImpl(windowInfo, options, getScreenContext(parent))
         );
-        setScreenData(controller, new ScreenDataImpl());
+        setScreenData(controller, applicationContext.getBean(ScreenData.class));
 
         FragmentImplementation fragmentImpl = (FragmentImplementation) fragment;
         fragmentImpl.setFrameOwner(controller);
@@ -153,7 +153,7 @@ public class WebFragments implements Fragments {
             innerContext.setFrame(fragment);
             innerContext.setParent(loaderContext);
 
-            LayoutLoader layoutLoader = beanLocator.getPrototype(LayoutLoader.NAME, innerContext);
+            LayoutLoader layoutLoader = (LayoutLoader) applicationContext.getBean(LayoutLoader.NAME, innerContext);
 
             Element rootElement = screenXmlLoader.load(windowInfo.getTemplate(), windowInfo.getId(), emptyMap());
 
@@ -172,8 +172,8 @@ public class WebFragments implements Fragments {
             loaderContext.getPostInitTasks().addAll(innerContext.getPostInitTasks());
         }
 
-        loaderContext.addInjectTask(new FragmentLoaderInjectTask(fragment, options, beanLocator));
-        loaderContext.addInitTask(new FragmentLoaderInitTask(fragment, options, loaderContext, beanLocator));
+        loaderContext.addInjectTask(new FragmentLoaderInjectTask(fragment, options, applicationContext));
+        loaderContext.addInitTask(new FragmentLoaderInitTask(fragment, options, loaderContext, applicationContext));
 
         loadSample.stop(createScreenTimer(meterRegistry, ScreenLifeCycle.LOAD, windowInfo.getId()));
 

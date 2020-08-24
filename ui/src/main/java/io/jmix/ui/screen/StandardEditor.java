@@ -17,13 +17,9 @@
 package io.jmix.ui.screen;
 
 import com.google.common.base.Strings;
-import io.jmix.core.EntityStates;
-import io.jmix.core.ExtendedEntities;
-import io.jmix.core.Messages;
-import io.jmix.core.Metadata;
+import io.jmix.core.*;
 import io.jmix.core.common.event.Subscription;
 import io.jmix.core.common.event.TriggerOnce;
-import io.jmix.core.JmixEntity;
 import io.jmix.core.common.util.Preconditions;
 import io.jmix.core.entity.EntityValues;
 import io.jmix.core.metamodel.model.MetaProperty;
@@ -34,8 +30,9 @@ import io.jmix.ui.component.Component;
 import io.jmix.ui.component.Frame;
 import io.jmix.ui.component.ValidationErrors;
 import io.jmix.ui.component.Window;
-import io.jmix.ui.icon.JmixIcon;
+import io.jmix.ui.context.UiEntityContext;
 import io.jmix.ui.icon.Icons;
+import io.jmix.ui.icon.JmixIcon;
 import io.jmix.ui.model.*;
 import io.jmix.ui.util.OperationResult;
 import io.jmix.ui.util.UnknownOperationResult;
@@ -44,6 +41,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.EventObject;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 /**
@@ -76,10 +74,10 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
     protected void initActions(@SuppressWarnings("unused") InitEvent event) {
         Window window = getWindow();
 
-        Messages messages = getBeanLocator().get(Messages.NAME);
-        Icons icons = getBeanLocator().get(Icons.NAME);
+        Messages messages = (Messages) getApplicationContext().getBean(Messages.NAME);
+        Icons icons = (Icons) getApplicationContext().getBean(Icons.NAME);
 
-        String commitShortcut = getBeanLocator().get(UiProperties.class).getCommitShortcut();
+        String commitShortcut = getApplicationContext().getBean(UiProperties.class).getCommitShortcut();
 
         Action commitAndCloseAction = new BaseAction(WINDOW_COMMIT_AND_CLOSE)
                 .withCaption(messages.getMessage("actions.Ok"))
@@ -150,11 +148,11 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
         if (action instanceof ChangeTrackerCloseAction
                 && ((ChangeTrackerCloseAction) action).isCheckForUnsavedChanges()
                 && hasUnsavedChanges()) {
-            ScreenValidation screenValidation = getBeanLocator().get(ScreenValidation.NAME);
+            ScreenValidation screenValidation = (ScreenValidation) getApplicationContext().getBean(ScreenValidation.NAME);
 
             UnknownOperationResult result = new UnknownOperationResult();
 
-            if (getBeanLocator().get(UiProperties.class).isUseSaveConfirmation()) {
+            if (getApplicationContext().getBean(UiProperties.class).isUseSaveConfirmation()) {
                 screenValidation.showSaveConfirmationDialog(this, action)
                         .onCommit(() -> result.resume(closeWithCommit()))
                         .onDiscard(() -> result.resume(closeWithDiscard()))
@@ -174,32 +172,22 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
             throw new IllegalStateException("No DataContext defined. Make sure the editor screen XML descriptor has <data> element");
         }
 
-        // String screenId = getScreenContext().getWindowInfo().getId();
-
-        InstanceLoader instanceLoader = null;
-        InstanceContainer<T> editedEntityContainer = getEditedEntityContainer();
-        if (editedEntityContainer instanceof HasLoader) {
-            if (((HasLoader) editedEntityContainer).getLoader() instanceof InstanceLoader) {
-                instanceLoader = getEditedEntityLoader();
-                // todo dynamic attributes
-                /*DynamicAttributesGuiTools tools = getBeanLocator().get(DynamicAttributesGuiTools.NAME);
-                if (tools.screenContainsDynamicAttributes(editedEntityContainer.getView(), screenId)) {
-                    instanceLoader.setLoadDynamicAttributes(true);
-                }*/
-            }
-        }
-
         if (getEntityStates().isNew(entityToEdit) || doNotReloadEditedEntity()) {
             T mergedEntity = getScreenData().getDataContext().merge(entityToEdit);
 
-            if (instanceLoader != null
-                    && instanceLoader.isLoadDynamicAttributes()
-                    && getEntityStates().isNew(entityToEdit)) {
-                // todo dynamic attributes
-                // tools.initDefaultAttributeValues((BaseGenericIdEntity) mergedEntity, mergedEntity.getMetaClass());
-            }
+            DataContext parentDc = getScreenData().getDataContext().getParent();
+            if (parentDc == null || !parentDc.contains(mergedEntity)) {
 
-            fireEvent(InitEntityEvent.class, new InitEntityEvent<>(this, mergedEntity));
+                //TODO: Dynamic attributes: move into facet
+//            if (instanceLoader != null
+//                    && instanceLoader.isLoadDynamicAttributes()
+//                    && getEntityStates().isNew(entityToEdit)) {
+//                // todo dynamic attributes
+//                // tools.initDefaultAttributeValues((BaseGenericIdEntity) mergedEntity, mergedEntity.getMetaClass());
+//            }
+
+                fireEvent(InitEntityEvent.class, new InitEntityEvent<>(this, mergedEntity));
+            }
 
             InstanceContainer<T> container = getEditedEntityContainer();
             container.setItem(mergedEntity);
@@ -210,58 +198,42 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
     }
 
     protected void setupLock() {
-        // todo pessimistic locking
-        /*InstanceContainer<T> container = getEditedEntityContainer();
-        Security security = getBeanLocator().get(Security.class);
+        Object entityId = EntityValues.getId(entityToEdit);
 
-        if (!getEntityStates().isNew(entityToEdit)
-                && security.isEntityOpPermitted(container.getEntityMetaClass(), EntityOp.UPDATE)) {
-            this.readOnlyDueToLock = false;
+        if (!getEntityStates().isNew(entityToEdit) && entityId != null) {
 
-            LockService lockService = getBeanLocator().get(LockService.class);
+            AccessManager accessManager = getApplicationContext().getBean(AccessManager.class);
+            UiEntityContext entityContext = new UiEntityContext(getEditedEntityContainer().getEntityMetaClass());
+            accessManager.applyRegisteredConstraints(entityContext);
 
-            LockInfo lockInfo = lockService.lock(getLockName(), entityToEdit.getId().toString());
-            if (lockInfo == null) {
-                this.justLocked = true;
-
-                addAfterDetachListener(afterDetachEvent ->
-                        releaseLock()
-                );
-            } else if (!(lockInfo instanceof LockNotSupported)) {
-                Messages messages = getBeanLocator().get(Messages.class);
-                DatatypeFormatter datatypeFormatter = getBeanLocator().get(DatatypeFormatter.class);
-
-                getScreenContext().getNotifications().create(NotificationType.HUMANIZED)
-                        .withCaption(messages.getMainMessage("entityLocked.msg"))
-                        .withDescription(
-                                messages.formatMainMessage("entityLocked.desc",
-                                        lockInfo.getUser().getLogin(),
-                                        datatypeFormatter.formatDateTime(lockInfo.getSince())
-                                ))
-                        .show();
-
-                disableCommitActions();
-
-                this.readOnlyDueToLock = true;
+            if (entityContext.isEditPermitted()) {
+                readOnlyDueToLock = false;
+                PessimisticLockStatus lockStatus = getLockingSupport().lock(entityId);
+                if (lockStatus == PessimisticLockStatus.LOCKED) {
+                    justLocked = true;
+                    addAfterDetachListener(afterDetachEvent ->
+                            releaseLock()
+                    );
+                } else if (lockStatus == PessimisticLockStatus.FAILED){
+                    disableCommitActions();
+                    readOnlyDueToLock = true;
+                }
             }
-        }*/
+        }
     }
 
     protected void releaseLock() {
-        // todo pessimistic locking
-        /*if (isLocked()) {
-            Entity entity = getEditedEntityContainer().getItemOrNull();
+        if (isLocked()) {
+            JmixEntity entity = getEditedEntityContainer().getItemOrNull();
             if (entity != null) {
-                getBeanLocator().get(LockService.class).unlock(getLockName(), entity.getId().toString());
+                Object entityId = Objects.requireNonNull(EntityValues.getId(entity));
+                getLockingSupport().unlock(entityId);
             }
-        }*/
+        }
     }
 
-    protected String getLockName() {
-        InstanceContainer<T> container = getEditedEntityContainer();
-        return getBeanLocator().get(ExtendedEntities.class)
-                .getOriginalOrThisMetaClass(container.getEntityMetaClass())
-                .getName();
+    private PessimisticLockSupport getLockingSupport() {
+        return getApplicationContext().getBean(PessimisticLockSupport.class, this, getEditedEntityContainer());
     }
 
     protected boolean doNotReloadEditedEntity() {
@@ -293,7 +265,7 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
         if (dataContext.isModified(entity) || dataContext.isRemoved(entity))
             return true;
 
-        Metadata metadata = getBeanLocator().get(Metadata.NAME);
+        Metadata metadata = (Metadata) getApplicationContext().getBean(Metadata.NAME);
 
         for (MetaProperty property : metadata.getClass(entity).getProperties()) {
             if (property.getRange().isClass()) {
@@ -391,7 +363,7 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
     protected OperationResult commitChanges() {
         ValidationErrors validationErrors = validateScreen();
         if (!validationErrors.isEmpty()) {
-            ScreenValidation screenValidation = getBeanLocator().get(ScreenValidation.class);
+            ScreenValidation screenValidation = getApplicationContext().getBean(ScreenValidation.class);
             screenValidation.showValidationErrors(this, validationErrors);
 
             return OperationResult.fail();
@@ -451,7 +423,7 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
         if (this.readOnly != readOnly) {
             this.readOnly = readOnly;
 
-            ReadOnlyScreensSupport readOnlyScreensSupport = getBeanLocator().get(ReadOnlyScreensSupport.NAME);
+            ReadOnlyScreensSupport readOnlyScreensSupport = (ReadOnlyScreensSupport) getApplicationContext().getBean(ReadOnlyScreensSupport.NAME);
             readOnlyScreensSupport.setScreenReadOnly(this, readOnly);
 
             if (readOnlyDueToLock) {
@@ -504,14 +476,14 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
      * @return validation errors
      */
     protected ValidationErrors validateUiComponents() {
-        ScreenValidation screenValidation = getBeanLocator().get(ScreenValidation.NAME);
+        ScreenValidation screenValidation = (ScreenValidation) getApplicationContext().getBean(ScreenValidation.NAME);
         return screenValidation.validateUiComponents(getWindow());
     }
 
     protected void validateAdditionalRules(ValidationErrors errors) {
         // all previous validations return no errors
         if (isCrossFieldValidate() && errors.isEmpty()) {
-            ScreenValidation screenValidation = getBeanLocator().get(ScreenValidation.NAME);
+            ScreenValidation screenValidation = (ScreenValidation) getApplicationContext().getBean(ScreenValidation.NAME);
 
             ValidationErrors validationErrors = screenValidation.validateCrossFieldRules(this, getEditedEntity());
 
@@ -524,7 +496,7 @@ public abstract class StandardEditor<T extends JmixEntity> extends Screen
     }
 
     private EntityStates getEntityStates() {
-        return getBeanLocator().get(EntityStates.NAME);
+        return (EntityStates) getApplicationContext().getBean(EntityStates.NAME);
     }
 
     protected void commitAndClose(@SuppressWarnings("unused") Action.ActionPerformedEvent event) {
