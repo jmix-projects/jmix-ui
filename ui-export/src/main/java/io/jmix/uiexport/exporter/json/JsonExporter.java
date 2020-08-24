@@ -19,7 +19,9 @@ package io.jmix.uiexport.exporter.json;
 import com.google.gson.*;
 import io.jmix.core.JmixEntity;
 import io.jmix.core.Messages;
+import io.jmix.core.Metadata;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
+import io.jmix.ui.component.DataGrid;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.download.ByteArrayDataProvider;
 import io.jmix.ui.download.DownloadFormat;
@@ -34,6 +36,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * Use this class to export {@link Table} into JSON format.
@@ -47,6 +50,9 @@ public class JsonExporter extends AbstractTableExporter<JsonExporter> {
 
     @Autowired
     protected Messages messages;
+
+    @Autowired
+    protected Metadata metadata;
 
     protected Function<GsonBuilder, GsonBuilder> gsonConfigurer;
 
@@ -62,7 +68,7 @@ public class JsonExporter extends AbstractTableExporter<JsonExporter> {
     }
 
     @Override
-    public void download(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode) {
+    public void exportTable(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode) {
         Collection<JmixEntity> items = getItems(table, exportMode);
         Gson gson = createGsonForSerialization();
         JsonArray jsonElements = new JsonArray();
@@ -74,7 +80,7 @@ public class JsonExporter extends AbstractTableExporter<JsonExporter> {
                     Object columnValue = getColumnValue(table, column, entity);
                     if (columnValue != null) {
                         jsonObject.add(propertyPath.getMetaProperty().getName(),
-                                new JsonPrimitive(formatColumnValue(columnValue, column)));
+                                new JsonPrimitive(formatValue(columnValue, (MetaPropertyPath) column.getId())));
                     } else {
                         jsonObject.add(propertyPath.getMetaProperty().getName(),
                                 JsonNull.INSTANCE);
@@ -88,6 +94,31 @@ public class JsonExporter extends AbstractTableExporter<JsonExporter> {
                 getFileName(table) + ".json", DownloadFormat.JSON);
     }
 
+    @Override
+    public void exportDataGrid(Downloader downloader, DataGrid<JmixEntity> dataGrid, ExportMode exportMode) {
+        Collection<JmixEntity> items = getItems(dataGrid, exportMode);
+        Gson gson = createGsonForSerialization();
+        JsonArray jsonElements = new JsonArray();
+        for (JmixEntity entity : items) {
+            JsonObject jsonObject = new JsonObject();
+            for (DataGrid.Column<JmixEntity> column : dataGrid.getColumns()) {
+                Object columnValue = getColumnValue(dataGrid, column, entity);
+                MetaPropertyPath metaPropertyPath = metadata.getClass(entity.getClass()).getPropertyPath(column.getId());
+                if (columnValue != null) {
+                    jsonObject.add(column.getId(),
+                            new JsonPrimitive(formatValue(columnValue, metaPropertyPath)));
+                } else {
+                    jsonObject.add(column.getId(),
+                            JsonNull.INSTANCE);
+                }
+            }
+            jsonElements.add(jsonObject);
+        }
+        downloader.download(new ByteArrayDataProvider(gson.toJson(jsonElements).getBytes(),
+                        uiProperties.getSaveExportedByteArrayDataThresholdBytes(), coreProperties.getTempDir()),
+                getFileName(dataGrid) + ".json", DownloadFormat.JSON);
+    }
+
     protected Gson createGsonForSerialization() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         if (gsonConfigurer != null) {
@@ -98,6 +129,10 @@ public class JsonExporter extends AbstractTableExporter<JsonExporter> {
 
     protected Collection<JmixEntity> getItems(Table<JmixEntity> table, ExportMode exportMode) {
         return ExportMode.ALL == exportMode ? table.getItems().getItems() : table.getSelected();
+    }
+
+    protected Collection<JmixEntity> getItems(DataGrid<JmixEntity> dataGrid, ExportMode exportMode) {
+        return ExportMode.ALL == exportMode ? dataGrid.getItems().getItems().collect(Collectors.toList()) : dataGrid.getSelected();
     }
 
     @Override

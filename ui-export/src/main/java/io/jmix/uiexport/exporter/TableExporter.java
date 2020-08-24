@@ -17,6 +17,7 @@
 package io.jmix.uiexport.exporter;
 
 import io.jmix.core.JmixEntity;
+import io.jmix.ui.component.DataGrid;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.download.Downloader;
 import io.jmix.uiexport.action.ExportAction;
@@ -30,7 +31,12 @@ public interface TableExporter {
     /**
      * download <code>table</code> content via <code>downloader</code>
      */
-    void download(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode);
+    void exportTable(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode);
+
+    /**
+     * download <code>dataGrid</code> content via <code>downloader</code>
+     */
+    void exportDataGrid(Downloader downloader, DataGrid<JmixEntity> dataGrid, ExportMode exportMode);
 
     /**
      * returns exporter caption

@@ -23,6 +23,7 @@ import io.jmix.ui.Dialogs;
 import io.jmix.ui.action.*;
 import io.jmix.ui.component.Component;
 import io.jmix.ui.component.ComponentsHelper;
+import io.jmix.ui.component.DataGrid;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.component.data.meta.ContainerDataUnit;
 import io.jmix.ui.download.Downloader;
@@ -30,7 +31,6 @@ import io.jmix.ui.meta.StudioAction;
 import io.jmix.ui.model.CollectionContainer;
 import io.jmix.uiexport.exporter.ExportMode;
 import io.jmix.uiexport.exporter.TableExporter;
-import io.jmix.uiexport.exporter.excel.ExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
@@ -106,12 +106,13 @@ public class ExportAction extends ListAction {
             throw new IllegalStateException("Table exporter is not defined");
         }
         if (needExportAll()) {
-            tableExporter.download(downloader, (Table<JmixEntity>) getTarget(), ExportMode.ALL);
+            doExport(ExportMode.ALL);
+
         } else {
             AbstractAction exportSelectedAction = new AbstractAction("actions.export.SELECTED_ROWS", Status.PRIMARY) {
                 @Override
                 public void actionPerform(Component component) {
-                    tableExporter.download(downloader, (Table<JmixEntity>) getTarget(), ExportMode.SELECTED);
+                    doExport(ExportMode.SELECTED);
                 }
             };
             exportSelectedAction.setCaption(getMessage(exportSelectedAction.getId()));
@@ -119,7 +120,7 @@ public class ExportAction extends ListAction {
             AbstractAction exportAllAction = new AbstractAction("actions.export.ALL_ROWS") {
                 @Override
                 public void actionPerform(Component component) {
-                    tableExporter.download(downloader, (Table<JmixEntity>) getTarget(), ExportMode.ALL);
+                    doExport(ExportMode.ALL);
                 }
             };
             exportAllAction.setCaption(getMessage(exportAllAction.getId()));
@@ -137,6 +138,16 @@ public class ExportAction extends ListAction {
                     .withMessage(getMessage("actions.exportSelectedCaption"))
                     .withActions(actions)
                     .show();
+        }
+    }
+
+    protected void doExport(ExportMode exportMode) {
+        if (getTarget() instanceof Table) {
+            tableExporter.exportTable(downloader, (Table<JmixEntity>) getTarget(), exportMode);
+        } else if (getTarget() instanceof DataGrid) {
+            tableExporter.exportDataGrid(downloader, (DataGrid<JmixEntity>) getTarget(), exportMode);
+        } else {
+            throw new UnsupportedOperationException("Unsupported component for export");
         }
     }
 

@@ -23,16 +23,19 @@ import io.jmix.core.metamodel.datatype.Datatype;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.core.metamodel.model.Range;
+import io.jmix.core.metamodel.model.utils.InstanceUtils;
 import io.jmix.ui.Notifications;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.component.*;
 import io.jmix.ui.component.data.GroupTableItems;
 import io.jmix.ui.component.data.TableItems;
+import io.jmix.ui.component.data.TreeDataGridItems;
 import io.jmix.ui.component.data.TreeTableItems;
+import io.jmix.ui.component.data.meta.EntityDataGridItems;
 import io.jmix.ui.download.ByteArrayDataProvider;
-import io.jmix.ui.download.DownloadFormat;
 import io.jmix.ui.download.Downloader;
 import io.jmix.ui.gui.data.GroupInfo;
+import io.jmix.ui.model.InstanceContainer;
 import io.jmix.uiexport.action.ExportAction;
 import io.jmix.uiexport.exporter.AbstractTableExporter;
 import io.jmix.uiexport.exporter.ExportMode;
@@ -53,7 +56,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+
+import static io.jmix.ui.download.DownloadFormat.XLS;
+import static io.jmix.ui.download.DownloadFormat.XLSX;
 
 /**
  * Use this class to export {@link Table} into Excel format
@@ -125,9 +132,9 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
     }
 
     @Override
-    public void download(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode) {
+    public void exportTable(Downloader downloader, Table<JmixEntity> table, ExportMode exportMode) {
         if (downloader == null) {
-            throw new IllegalArgumentException("ExportDisplay is null");
+            throw new IllegalArgumentException("Downloader is null");
         }
 
         if (table.getItems() == null) {
@@ -265,12 +272,169 @@ public class ExcelExporter extends AbstractTableExporter<ExcelExporter> {
                 uiProperties.getSaveExportedByteArrayDataThresholdBytes(), coreProperties.getTempDir());
         switch (exportFormat) {
             case XLSX:
-                downloader.download(dataProvider, getFileName(table) + ".xlsx", DownloadFormat.XLSX);
+                downloader.download(dataProvider, getFileName(table) + ".xlsx", XLSX);
                 break;
             case XLS:
-                downloader.download(dataProvider, getFileName(table) + ".xls", DownloadFormat.XLS);
+                downloader.download(dataProvider, getFileName(table) + ".xls", XLS);
                 break;
         }
+    }
+
+    @Override
+    public void exportDataGrid(Downloader downloader, DataGrid<JmixEntity> dataGrid, ExportMode exportMode) {
+        if (downloader == null) {
+            throw new IllegalArgumentException("Downloader is null");
+        }
+
+        createWorkbookWithSheet();
+        createFonts();
+        createFormats();
+
+        List<DataGrid.Column<JmixEntity>> columns = dataGrid.getColumns();
+
+        int r = 0;
+
+        Row row = sheet.createRow(r);
+        createAutoColumnSizers(columns.size());
+
+        float maxHeight = sheet.getDefaultRowHeightInPoints();
+
+        CellStyle headerCellStyle = wb.createCellStyle();
+        headerCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        for (DataGrid.Column column : columns) {
+            String caption = column.getCaption();
+
+            int countOfReturnSymbols = StringUtils.countMatches(caption, "\n");
+            if (countOfReturnSymbols > 0) {
+                maxHeight = Math.max(maxHeight, (countOfReturnSymbols + 1) * sheet.getDefaultRowHeightInPoints());
+                headerCellStyle.setWrapText(true);
+            }
+        }
+        row.setHeightInPoints(maxHeight);
+
+        for (int c = 0; c < columns.size(); c++) {
+            DataGrid.Column column = columns.get(c);
+            String caption = column.getCaption();
+
+            Cell cell = row.createCell(c);
+            RichTextString richTextString = createStringCellValue(caption);
+            richTextString.applyFont(boldFont);
+            cell.setCellValue(richTextString);
+
+            ExcelAutoColumnSizer sizer = new ExcelAutoColumnSizer();
+            sizer.notifyCellValue(caption, boldFont);
+            sizers[c] = sizer;
+
+            cell.setCellStyle(headerCellStyle);
+        }
+
+        EntityDataGridItems<JmixEntity> dataGridSource = (EntityDataGridItems) dataGrid.getItems();
+        if (dataGridSource == null) {
+            throw new IllegalStateException("DataGrid is not bound to data");
+        }
+        if (exportMode == ExportMode.SELECTED && dataGrid.getSelected().size() > 0) {
+            Set<JmixEntity> selected = dataGrid.getSelected();
+            List<JmixEntity> ordered = dataGridSource.getItems()
+                    .filter(selected::contains)
+                    .collect(Collectors.toList());
+            for (JmixEntity item : ordered) {
+                if (checkIsRowNumberExceed(r)) {
+                    break;
+                }
+
+                createDataGridRow(dataGrid, columns, 0, ++r, Id.of(item).getValue());
+            }
+        } else {
+            if (dataGrid instanceof TreeDataGrid) {
+                TreeDataGrid treeDataGrid = (TreeDataGrid) dataGrid;
+                TreeDataGridItems<JmixEntity> treeDataGridItems = (TreeDataGridItems) dataGridSource;
+                List<JmixEntity> items = treeDataGridItems.getChildren(null).collect(Collectors.toList());
+                for (JmixEntity item : items) {
+                    if (checkIsRowNumberExceed(r)) {
+                        break;
+                    }
+
+                    r = createDataGridHierarchicalRow(treeDataGrid, treeDataGridItems, columns, 0, r, item);
+                }
+            } else {
+                for (Object itemId : dataGridSource.getItems().map(entity->Id.of(entity).getValue()).collect(Collectors.toList())) {
+                    if (checkIsRowNumberExceed(r)) {
+                        break;
+                    }
+
+                    createDataGridRow(dataGrid, columns, 0, ++r, itemId);
+                }
+            }
+        }
+
+        for (int c = 0; c < columns.size(); c++) {
+            sheet.setColumnWidth(c, sizers[c].getWidth() * COL_WIDTH_MAGIC);
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        try {
+            wb.write(out);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to write document", e);
+        }
+        ByteArrayDataProvider dataProvider = new ByteArrayDataProvider(out.toByteArray(),
+                uiProperties.getSaveExportedByteArrayDataThresholdBytes(), coreProperties.getTempDir());
+        switch (exportFormat) {
+            case XLSX:
+                downloader.download(dataProvider, getFileName(dataGrid) + "." + XLSX.getFileExt(), XLSX);
+                break;
+            case XLS:
+                downloader.download(dataProvider, getFileName(dataGrid) + "." + XLS.getFileExt(), XLS);
+                break;
+        }
+    }
+
+    protected int createDataGridHierarchicalRow(TreeDataGrid dataGrid, TreeDataGridItems<JmixEntity> treeDataGridItems,
+                                                List<DataGrid.Column<JmixEntity>> columns, int startColumn,
+                                                int rowNumber, JmixEntity item) {
+        if (!checkIsRowNumberExceed(rowNumber)) {
+            createDataGridRow(dataGrid, columns, startColumn, ++rowNumber, Id.of(item).getValue());
+
+            Collection<JmixEntity> children = treeDataGridItems.getChildren(item).collect(Collectors.toList());
+            for (JmixEntity child: children) {
+                rowNumber = createDataGridHierarchicalRow(dataGrid, treeDataGridItems, columns, startColumn, rowNumber, child);
+            }
+        }
+
+        return rowNumber;
+    }
+
+    protected void createDataGridRow(DataGrid dataGrid, List<DataGrid.Column<JmixEntity>> columns,
+                                     int startColumn, int rowNumber, Object itemId) {
+        if (startColumn >= columns.size()) {
+            return;
+        }
+        Row row = sheet.createRow(rowNumber);
+        JmixEntity item = (JmixEntity) dataGrid.getItems().getItem(itemId);
+
+        int level = 0;
+        if (dataGrid instanceof TreeDataGrid) {
+            level = ((TreeDataGrid<JmixEntity>) dataGrid).getLevel(item);
+        }
+        for (int c = startColumn; c < columns.size(); c++) {
+            Cell cell = row.createCell(c);
+
+            DataGrid.Column column = columns.get(c);
+            MetaPropertyPath propertyPath = null;
+            if (column.getPropertyPath() != null) {
+                propertyPath = column.getPropertyPath();
+            }
+
+            Object cellValue = getColumnValue(dataGrid,columns.get(c),item);
+
+            formatValueCell(cell, cellValue, propertyPath, c, rowNumber, level, null);
+        }
+    }
+
+    protected Function<JmixEntity, InstanceContainer<JmixEntity>> createInstanceContainerProvider(DataGrid dataGrid, JmixEntity item) {
+        return entity -> {
+            throw new UnsupportedOperationException("ExcelExporter doesn't provide instance container");
+        };
     }
 
     protected void createFormats() {
