@@ -16,7 +16,6 @@
 
 package io.jmix.uiexport.action;
 
-import io.jmix.core.BeanLocator;
 import io.jmix.core.JmixEntity;
 import io.jmix.core.Messages;
 import io.jmix.ui.Dialogs;
@@ -32,6 +31,8 @@ import io.jmix.ui.model.CollectionContainer;
 import io.jmix.uiexport.exporter.ExportMode;
 import io.jmix.uiexport.exporter.TableExporter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
 import javax.annotation.Nullable;
 
@@ -44,11 +45,11 @@ import javax.annotation.Nullable;
 @SuppressWarnings("rawtypes")
 @StudioAction(category = "List Actions", description = "Export selected entities")
 @ActionType(ExportAction.ID)
-public class ExportAction extends ListAction {
+public class ExportAction extends ListAction implements ApplicationContextAware {
 
     public static final String ID = "export";
 
-    protected BeanLocator beanLocator;
+    protected ApplicationContext applicationContext;
 
     @Autowired
     protected Messages messages;
@@ -70,9 +71,9 @@ public class ExportAction extends ListAction {
         super(id, shortcut);
     }
 
-    @Autowired
-    protected void setBeanLocator(BeanLocator beanLocator) {
-        this.beanLocator = beanLocator;
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
     }
 
     /**
@@ -87,7 +88,7 @@ public class ExportAction extends ListAction {
      * Autowire table exporter instance by exporter class
      */
     public <T> T withExporter(Class<T> exporterClass) {
-        setTableExporter((TableExporter) beanLocator.getPrototype(exporterClass));
+        setTableExporter((TableExporter) applicationContext.getBean(exporterClass));
         return (T) tableExporter;
     }
 

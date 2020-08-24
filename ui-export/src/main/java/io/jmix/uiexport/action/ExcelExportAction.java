@@ -1,11 +1,11 @@
 package io.jmix.uiexport.action;
 
-import io.jmix.core.BeanLocator;
 import io.jmix.ui.action.ActionType;
 import io.jmix.ui.icon.JmixIcon;
 import io.jmix.ui.meta.StudioAction;
 import io.jmix.uiexport.exporter.excel.ExcelExporter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Action for export table content in XLSX or XLS formats
@@ -30,10 +30,9 @@ public class ExcelExportAction extends ExportAction {
         super(id, shortcut);
     }
 
-    @Autowired
     @Override
-    protected void setBeanLocator(BeanLocator beanLocator) {
-        super.setBeanLocator(beanLocator);
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        super.setApplicationContext(applicationContext);
         withExporter(ExcelExporter.class);
     }
 

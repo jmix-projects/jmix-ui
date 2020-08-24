@@ -31,7 +31,6 @@ import java.util.Collections;
 
 @Configuration
 @ComponentScan
-@PropertySource(name = "io.jmix.uiexport", value = "classpath:/io/jmix/uiexport/module.properties")
 @JmixModule(dependsOn = {CoreConfiguration.class, UiConfiguration.class})
 public class UiExportConfiguration {
 
