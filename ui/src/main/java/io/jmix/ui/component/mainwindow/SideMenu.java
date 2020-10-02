@@ -19,7 +19,6 @@ package io.jmix.ui.component.mainwindow;
 import io.jmix.core.common.event.Subscription;
 import io.jmix.ui.component.Button;
 import io.jmix.ui.component.Component;
-import io.jmix.ui.component.ValuePicker;
 import io.jmix.ui.menu.MenuConfig;
 
 import javax.annotation.Nullable;
@@ -184,6 +183,13 @@ public interface SideMenu extends Component.BelongToFrame, Component.Focusable {
      */
     boolean isShowSingleExpandedMenu();
 
+
+    /**
+     * Adds a listener that will be fired when leaf (non-expandable) menu item is clicked.
+     *
+     * @param listener a listener to add
+     * @return a {@link Subscription} object
+     */
     Subscription addItemSelectListener(Consumer<ItemSelectEvent> listener);
 
     /**
@@ -395,6 +401,11 @@ public interface SideMenu extends Component.BelongToFrame, Component.Focusable {
 
         public MenuItem getMenuItem() {
             return menuItem;
+        }
+
+        @Override
+        public SideMenu getSource() {
+            return (SideMenu) super.getSource();
         }
     }
 }

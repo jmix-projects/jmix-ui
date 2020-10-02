@@ -16,10 +16,12 @@
 
 package io.jmix.ui.component.impl;
 
+import com.vaadin.ui.CssLayout;
 import io.jmix.ui.component.mainwindow.Drawer;
 import io.jmix.ui.widget.JmixCssActionsLayout;
+import org.springframework.beans.factory.InitializingBean;
 
-public class WebDrawer extends WebCssLayout implements Drawer {
+public class WebDrawer extends WebCssLayout implements Drawer, InitializingBean {
 
     protected static final String DRAWER_STYLENAME = "jmix-drawer";
     protected static final String COLLAPSED_SYLENAME = "collapsed";
@@ -29,7 +31,19 @@ public class WebDrawer extends WebCssLayout implements Drawer {
     protected boolean expandOnHover = false;
 
     public WebDrawer() {
+        createComponent();
+    }
+
+    protected void createComponent() {
         component = new JmixCssActionsLayout();
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        initComponent(component);
+    }
+
+    protected void initComponent(CssLayout component) {
         component.setPrimaryStyleName(DRAWER_STYLENAME);
     }
 
