@@ -26,7 +26,8 @@ import io.jmix.ui.model.DataLoader;
  * a field for editing a property value.
  */
 public interface PropertyFilter<V> extends Component, Component.BelongToFrame, HasValue<V>,
-        Component.HasCaption, SupportsCaptionPosition {
+        Component.HasCaption, Component.HasIcon, Component.Focusable, Component.Editable,
+        HasHtmlCaption, HasHtmlDescription, HasHtmlSanitizer, SupportsCaptionPosition {
 
     String NAME = "propertyFilter";
 
@@ -74,7 +75,6 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
      */
     PropertyCondition getPropertyCondition();
 
-    // TODO: gg, remove?
     void setPropertyCondition(PropertyCondition propertyCondition);
 
     /**

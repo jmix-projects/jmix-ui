@@ -4191,19 +4191,23 @@
     </xs:complexType>
 
     <xs:complexType name="propertyFilterComponent">
-        <xs:extension base="baseComponent">
-            <xs:sequence>
-                <xs:group ref="layoutOrComponent"/>
-            </xs:sequence>
-            <xs:attribute name="dataLoader" type="xs:string" use="required"/>
-            <xs:attribute name="property" type="xs:string" use="required"/>
-            <xs:attribute name="operation" type="propertyFilterOperation" use="required"/>
-            <xs:attribute name="operationCaptionVisible" type="xs:boolean"/>
-            <xs:attribute name="captionPosition" type="propertyFilterCaptionPosition"/>
-            <xs:attribute name="captionWidth" type="xs:string"/>
-            <xs:attribute name="autoApply" type="xs:boolean"/>
-            <xs:attribute name="parameterName" type="xs:string"/>
-        </xs:extension>
+        <xs:complexContent>
+            <xs:extension base="baseComponent">
+                <xs:sequence>
+                    <xs:group ref="layoutOrComponent"/>
+                </xs:sequence>
+                <xs:attribute name="dataLoader" type="xs:string" use="required"/>
+                <xs:attribute name="property" type="xs:string" use="required"/>
+                <xs:attribute name="operation" type="propertyFilterOperation" use="required"/>
+                <xs:attribute name="operationCaptionVisible" type="xs:boolean"/>
+                <xs:attribute name="captionPosition" type="propertyFilterCaptionPosition"/>
+                <xs:attribute name="captionWidth" type="xs:string"/>
+                <xs:attribute name="autoApply" type="xs:boolean"/>
+                <xs:attribute name="parameterName" type="xs:string"/>
+
+                <xs:attributeGroup ref="hasEditable"/>
+            </xs:extension>
+        </xs:complexContent>
     </xs:complexType>
 
     <xs:simpleType name="propertyFilterCaptionPosition">

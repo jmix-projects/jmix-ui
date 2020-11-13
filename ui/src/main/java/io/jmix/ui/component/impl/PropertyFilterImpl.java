@@ -16,10 +16,14 @@
 
 package io.jmix.ui.component.impl;
 
+import com.google.common.base.Preconditions;
 import io.jmix.core.common.event.Subscription;
+import io.jmix.core.querycondition.Condition;
+import io.jmix.core.querycondition.LogicalCondition;
 import io.jmix.core.querycondition.PropertyCondition;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.component.*;
+import io.jmix.ui.icon.Icons;
 import io.jmix.ui.model.DataLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -27,7 +31,7 @@ import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
 public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implements PropertyFilter<V>,
-        CompositeWithDescription {
+        CompositeWithHtmlCaption, CompositeWithHtmlDescription {
 
     protected UiComponents uiComponents;
 
@@ -37,6 +41,7 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     protected DataLoader dataLoader;
     protected String caption;
     protected String captionWidth;
+    protected String icon;
     protected CaptionPosition captionPosition = CaptionPosition.LEFT;
     protected PropertyCondition propertyCondition = new PropertyCondition();
     protected boolean autoApply;
@@ -45,72 +50,52 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
         addCreateListener(this::onCreate);
     }
 
-    protected void onCreate(CreateEvent createEvent) {
-        createComponents();
-        updateLayout();
+    @Autowired
+    public void setUiComponents(UiComponents uiComponents) {
+        this.uiComponents = uiComponents;
     }
 
-    protected void createComponents() {
+    protected void onCreate(CreateEvent createEvent) {
         root = createRootComponent();
-        root.setSpacing(true);
-
-        // TODO: gg, don't create a default field
-        valueComponent = uiComponents.create(TextField.class);
-        initValueComponent(valueComponent);
+        initRootComponent(root);
+        updateCaptionLayout();
     }
 
     protected HBoxLayout createRootComponent() {
         return uiComponents.create(HBoxLayout.class);
     }
 
-    protected Label<String> createCaptionLabel() {
-        Label<String> captionLabel = uiComponents.create(Label.TYPE_DEFAULT);
-        captionLabel.setAlignment(Alignment.MIDDLE_LEFT);
-
-        return captionLabel;
+    protected void initRootComponent(HBoxLayout root) {
+        root.setSpacing(true);
     }
 
-    protected void initValueComponent(HasValue<V> valueComponent) {
-        valueComponent.addValueChangeListener(this::onValueChanged);
-    }
-
-    protected void onValueChanged(ValueChangeEvent<V> valueChangeEvent) {
-        V value = valueChangeEvent.getValue();
-        propertyCondition.setParameterValue(value);
-
-        if (autoApply) {
-            dataLoader.load();
-        }
-
-        ValueChangeEvent<V> event = new ValueChangeEvent<>(this,
-                valueChangeEvent.getPrevValue(),
-                valueChangeEvent.getValue(),
-                valueChangeEvent.isUserOriginated());
-        publish(ValueChangeEvent.class, event);
-    }
-
-    protected void updateLayout() {
-        root.removeAll();
-
+    protected void updateCaptionLayout() {
         if (captionPosition == CaptionPosition.LEFT) {
             root.setCaption(null);
+            root.setIcon(null);
 
             if (captionLabel == null) {
                 captionLabel = createCaptionLabel();
             }
-
-            root.add(captionLabel);
+            initCaptionLabel(captionLabel);
+            root.add(captionLabel, 0);
         } else {
+            root.remove(captionLabel);
             captionLabel = null;
             root.setCaption(caption);
+            root.setIcon(icon);
         }
-
-        root.add(valueComponent);
     }
 
-    @Autowired
-    public void setUiComponents(UiComponents uiComponents) {
-        this.uiComponents = uiComponents;
+    protected Label<String> createCaptionLabel() {
+        return uiComponents.create(Label.TYPE_DEFAULT);
+    }
+
+    protected void initCaptionLabel(Label<String> label) {
+        label.setAlignment(Alignment.MIDDLE_LEFT);
+        label.setValue(caption);
+        label.setWidth(captionWidth);
+        label.setIcon(icon);
     }
 
     @Override
@@ -120,8 +105,17 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setDataLoader(DataLoader dataLoader) {
-        // TODO: gg, check if set
         this.dataLoader = dataLoader;
+
+        Condition rootCondition = dataLoader.getCondition();
+        if (rootCondition == null) {
+            rootCondition = new LogicalCondition(LogicalCondition.Type.AND);
+            dataLoader.setCondition(rootCondition);
+        }
+
+        if (rootCondition instanceof LogicalCondition) {
+            ((LogicalCondition) rootCondition).add(propertyCondition);
+        }
     }
 
     @Override
@@ -131,7 +125,6 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setProperty(String property) {
-        // TODO: gg, check if set
         this.propertyCondition.setProperty(property);
     }
 
@@ -162,8 +155,10 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setCaptionPosition(CaptionPosition captionPosition) {
-        this.captionPosition = captionPosition;
-        updateLayout();
+        if (this.captionPosition != captionPosition) {
+            this.captionPosition = captionPosition;
+            updateCaptionLayout();
+        }
     }
 
     @Override
@@ -174,16 +169,20 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     @Override
     public void setPropertyCondition(PropertyCondition propertyCondition) {
         this.propertyCondition = propertyCondition;
+
+        // TODO: gg, update loader's conditions
     }
 
     @Nullable
     @Override
     public V getValue() {
+        checkValueComponentState();
         return valueComponent.getValue();
     }
 
     @Override
     public void setValue(@Nullable V value) {
+        checkValueComponentState();
         valueComponent.setValue(value);
     }
 
@@ -194,9 +193,33 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setValueComponent(HasValue<V> valueComponent) {
+        if (this.valueComponent != null) {
+            root.remove(valueComponent);
+        }
+
         this.valueComponent = valueComponent;
         initValueComponent(valueComponent);
-        updateLayout();
+
+        root.add(valueComponent);
+    }
+
+    protected void initValueComponent(HasValue<V> valueComponent) {
+        valueComponent.addValueChangeListener(this::onValueChanged);
+    }
+
+    protected void onValueChanged(ValueChangeEvent<V> valueChangeEvent) {
+        V value = valueChangeEvent.getValue();
+        propertyCondition.setParameterValue(value);
+
+        if (autoApply) {
+            dataLoader.load();
+        }
+
+        ValueChangeEvent<V> event = new ValueChangeEvent<>(this,
+                valueChangeEvent.getPrevValue(),
+                valueChangeEvent.getValue(),
+                valueChangeEvent.isUserOriginated());
+        publish(ValueChangeEvent.class, event);
     }
 
     @Override
@@ -207,7 +230,6 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     @Override
     public void setCaption(@Nullable String caption) {
         this.caption = caption;
-
         updateCaption();
     }
 
@@ -252,5 +274,86 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     @Override
     public void setAutoApply(boolean autoApply) {
         this.autoApply = autoApply;
+    }
+
+    @Override
+    public void setWidth(@Nullable String width) {
+        super.setWidth(width);
+
+        if (Component.AUTO_SIZE.equals(width) || width == null) {
+            root.resetExpanded();
+            valueComponent.setWidthAuto();
+        } else {
+            root.expand(valueComponent);
+        }
+    }
+
+    @Nullable
+    @Override
+    public String getIcon() {
+        return icon;
+    }
+
+    @Override
+    public void setIcon(@Nullable String icon) {
+        this.icon = icon;
+        updateIcon();
+    }
+
+    protected void updateIcon() {
+        if (captionPosition == CaptionPosition.TOP) {
+            root.setIcon(icon);
+        } else {
+            captionLabel.setIcon(icon);
+        }
+    }
+
+    @Override
+    public void setIconFromSet(@Nullable Icons.Icon icon) {
+        String iconName = getIconName(icon);
+        setIcon(iconName);
+    }
+
+    @Nullable
+    protected String getIconName(@Nullable Icons.Icon icon) {
+        return applicationContext.getBean(Icons.class).get(icon);
+    }
+
+    @Override
+    public boolean isEditable() {
+        return valueComponent instanceof Editable
+                && ((Editable) valueComponent).isEditable();
+    }
+
+    @Override
+    public void setEditable(boolean editable) {
+        if (valueComponent instanceof Editable) {
+            ((Editable) valueComponent).setEditable(editable);
+        }
+    }
+
+    @Override
+    public void focus() {
+        if (valueComponent instanceof Focusable) {
+            ((Focusable) valueComponent).focus();
+        }
+    }
+
+    @Override
+    public int getTabIndex() {
+        return valueComponent instanceof Focusable
+                ? ((Focusable) valueComponent).getTabIndex()
+                : 0;
+    }
+
+    @Override
+    public void setTabIndex(int tabIndex) {
+        if (valueComponent instanceof Focusable) {
+            ((Focusable) valueComponent).setTabIndex(tabIndex);
+        }
+    }
+
+    protected void checkValueComponentState() {
+        Preconditions.checkState(valueComponent != null, "Value component isn't set");
     }
 }

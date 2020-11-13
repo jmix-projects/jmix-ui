@@ -21,8 +21,6 @@ import io.jmix.core.MetadataTools;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
-import io.jmix.core.querycondition.Condition;
-import io.jmix.core.querycondition.LogicalCondition;
 import io.jmix.ui.GuiDevelopmentException;
 import io.jmix.ui.UiProperties;
 import io.jmix.ui.component.*;
@@ -61,8 +59,7 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
         loadStyleName(resultComponent, element);
 
         loadDescription(resultComponent, element);
-//        loadIcon(resultComponent, element);
-//        loadContextHelp(resultComponent, element);
+        loadIcon(resultComponent, element);
         loadCss(resultComponent, element);
 
         loadString(element, "property", resultComponent::setProperty);
@@ -96,16 +93,6 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
             FrameOwner frameOwner = getComponentContext().getFrame().getFrameOwner();
             ScreenData screenData = UiControllerUtils.getScreenData(frameOwner);
             DataLoader dataLoader = screenData.getLoader(dataLoaderId);
-
-            Condition rootCondition = dataLoader.getCondition();
-            if (rootCondition == null) {
-                rootCondition = new LogicalCondition(LogicalCondition.Type.AND);
-                dataLoader.setCondition(rootCondition);
-            }
-
-            if (rootCondition instanceof LogicalCondition) {
-                ((LogicalCondition) rootCondition).add(resultComponent.getPropertyCondition());
-            }
 
             resultComponent.setDataLoader(dataLoader);
         }
