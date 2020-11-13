@@ -22,7 +22,7 @@ import io.jmix.ui.component.ComponentGenerationContext;
 
 public class PropertyFilterComponentGenerationContext extends ComponentGenerationContext {
 
-    private PropertyCondition propertyCondition;
+    protected final PropertyCondition propertyCondition;
 
     /**
      * Creates an instance of PropertyFilterComponentGenerationContext.

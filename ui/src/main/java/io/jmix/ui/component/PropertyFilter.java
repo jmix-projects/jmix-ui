@@ -25,7 +25,8 @@ import io.jmix.ui.model.DataLoader;
  * a PropertyFilter layout contains a label with entity property caption, operation label (=, contains, &#62;, etc.) and
  * a field for editing a property value.
  */
-public interface PropertyFilter<V> extends Component, Component.BelongToFrame, HasValue<V>, Component.HasCaption {
+public interface PropertyFilter<V> extends Component, Component.BelongToFrame, HasValue<V>,
+        Component.HasCaption, SupportsCaptionPosition {
 
     String NAME = "propertyFilter";
 
@@ -52,20 +53,6 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     void setOperation(String operation);
 
     /**
-     * @return a position of the caption
-     */
-    CaptionPosition getCaptionPosition();
-
-    void setCaptionPosition(CaptionPosition captionPosition);
-
-    /**
-     * @return true if the operation label is visible
-     */
-    boolean isOperationCaptionVisible();
-
-    void setOperationCaptionVisible(boolean operationCaptionVisible);
-
-    /**
      * @return the name of the associated query parameter name
      */
     String getParameterName();
@@ -76,7 +63,9 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
 
     void setValueComponent(HasValue<V> valueComponent);
 
-    String getCaptionWidth();
+    float getCaptionWidth();
+
+    SizeUnit getCaptionWidthSizeUnit();
 
     void setCaptionWidth(String captionWidth);
 
@@ -85,6 +74,7 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
      */
     PropertyCondition getPropertyCondition();
 
+    // TODO: gg, remove?
     void setPropertyCondition(PropertyCondition propertyCondition);
 
     /**
@@ -94,24 +84,4 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     boolean isAutoApply();
 
     void setAutoApply(boolean autoApply);
-
-    /**
-     * Method builds the component layout after all required properties are set
-     */
-    void createLayout();
-
-    /**
-     * Caption position of the value component.
-     */
-    enum CaptionPosition {
-        /**
-         * Component caption will be placed on the left side of component.
-         */
-        LEFT,
-
-        /**
-         * Component caption will be placed above the component.
-         */
-        TOP
-    }
 }

@@ -16,49 +16,101 @@
 
 package io.jmix.ui.component.impl;
 
-import com.google.common.base.Strings;
-import com.vaadin.ui.AbstractLayout;
-import com.vaadin.ui.HorizontalLayout;
 import io.jmix.core.common.event.Subscription;
 import io.jmix.core.querycondition.PropertyCondition;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.component.*;
-import io.jmix.ui.component.factory.PropertyFilterComponentGenerationContext;
 import io.jmix.ui.model.DataLoader;
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
-public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> implements PropertyFilter<V> {
+public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implements PropertyFilter<V>,
+        CompositeWithDescription {
 
-    private DataLoader dataLoader;
-    private boolean operationCaptionVisible = true;
-    private CaptionPosition captionPosition = CaptionPosition.LEFT;
-    private String caption;
-    private String captionWidth;
-    private boolean autoApply;
+    protected UiComponents uiComponents;
 
-    private UiComponents uiComponents;
-    private ObjectProvider<UiComponentsGenerator> uiComponentsGeneratorProvider;
-    private HasValue<V> valueComponent;
+    protected Label<String> captionLabel;
+    protected HasValue<V> valueComponent;
 
-    private PropertyCondition propertyCondition;
+    protected DataLoader dataLoader;
+    protected String caption;
+    protected String captionWidth;
+    protected CaptionPosition captionPosition = CaptionPosition.LEFT;
+    protected PropertyCondition propertyCondition = new PropertyCondition();
+    protected boolean autoApply;
 
     public PropertyFilterImpl() {
-        component = new HorizontalLayout();
-        propertyCondition = new PropertyCondition();
+        addCreateListener(this::onCreate);
+    }
+
+    protected void onCreate(CreateEvent createEvent) {
+        createComponents();
+        updateLayout();
+    }
+
+    protected void createComponents() {
+        root = createRootComponent();
+        root.setSpacing(true);
+
+        // TODO: gg, don't create a default field
+        valueComponent = uiComponents.create(TextField.class);
+        initValueComponent(valueComponent);
+    }
+
+    protected HBoxLayout createRootComponent() {
+        return uiComponents.create(HBoxLayout.class);
+    }
+
+    protected Label<String> createCaptionLabel() {
+        Label<String> captionLabel = uiComponents.create(Label.TYPE_DEFAULT);
+        captionLabel.setAlignment(Alignment.MIDDLE_LEFT);
+
+        return captionLabel;
+    }
+
+    protected void initValueComponent(HasValue<V> valueComponent) {
+        valueComponent.addValueChangeListener(this::onValueChanged);
+    }
+
+    protected void onValueChanged(ValueChangeEvent<V> valueChangeEvent) {
+        V value = valueChangeEvent.getValue();
+        propertyCondition.setParameterValue(value);
+
+        if (autoApply) {
+            dataLoader.load();
+        }
+
+        ValueChangeEvent<V> event = new ValueChangeEvent<>(this,
+                valueChangeEvent.getPrevValue(),
+                valueChangeEvent.getValue(),
+                valueChangeEvent.isUserOriginated());
+        publish(ValueChangeEvent.class, event);
+    }
+
+    protected void updateLayout() {
+        root.removeAll();
+
+        if (captionPosition == CaptionPosition.LEFT) {
+            root.setCaption(null);
+
+            if (captionLabel == null) {
+                captionLabel = createCaptionLabel();
+            }
+
+            root.add(captionLabel);
+        } else {
+            captionLabel = null;
+            root.setCaption(caption);
+        }
+
+        root.add(valueComponent);
     }
 
     @Autowired
-    private void setUiComponents(UiComponents uiComponents) {
+    public void setUiComponents(UiComponents uiComponents) {
         this.uiComponents = uiComponents;
-    }
-
-    @Autowired
-    private void setUiComponentsGeneratorProvider(ObjectProvider<UiComponentsGenerator> uiComponentsGeneratorProvider) {
-        this.uiComponentsGeneratorProvider = uiComponentsGeneratorProvider;
     }
 
     @Override
@@ -68,6 +120,7 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
 
     @Override
     public void setDataLoader(DataLoader dataLoader) {
+        // TODO: gg, check if set
         this.dataLoader = dataLoader;
     }
 
@@ -78,6 +131,7 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
 
     @Override
     public void setProperty(String property) {
+        // TODO: gg, check if set
         this.propertyCondition.setProperty(property);
     }
 
@@ -109,16 +163,7 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
     @Override
     public void setCaptionPosition(CaptionPosition captionPosition) {
         this.captionPosition = captionPosition;
-    }
-
-    @Override
-    public boolean isOperationCaptionVisible() {
-        return operationCaptionVisible;
-    }
-
-    @Override
-    public void setOperationCaptionVisible(boolean operationCaptionVisible) {
-        this.operationCaptionVisible = operationCaptionVisible;
+        updateLayout();
     }
 
     @Override
@@ -129,63 +174,6 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
     @Override
     public void setPropertyCondition(PropertyCondition propertyCondition) {
         this.propertyCondition = propertyCondition;
-    }
-
-    @Override
-    public void createLayout() {
-        BoxLayout rootLayout;
-        if (captionPosition == CaptionPosition.LEFT) {
-            rootLayout = uiComponents.create(HBoxLayout.NAME);
-            rootLayout.setSpacing(true);
-        } else {
-            rootLayout = uiComponents.create(VBoxLayout.NAME);
-        }
-
-        Label<String> captionLabel = uiComponents.create(Label.NAME);
-        captionLabel.setValue(caption);
-        if (!Strings.isNullOrEmpty(captionWidth)) {
-            captionLabel.setWidth(captionWidth);
-        }
-        captionLabel.setAlignment(Alignment.MIDDLE_LEFT);
-        rootLayout.add(captionLabel);
-
-        //create a valueComponent if it hasn't been set explicitly
-        if (valueComponent == null) {
-            UiComponentsGenerator uiComponentsGenerator = uiComponentsGeneratorProvider.getObject();
-            ComponentGenerationContext context = new PropertyFilterComponentGenerationContext(dataLoader.getContainer().getEntityMetaClass(), propertyCondition);
-            context.setTargetClass(PropertyFilter.class);
-            Component generatedComponent = uiComponentsGenerator.generate(context);
-            if (!(generatedComponent instanceof HasValue)) {
-                throw new RuntimeException("Generated component must be an instance of HasValue. Component class is "
-                        + generatedComponent.getClass().getName());
-            }
-            valueComponent = (HasValue<V>) generatedComponent;
-        }
-
-        if (valueComponent instanceof BelongToFrame) {
-            ((BelongToFrame) valueComponent).setFrame(this.getFrame());
-        }
-
-        valueComponent.addValueChangeListener(valueChangeEvent -> {
-            V value = valueComponent.getValue();
-            propertyCondition.setParameterValue(value);
-            if (autoApply) {
-                dataLoader.load();
-            }
-            ValueChangeEvent<V> event = new ValueChangeEvent<>(this,
-                    valueChangeEvent.getPrevValue(),
-                    valueChangeEvent.getValue(),
-                    false);
-            publish(ValueChangeEvent.class, event);
-        });
-        rootLayout.add(valueComponent);
-        //todo get rid of unnecessary nested components
-        AbstractLayout vRootLayout = rootLayout.unwrap(AbstractLayout.class);
-        component.addComponent(vRootLayout);
-        rootLayout.setWidth("100%");
-        if (captionPosition == CaptionPosition.LEFT) {
-            rootLayout.expand(valueComponent);
-        }
     }
 
     @Nullable
@@ -207,6 +195,8 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
     @Override
     public void setValueComponent(HasValue<V> valueComponent) {
         this.valueComponent = valueComponent;
+        initValueComponent(valueComponent);
+        updateLayout();
     }
 
     @Override
@@ -217,6 +207,16 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
     @Override
     public void setCaption(@Nullable String caption) {
         this.caption = caption;
+
+        updateCaption();
+    }
+
+    protected void updateCaption() {
+        if (captionPosition == CaptionPosition.TOP) {
+            root.setCaption(caption);
+        } else {
+            captionLabel.setValue(caption);
+        }
     }
 
     @Nullable
@@ -226,13 +226,22 @@ public class PropertyFilterImpl<V> extends AbstractComponent<HorizontalLayout> i
     }
 
     @Override
-    public String getCaptionWidth() {
-        return captionWidth;
+    public float getCaptionWidth() {
+        return captionLabel != null ? captionLabel.getWidth() : AUTO_SIZE_PX;
+    }
+
+    @Override
+    public SizeUnit getCaptionWidthSizeUnit() {
+        return captionLabel != null ? captionLabel.getWidthSizeUnit() : SizeUnit.PIXELS;
     }
 
     @Override
     public void setCaptionWidth(String captionWidth) {
         this.captionWidth = captionWidth;
+
+        if (captionLabel != null) {
+            captionLabel.setWidth(captionWidth);
+        }
     }
 
     @Override
