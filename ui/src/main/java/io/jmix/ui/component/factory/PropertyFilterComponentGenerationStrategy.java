@@ -17,28 +17,35 @@
 package io.jmix.ui.component.factory;
 
 import com.google.common.collect.ImmutableMap;
-import io.jmix.core.JmixOrder;
-import io.jmix.core.Messages;
-import io.jmix.core.Metadata;
-import io.jmix.core.MetadataTools;
+import io.jmix.core.*;
 import io.jmix.core.metamodel.datatype.Enumeration;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.Actions;
 import io.jmix.ui.UiComponents;
+import io.jmix.ui.action.Action;
+import io.jmix.ui.action.entitypicker.EntityClearAction;
+import io.jmix.ui.action.entitypicker.LookupAction;
 import io.jmix.ui.component.*;
+import io.jmix.ui.component.data.options.ListOptions;
 import io.jmix.ui.component.impl.EntityFieldCreationSupport;
 import io.jmix.ui.icon.Icons;
+import io.jmix.ui.screen.OpenMode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 
 import javax.annotation.Nullable;
+import java.util.List;
 
 /**
  * A {@link ComponentGenerationStrategy} used by {@link PropertyFilter} UI component
  */
 @org.springframework.stereotype.Component
 public class PropertyFilterComponentGenerationStrategy extends AbstractComponentGenerationStrategy implements Ordered {
+
+    protected static final String UNARY_FIELD_STYLENAME = "unary-field";
+
+    protected DataManager dataManager;
 
     @Autowired
     public PropertyFilterComponentGenerationStrategy(Messages messages,
@@ -47,8 +54,10 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
                                                      Metadata metadata,
                                                      MetadataTools metadataTools,
                                                      Icons icons,
-                                                     Actions actions) {
+                                                     Actions actions,
+                                                     DataManager dataManager) {
         super(messages, uiComponents, entityFieldCreationSupport, metadata, metadataTools, icons, actions);
+        this.dataManager = dataManager;
     }
 
     @Override
@@ -74,6 +83,21 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
     }
 
     @Override
+    protected Component createEntityField(ComponentGenerationContext context, MetaPropertyPath mpp) {
+        EntityPicker<?> field = uiComponents.create(EntityPicker.class);
+
+        MetaClass metaClass = mpp.getMetaProperty().getRange().asClass();
+        field.setMetaClass(metaClass);
+
+        LookupAction<?> lookupAction = (LookupAction<?>) actions.create(LookupAction.ID);
+        lookupAction.setOpenMode(OpenMode.DIALOG);
+        field.addAction(lookupAction);
+        field.addAction(actions.create(EntityClearAction.ID));
+
+        return field;
+    }
+
+    @Override
     protected Field createBooleanField(ComponentGenerationContext context) {
         return createUnaryField(context);
     }
@@ -81,6 +105,7 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
     protected Field createUnaryField(ComponentGenerationContext context) {
         ComboBox<Boolean> component = uiComponents.create(ComboBox.of(Boolean.class));
         component.setTextInputAllowed(false);
+        component.addStyleName(UNARY_FIELD_STYLENAME);
 
         component.setOptionsMap(ImmutableMap.of(
                 messages.getMessage("boolean.yes"), Boolean.TRUE,

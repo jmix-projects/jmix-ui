@@ -61,6 +61,7 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
 
         loadString(element, "property", resultComponent::setProperty);
         loadEnum(element, Operation.class, "operation", resultComponent::setOperation);
+        loadBoolean(element, "operationEditable", resultComponent::setOperationEditable);
 
         resultComponent.setParameterName(loadString(element, "parameterName")
                 .orElse(generateParameterName(resultComponent.getPropertyCondition())));
@@ -71,10 +72,7 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
         loadDataLoader(resultComponent, element);
         loadValueComponent(resultComponent, element);
 
-        loadBoolean(element, "operationCaptionVisible", resultComponent::setOperationCaptionVisible);
         loadCaption(resultComponent, element);
-
-        loadBoolean(element, "operationEditable", resultComponent::setOperationEditable);
 
         resultComponent.setAutoApply(loadBoolean(element, "autoApply")
                 .orElse(getUiProperties().isPropertyFilterAutoApply()));
@@ -102,7 +100,14 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
     }
 
     protected String getDefaultCaption() {
-        return getPropertyFilterSupport().getDefaultCaption(resultComponent);
+        MetaClass metaClass = resultComponent.getDataLoader().getContainer().getEntityMetaClass();
+        return getPropertyFilterSupport().getPropertyFilterCaption(
+                metaClass, resultComponent.getProperty(), resultComponent.getOperation(),
+                isOperationCaptionVisible() && !resultComponent.isOperationEditable());
+    }
+
+    protected boolean isOperationCaptionVisible() {
+        return loadBoolean(element, "operationCaptionVisible").orElse(true);
     }
 
     protected void loadValueComponent(PropertyFilter<?> resultComponent, Element element) {

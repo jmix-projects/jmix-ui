@@ -23,8 +23,8 @@ import io.jmix.core.MetadataTools;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
+import io.jmix.core.metamodel.model.Range;
 import io.jmix.core.querycondition.PropertyCondition;
-import io.jmix.ui.GuiDevelopmentException;
 import io.jmix.ui.component.ComponentGenerationContext;
 import io.jmix.ui.component.HasValue;
 import io.jmix.ui.component.PropertyFilter;
@@ -74,14 +74,17 @@ public class PropertyFilterSupport {
      * Default caption consist of the related entity property caption and the operation caption (if the operation
      * caption is configured to be visible), e.g. "Last name contains".
      *
-     * @param propertyFilter a property filter
+     * @param metaClass               an entity meta class associated with property filter
+     * @param property                an entity attribute associated with property filter
+     * @param operation               operation for which to show caption
+     * @param operationCaptionVisible whether to show operation caption
      */
-    public String getDefaultCaption(PropertyFilter<?> propertyFilter) {
-        MetaClass metaClass = propertyFilter.getDataLoader().getContainer().getEntityMetaClass();
-        MetaPropertyPath mpp = metaClass.getPropertyPath(propertyFilter.getProperty());
+    public String getPropertyFilterCaption(MetaClass metaClass, String property,
+                                           Operation operation, boolean operationCaptionVisible) {
+        MetaPropertyPath mpp = metaClass.getPropertyPath(property);
 
         if (mpp == null) {
-            return propertyFilter.getProperty();
+            return property;
         } else {
             MetaProperty[] metaProperties = mpp.getMetaProperties();
             StringBuilder sb = new StringBuilder();
@@ -103,37 +106,44 @@ public class PropertyFilterSupport {
                     sb.append(".");
                 }
             }
-            if (propertyFilter.isOperationCaptionVisible()) {
-                sb.append(" ").append(getOperationCaption(propertyFilter.getOperation()));
+            if (operationCaptionVisible) {
+                sb.append(" ").append(getOperationCaption(operation));
             }
+
             return sb.toString();
         }
     }
 
-    public EnumSet<Operation> getAvailableOperations(Class<?> javaClass) {
-        if (String.class.equals(javaClass)) {
-            return EnumSet.of(EQUAL, NOT_EQUAL, CONTAINS, NOT_CONTAINS, IS_NOT_NULL, STARTS_WITH, ENDS_WITH); // TODO: add IN, NOT_IN,
-        } else if (dateTimeClasses.contains(javaClass)) {
-            return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL);  // TODO: add IN, NOT_IN, DATE_INTERVAL
-        } else if (timeClasses.contains(javaClass)) {
-            return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL); // TODO: add DATE_INTERVAL
-        } else if (Number.class.isAssignableFrom(javaClass)) {
-            return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
-        } else if (Boolean.class.equals(javaClass)) {
-            return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL);
-        } else if (UUID.class.equals(javaClass)
-                || Enum.class.isAssignableFrom(javaClass)
-            // TODO: gg, entity
-            /*|| Entity.class.isAssignableFrom(javaClass)*/) {
+    public EnumSet<Operation> getAvailableOperations(MetaPropertyPath mpp) {
+        Range mppRange = mpp.getRange();
+
+        if (mppRange.isClass() || mppRange.isEnum()) {
             return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
-        } else {
-            throw new UnsupportedOperationException("Unsupported java class: " + javaClass);
+        } else if (mppRange.isDatatype()) {
+            Class<?> type = mppRange.asDatatype().getJavaClass();
+
+            if (String.class.equals(type)) {
+                return EnumSet.of(EQUAL, NOT_EQUAL, CONTAINS, NOT_CONTAINS, IS_NOT_NULL, STARTS_WITH, ENDS_WITH); // TODO: add IN, NOT_IN,
+            } else if (dateTimeClasses.contains(type)) {
+                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL);  // TODO: add IN, NOT_IN, DATE_INTERVAL
+            } else if (timeClasses.contains(type)) {
+                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL); // TODO: add DATE_INTERVAL
+            } else if (Number.class.isAssignableFrom(type)) {
+                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
+            } else if (Boolean.class.equals(type)) {
+                return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL);
+            } else if (UUID.class.equals(type)) {
+                return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
+            }
+
         }
+
+        throw new UnsupportedOperationException("Unsupported attribute type: " + mpp.getMetaProperty().getJavaType());
     }
 
-    public EnumSet<Operation> getAvailableOperations(MetaProperty metaProperty) {
-        Class<?> javaClass = metaProperty.getJavaType();
-        return getAvailableOperations(javaClass);
+    public EnumSet<Operation> getAvailableOperations(MetaClass metaClass, String property) {
+        MetaPropertyPath mpp = resolveMetaPropertyPath(metaClass, property);
+        return getAvailableOperations(mpp);
     }
 
     public HasValue generateValueField(MetaClass metaClass, String property, Operation operation) {
@@ -173,5 +183,9 @@ public class PropertyFilterSupport {
             default:
                 throw new IllegalArgumentException("Unknown operation: " + operation);
         }
+    }
+
+    protected MetaPropertyPath resolveMetaPropertyPath(MetaClass metaClass, String property) {
+        return metaClass.getPropertyPath(property);
     }
 }

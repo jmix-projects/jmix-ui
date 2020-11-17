@@ -74,19 +74,9 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     void setCaptionWidth(String captionWidth);
 
     /**
-     * @return true if the operation label is visible
-     */
-    boolean isOperationCaptionVisible();
-
-    void setOperationCaptionVisible(boolean operationCaptionVisible);
-
-    /**
      * @return associated {@link PropertyCondition} object.
      */
     PropertyCondition getPropertyCondition();
-
-    // TODO: gg, remove
-    void setPropertyCondition(PropertyCondition propertyCondition);
 
     /**
      * @return true if the filter should be automatically applied to the {@link DataLoader} when the value component
@@ -95,7 +85,6 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     boolean isAutoApply();
 
     void setAutoApply(boolean autoApply);
-
 
     enum Operation {
         EQUAL(Type.VALUE),
@@ -112,7 +101,7 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
         IS_NOT_NULL(Type.UNARY),
 //        IN_LIST(Type.LIST),
 //        NOT_IN_LIST(Type.LIST),
-//        DATE_INTERVAL(?),
+//        DATE_INTERVAL(Type.INTERVAL),
         ;
 
         private final Type type;
@@ -128,7 +117,8 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
         public enum Type {
             VALUE,
             UNARY,
-            LIST
+            LIST,
+            INTERVAL
         }
     }
 }

@@ -16,10 +16,8 @@
 
 package io.jmix.ui.component.impl;
 
-import com.google.common.base.Preconditions;
 import io.jmix.core.common.event.Subscription;
 import io.jmix.core.metamodel.model.MetaClass;
-import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.querycondition.Condition;
 import io.jmix.core.querycondition.LogicalCondition;
 import io.jmix.core.querycondition.PropertyCondition;
@@ -34,6 +32,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.annotation.Nullable;
 import java.util.function.Consumer;
 
+import static com.google.common.base.Preconditions.checkState;
 import static io.jmix.core.common.util.Preconditions.checkNotNullArgument;
 import static io.jmix.ui.theme.HaloTheme.POPUP_BUTTON_NO_POPUP_INDICATOR;
 
@@ -54,7 +53,6 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     protected String caption;
     protected String captionWidth;
     protected String icon;
-    protected boolean operationCaptionVisible = true;
 
     protected CaptionPosition captionPosition = CaptionPosition.LEFT;
     protected PropertyCondition propertyCondition = new PropertyCondition();
@@ -122,21 +120,31 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     }
 
     protected PopupButton createOperationSelector() {
-        PopupButton popupButton = uiComponents.create(PopupButton.class);
-        popupButton.addStyleName(POPUP_BUTTON_NO_POPUP_INDICATOR);
-        popupButton.setAlignment(getChildAlignment());
+        PopupButton operationSelector = uiComponents.create(PopupButton.class);
+        operationSelector.addStyleName(POPUP_BUTTON_NO_POPUP_INDICATOR);
+        operationSelector.setAlignment(getChildAlignment());
 
-        MetaClass metaClass = dataLoader.getContainer().getEntityMetaClass();
-        MetaProperty metaProperty = metaClass.getProperty(getProperty());
+        initOperationSelectorActions(operationSelector);
 
-        for (Operation operation : propertyFilterSupport.getAvailableOperations(metaProperty)) {
-            OperationChangeAction action = new OperationChangeAction(operation, this::setOperation);
-            action.setCaption(propertyFilterSupport.getOperationCaption(operation));
-            popupButton.addAction(action);
+        return operationSelector;
+    }
+
+    protected void initOperationSelectorActions(@Nullable PopupButton operationSelector) {
+        //noinspection ConstantConditions
+        if (operationSelector != null
+                && operationSelector.getActions().isEmpty()
+                && dataLoader != null
+                && getProperty() != null) {
+            MetaClass metaClass = dataLoader.getContainer().getEntityMetaClass();
+
+            for (Operation operation : propertyFilterSupport.getAvailableOperations(metaClass, getProperty())) {
+                OperationChangeAction action = new OperationChangeAction(operation, this::setOperation);
+                action.setCaption(propertyFilterSupport.getOperationCaption(operation));
+                operationSelector.addAction(action);
+            }
+
+            operationSelector.setCaption(getOperationCaption(getOperation()));
         }
-
-        popupButton.setCaption(getOperationCaption(getOperation()));
-        return popupButton;
     }
 
     protected String getOperationCaption(Operation operation) {
@@ -150,7 +158,9 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setDataLoader(DataLoader dataLoader) {
+        checkState(this.dataLoader == null, "DataLoader has already been initialized");
         checkNotNullArgument(dataLoader);
+
         this.dataLoader = dataLoader;
 
         Condition rootCondition = dataLoader.getCondition();
@@ -162,6 +172,8 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
         if (rootCondition instanceof LogicalCondition) {
             ((LogicalCondition) rootCondition).add(propertyCondition);
         }
+
+        initOperationSelectorActions(operationSelector);
     }
 
     @Override
@@ -171,8 +183,13 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setProperty(String property) {
+        //noinspection ConstantConditions
+        checkState(this.propertyCondition.getProperty() == null, "Property has already been initialized");
         checkNotNullArgument(property);
+
         this.propertyCondition.setProperty(property);
+
+        initOperationSelectorActions(operationSelector);
     }
 
     @Override
@@ -216,7 +233,11 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public void setParameterName(String parameterName) {
+        //noinspection ConstantConditions
+        checkState(this.propertyCondition.getParameterName() == null,
+                "Parameter name has already been initialized");
         checkNotNullArgument(parameterName);
+
         this.propertyCondition.setParameterName(parameterName);
     }
 
@@ -252,19 +273,7 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
     @Override
     public PropertyCondition getPropertyCondition() {
-        return propertyCondition;
-    }
-
-    @Override
-    public void setPropertyCondition(PropertyCondition propertyCondition) {
-//        this.propertyCondition.setProperty(propertyCondition.getProperty());
-//        this.propertyCondition.setParameterName(propertyCondition.getParameterName());
-//        this.propertyCondition.setParameterValue(propertyCondition.getParameterValue());
-//        this.propertyCondition.setOperation(propertyCondition.getOperation());
-
-        this.propertyCondition = propertyCondition;
-
-        // TODO: gg, update loader's conditions
+        return propertyCondition.copy();
     }
 
     @Nullable
@@ -289,23 +298,21 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     public void setValueComponent(HasValue<V> valueComponent) {
         checkNotNullArgument(valueComponent);
 
-        boolean wasExpanded = false;
         if (this.valueComponent != null) {
-            wasExpanded = root.isExpanded(this.valueComponent);
             root.remove(this.valueComponent);
         }
 
         this.valueComponent = valueComponent;
         root.add(valueComponent);
 
-        initValueComponent(valueComponent, wasExpanded);
+        initValueComponent(valueComponent);
     }
 
-    protected void initValueComponent(HasValue<V> valueComponent, boolean expanded) {
+    protected void initValueComponent(HasValue<V> valueComponent) {
         valueComponent.addValueChangeListener(this::onValueChanged);
         valueComponent.setAlignment(getChildAlignment());
 
-        if (expanded) {
+        if (getWidth() > 0) {
             root.expand(valueComponent);
         }
     }
@@ -340,16 +347,19 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
         if (this.operationEditable != operationEditable) {
             this.operationEditable = operationEditable;
 
+            removeOperationSelector();
+
             if (operationEditable) {
                 operationSelector = createOperationSelector();
                 root.add(operationSelector, captionPosition == CaptionPosition.TOP ? 0 : 1);
-            } else if (operationSelector != null) {
-                root.remove(operationSelector);
-                operationSelector = null;
             }
+        }
+    }
 
-            // TODO: gg, update caption value
-//            setCaption();
+    protected void removeOperationSelector() {
+        if (operationSelector != null) {
+            root.remove(operationSelector);
+            operationSelector = null;
         }
     }
 
@@ -398,21 +408,6 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
 
         if (captionLabel != null) {
             captionLabel.setWidth(captionWidth);
-        }
-    }
-
-    @Override
-    public boolean isOperationCaptionVisible() {
-        return operationCaptionVisible;
-    }
-
-    @Override
-    public void setOperationCaptionVisible(boolean operationCaptionVisible) {
-        if (this.operationCaptionVisible != operationCaptionVisible) {
-            this.operationCaptionVisible = operationCaptionVisible;
-
-            // TODO: gg, update caption value
-//            setCaption();
         }
     }
 
@@ -505,10 +500,14 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
         if (valueComponent instanceof Focusable) {
             ((Focusable) valueComponent).setTabIndex(tabIndex);
         }
+
+        if (operationSelector != null) {
+            operationSelector.setTabIndex(tabIndex);
+        }
     }
 
     protected void checkValueComponentState() {
-        Preconditions.checkState(valueComponent != null, "Value component isn't set");
+        checkState(valueComponent != null, "Value component isn't set");
     }
 
     protected static class OperationChangeAction extends AbstractAction {
