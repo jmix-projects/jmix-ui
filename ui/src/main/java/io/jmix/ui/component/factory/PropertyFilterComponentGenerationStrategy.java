@@ -23,11 +23,9 @@ import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.Actions;
 import io.jmix.ui.UiComponents;
-import io.jmix.ui.action.Action;
 import io.jmix.ui.action.entitypicker.EntityClearAction;
 import io.jmix.ui.action.entitypicker.LookupAction;
 import io.jmix.ui.component.*;
-import io.jmix.ui.component.data.options.ListOptions;
 import io.jmix.ui.component.impl.EntityFieldCreationSupport;
 import io.jmix.ui.icon.Icons;
 import io.jmix.ui.screen.OpenMode;
@@ -35,7 +33,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 
 import javax.annotation.Nullable;
-import java.util.List;
 
 /**
  * A {@link ComponentGenerationStrategy} used by {@link PropertyFilter} UI component

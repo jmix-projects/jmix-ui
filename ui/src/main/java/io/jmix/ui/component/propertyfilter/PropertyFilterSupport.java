@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import io.jmix.core.MessageTools;
 import io.jmix.core.Messages;
 import io.jmix.core.MetadataTools;
+import io.jmix.core.annotation.Internal;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaProperty;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
@@ -41,6 +42,7 @@ import java.util.UUID;
 
 import static io.jmix.ui.component.PropertyFilter.Operation.*;
 
+@Internal
 @Component("ui_PropertyFilterSupport")
 public class PropertyFilterSupport {
 
@@ -118,22 +120,22 @@ public class PropertyFilterSupport {
         Range mppRange = mpp.getRange();
 
         if (mppRange.isClass() || mppRange.isEnum()) {
-            return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
+            return EnumSet.of(EQUAL, NOT_EQUAL, IS_SET); // TODO: add IN, NOT_IN,
         } else if (mppRange.isDatatype()) {
             Class<?> type = mppRange.asDatatype().getJavaClass();
 
             if (String.class.equals(type)) {
-                return EnumSet.of(EQUAL, NOT_EQUAL, CONTAINS, NOT_CONTAINS, IS_NOT_NULL, STARTS_WITH, ENDS_WITH); // TODO: add IN, NOT_IN,
+                return EnumSet.of(EQUAL, NOT_EQUAL, CONTAINS, NOT_CONTAINS, IS_SET, STARTS_WITH, ENDS_WITH); // TODO: add IN, NOT_IN,
             } else if (dateTimeClasses.contains(type)) {
-                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL);  // TODO: add IN, NOT_IN, DATE_INTERVAL
+                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_SET);  // TODO: add IN, NOT_IN, DATE_INTERVAL
             } else if (timeClasses.contains(type)) {
-                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL); // TODO: add DATE_INTERVAL
+                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_SET); // TODO: add DATE_INTERVAL
             } else if (Number.class.isAssignableFrom(type)) {
-                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
+                return EnumSet.of(EQUAL, NOT_EQUAL, GREATER, GREATER_OR_EQUAL, LESS, LESS_OR_EQUAL, IS_SET); // TODO: add IN, NOT_IN,
             } else if (Boolean.class.equals(type)) {
-                return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL);
+                return EnumSet.of(EQUAL, NOT_EQUAL, IS_SET);
             } else if (UUID.class.equals(type)) {
-                return EnumSet.of(EQUAL, NOT_EQUAL, IS_NOT_NULL); // TODO: add IN, NOT_IN,
+                return EnumSet.of(EQUAL, NOT_EQUAL, IS_SET); // TODO: add IN, NOT_IN,
             }
 
         }
@@ -172,14 +174,14 @@ public class PropertyFilterSupport {
                 return PropertyCondition.Operation.CONTAINS;
             case NOT_CONTAINS:
                 return PropertyCondition.Operation.NOT_CONTAINS;
-            case IS_NULL:
-                return PropertyCondition.Operation.IS_NULL;
-            case IS_NOT_NULL:
-                return PropertyCondition.Operation.IS_NOT_NULL;
             case STARTS_WITH:
                 return PropertyCondition.Operation.STARTS_WITH;
             case ENDS_WITH:
                 return PropertyCondition.Operation.ENDS_WITH;
+            case IS_SET:
+                return PropertyCondition.Operation.IS_NOT_NULL;
+            case IS_NOT_SET:
+                return PropertyCondition.Operation.IS_NULL;
             default:
                 throw new IllegalArgumentException("Unknown operation: " + operation);
         }

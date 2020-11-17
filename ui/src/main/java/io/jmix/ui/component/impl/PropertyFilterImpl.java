@@ -213,6 +213,10 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
             operationSelector.setCaption(getOperationCaption(operation));
         }
 
+        if (this.valueComponent != null) {
+            this.valueComponent.setValue(null);
+        }
+
         if (this.operation == null
                 || this.operation.getType() != operation.getType()) {
             //noinspection ConstantConditions

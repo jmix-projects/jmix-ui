@@ -4230,8 +4230,8 @@
             <xs:enumeration value="NOT_CONTAINS"/>
             <xs:enumeration value="STARTS_WITH"/>
             <xs:enumeration value="ENDS_WITH"/>
-            <xs:enumeration value="IS_NULL"/>
-            <xs:enumeration value="IS_NOT_NULL"/>
+            <xs:enumeration value="IS_SET"/>
+            <xs:enumeration value="IS_NOT_SET"/>
         </xs:restriction>
     </xs:simpleType>
 
