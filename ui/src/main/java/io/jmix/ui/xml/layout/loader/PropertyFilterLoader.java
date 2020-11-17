@@ -15,17 +15,16 @@
  */
 package io.jmix.ui.xml.layout.loader;
 
-import com.google.common.base.Strings;
-import io.jmix.core.DevelopmentException;
-import io.jmix.core.MetadataTools;
 import io.jmix.core.metamodel.model.MetaClass;
-import io.jmix.core.metamodel.model.MetaProperty;
-import io.jmix.core.metamodel.model.MetaPropertyPath;
 import io.jmix.ui.GuiDevelopmentException;
 import io.jmix.ui.UiProperties;
-import io.jmix.ui.component.*;
+import io.jmix.ui.component.Component;
+import io.jmix.ui.component.HasValue;
+import io.jmix.ui.component.PropertyFilter;
+import io.jmix.ui.component.PropertyFilter.Operation;
 import io.jmix.ui.component.SupportsCaptionPosition.CaptionPosition;
-import io.jmix.ui.component.factory.PropertyFilterComponentGenerationContext;
+import io.jmix.ui.component.UiComponentsGenerator;
+import io.jmix.ui.component.propertyfilter.PropertyFilterSupport;
 import io.jmix.ui.model.DataLoader;
 import io.jmix.ui.model.ScreenData;
 import io.jmix.ui.screen.FrameOwner;
@@ -37,8 +36,6 @@ import org.dom4j.Element;
 import static io.jmix.core.querycondition.PropertyConditionUtils.generateParameterName;
 
 public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter> {
-
-    public static final String OPERATION_BASE_MESSAGE_KEY = "io.jmix.core.querycondition/propertyfilter.";
 
     @Override
     public void createComponent() {
@@ -63,25 +60,21 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
         loadCss(resultComponent, element);
 
         loadString(element, "property", resultComponent::setProperty);
-        loadString(element, "operation", resultComponent::setOperation);
+        loadEnum(element, Operation.class, "operation", resultComponent::setOperation);
 
         resultComponent.setParameterName(loadString(element, "parameterName")
                 .orElse(generateParameterName(resultComponent.getPropertyCondition())));
 
-        loadEnum(element, CaptionPosition.class, "captionPosition",
-                resultComponent::setCaptionPosition);
+        loadEnum(element, CaptionPosition.class, "captionPosition", resultComponent::setCaptionPosition);
         loadString(element, "captionWidth", resultComponent::setCaptionWidth);
-
-        // TODO: gg, is it really can be thrown?
-        if (Strings.isNullOrEmpty(resultComponent.getId()) &&
-                Strings.isNullOrEmpty(resultComponent.getParameterName())) {
-            throw new DevelopmentException("Either id or parameterName should be defined for propertyFilter");
-        }
 
         loadDataLoader(resultComponent, element);
         loadValueComponent(resultComponent, element);
 
+        loadBoolean(element, "operationCaptionVisible", resultComponent::setOperationCaptionVisible);
         loadCaption(resultComponent, element);
+
+        loadBoolean(element, "operationEditable", resultComponent::setOperationEditable);
 
         resultComponent.setAutoApply(loadBoolean(element, "autoApply")
                 .orElse(getUiProperties().isPropertyFilterAutoApply()));
@@ -108,45 +101,8 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
         }
     }
 
-    /**
-     * Default caption consist of the related entity property caption and the operation caption (if the operation
-     * caption is configured to be visible), e.g. "Last name contains".
-     */
     protected String getDefaultCaption() {
-        MetaClass metaClass = resultComponent.getDataLoader().getContainer().getEntityMetaClass();
-        MetaPropertyPath mpp = metaClass.getPropertyPath(resultComponent.getProperty());
-        if (mpp == null) {
-            return resultComponent.getProperty();
-        } else {
-            MetaProperty[] metaProperties = mpp.getMetaProperties();
-            StringBuilder sb = new StringBuilder();
-
-            MetaPropertyPath parentMpp = null;
-            MetaClass tempMetaClass;
-
-            for (int i = 0; i < metaProperties.length; i++) {
-                if (i == 0) {
-                    parentMpp = new MetaPropertyPath(metaClass, metaProperties[i]);
-                    tempMetaClass = metaClass;
-                } else {
-                    parentMpp = new MetaPropertyPath(parentMpp, metaProperties[i]);
-                    tempMetaClass = getMetadataTools().getPropertyEnclosingMetaClass(parentMpp);
-                }
-
-                sb.append(getMessageTools().getPropertyCaption(tempMetaClass, metaProperties[i].getName()));
-                if (i < metaProperties.length - 1) {
-                    sb.append(".");
-                }
-            }
-            if (isOperationCaptionVisible()) {
-                sb.append(" ").append(getOperationCaption(resultComponent.getOperation()));
-            }
-            return sb.toString();
-        }
-    }
-
-    protected String getOperationCaption(String operation) {
-        return getMessages().getMessage(OPERATION_BASE_MESSAGE_KEY + operation);
+        return getPropertyFilterSupport().getDefaultCaption(resultComponent);
     }
 
     protected void loadValueComponent(PropertyFilter<?> resultComponent, Element element) {
@@ -159,12 +115,9 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
             valueComponentLoader.loadComponent();
             valueComponent = valueComponentLoader.getResultComponent();
         } else {
-            ComponentGenerationContext context = new PropertyFilterComponentGenerationContext(
-                    resultComponent.getDataLoader().getContainer().getEntityMetaClass(),
-                    resultComponent.getPropertyCondition());
-            context.setTargetClass(PropertyFilter.class);
-
-            valueComponent = getUiComponentsGenerator().generate(context);
+            MetaClass metaClass = resultComponent.getDataLoader().getContainer().getEntityMetaClass();
+            valueComponent = getPropertyFilterSupport()
+                    .generateValueField(metaClass, resultComponent.getProperty(), resultComponent.getOperation());
         }
 
         if (!(valueComponent instanceof HasValue)) {
@@ -179,15 +132,11 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
         return (UiComponentsGenerator) applicationContext.getBean(UiComponentsGenerator.NAME);
     }
 
-    protected MetadataTools getMetadataTools() {
-        return applicationContext.getBean(MetadataTools.class);
+    protected PropertyFilterSupport getPropertyFilterSupport() {
+        return applicationContext.getBean(PropertyFilterSupport.class);
     }
 
     protected UiProperties getUiProperties() {
         return applicationContext.getBean(UiProperties.class);
-    }
-
-    protected boolean isOperationCaptionVisible() {
-        return loadBoolean(element, "operationCaptionVisible").orElse(true);
     }
 }

@@ -47,11 +47,10 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
 
     /**
      * @return a filtering operation
-     * @see PropertyCondition.Operation
      */
-    String getOperation();
+    Operation getOperation();
 
-    void setOperation(String operation);
+    void setOperation(Operation operation);
 
     /**
      * @return the name of the associated query parameter name
@@ -64,6 +63,10 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
 
     void setValueComponent(HasValue<V> valueComponent);
 
+    boolean isOperationEditable();
+
+    void setOperationEditable(boolean operationEditable);
+
     float getCaptionWidth();
 
     SizeUnit getCaptionWidthSizeUnit();
@@ -71,10 +74,18 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     void setCaptionWidth(String captionWidth);
 
     /**
+     * @return true if the operation label is visible
+     */
+    boolean isOperationCaptionVisible();
+
+    void setOperationCaptionVisible(boolean operationCaptionVisible);
+
+    /**
      * @return associated {@link PropertyCondition} object.
      */
     PropertyCondition getPropertyCondition();
 
+    // TODO: gg, remove
     void setPropertyCondition(PropertyCondition propertyCondition);
 
     /**
@@ -84,4 +95,40 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     boolean isAutoApply();
 
     void setAutoApply(boolean autoApply);
+
+
+    enum Operation {
+        EQUAL(Type.VALUE),
+        NOT_EQUAL(Type.VALUE),
+        GREATER(Type.VALUE),
+        GREATER_OR_EQUAL(Type.VALUE),
+        LESS(Type.VALUE),
+        LESS_OR_EQUAL(Type.VALUE),
+        CONTAINS(Type.VALUE),
+        NOT_CONTAINS(Type.VALUE),
+        STARTS_WITH(Type.VALUE),
+        ENDS_WITH(Type.VALUE),
+        IS_NULL(Type.UNARY),
+        IS_NOT_NULL(Type.UNARY),
+//        IN_LIST(Type.LIST),
+//        NOT_IN_LIST(Type.LIST),
+//        DATE_INTERVAL(?),
+        ;
+
+        private final Type type;
+
+        Operation(Type type) {
+            this.type = type;
+        }
+
+        public Type getType() {
+            return type;
+        }
+
+        public enum Type {
+            VALUE,
+            UNARY,
+            LIST
+        }
+    }
 }

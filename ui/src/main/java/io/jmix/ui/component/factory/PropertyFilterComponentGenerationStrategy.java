@@ -16,6 +16,7 @@
 
 package io.jmix.ui.component.factory;
 
+import com.google.common.collect.ImmutableMap;
 import io.jmix.core.JmixOrder;
 import io.jmix.core.Messages;
 import io.jmix.core.Metadata;
@@ -23,7 +24,6 @@ import io.jmix.core.MetadataTools;
 import io.jmix.core.metamodel.datatype.Enumeration;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
-import io.jmix.core.querycondition.PropertyCondition;
 import io.jmix.ui.Actions;
 import io.jmix.ui.UiComponents;
 import io.jmix.ui.component.*;
@@ -32,8 +32,7 @@ import io.jmix.ui.icon.Icons;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import javax.annotation.Nullable;
 
 /**
  * A {@link ComponentGenerationStrategy} used by {@link PropertyFilter} UI component
@@ -52,55 +51,58 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         super(messages, uiComponents, entityFieldCreationSupport, metadata, metadataTools, icons, actions);
     }
 
-    @Autowired
-    public void setUiComponents(UiComponents uiComponents) {
-        this.uiComponents = uiComponents;
-    }
-
     @Override
     public Component createComponent(ComponentGenerationContext context) {
-        if (!PropertyFilter.class.equals(context.getTargetClass())) return null;
+        if (context.getTargetClass() == null
+                || !PropertyFilter.class.isAssignableFrom(context.getTargetClass())
+                || !(context instanceof PropertyFilterComponentGenerationContext)) {
+            return null;
+        }
+
         return createComponentInternal(context);
+    }
+
+    @Nullable
+    @Override
+    protected Component createComponentInternal(ComponentGenerationContext context) {
+        PropertyFilterComponentGenerationContext pfContext = (PropertyFilterComponentGenerationContext) context;
+        if (pfContext.getOperation().getType() == PropertyFilter.Operation.Type.UNARY) {
+            return createUnaryField(context);
+        }
+
+        return super.createComponentInternal(context);
     }
 
     @Override
     protected Field createBooleanField(ComponentGenerationContext context) {
-        ComboBox<Boolean> component = uiComponents.create(ComboBox.class);
-        setValueSource(component, context);
-        Map<String, Boolean> optionsMap = new LinkedHashMap<>();
-        optionsMap.put(messages.getMessage("io.jmix.ui.component/propertyfilter.boolean.true"), Boolean.TRUE);
-        optionsMap.put(messages.getMessage("io.jmix.ui.component/propertyfilter.boolean.false"), Boolean.FALSE);
-        component.setOptionsMap(optionsMap);
-        return component;
+        return createUnaryField(context);
     }
 
-    @Override
-    protected Component createEntityField(ComponentGenerationContext context, MetaPropertyPath mpp) {
-        if (context instanceof PropertyFilterComponentGenerationContext) {
-            PropertyCondition propertyCondition = ((PropertyFilterComponentGenerationContext) context).getPropertyCondition();
-            if (PropertyCondition.Operation.IS_NULL.equals(propertyCondition.getOperation()) ||
-                    PropertyCondition.Operation.IS_NOT_NULL.equals(propertyCondition.getOperation())) {
-                ComboBox<Boolean> component = uiComponents.create(ComboBox.class);
-                setValueSource(component, context);
-                Map<String, Boolean> optionsMap = new LinkedHashMap<>();
-                optionsMap.put(messages.getMessage("io.jmix.ui.component/propertyfilter.boolean.true"), Boolean.TRUE);
-                component.setOptionsMap(optionsMap);
-                return component;
-            }
-        }
-        return super.createEntityField(context, mpp);
+    protected Field createUnaryField(ComponentGenerationContext context) {
+        ComboBox<Boolean> component = uiComponents.create(ComboBox.of(Boolean.class));
+        component.setTextInputAllowed(false);
+
+        component.setOptionsMap(ImmutableMap.of(
+                messages.getMessage("boolean.yes"), Boolean.TRUE,
+                messages.getMessage("boolean.no"), Boolean.FALSE
+        ));
+
+        return component;
     }
 
     @Override
     protected Field createEnumField(ComponentGenerationContext context) {
         MetaClass metaClass = context.getMetaClass();
-        MetaPropertyPath mpp = metaClass.getPropertyPath(context.getProperty());
+        MetaPropertyPath mpp = resolveMetaPropertyPath(metaClass, context.getProperty());
         if (mpp == null) {
-            throw new RuntimeException(String.format("Meta properties path not found: %s.%s", metaClass.getName(), context.getProperty()));
+            throw new RuntimeException(String.format("Meta properties path not found: %s.%s",
+                    metaClass.getName(), context.getProperty()));
         }
-        Enumeration enumeration = mpp.getRange().asEnumeration();
-        ComboBox component = uiComponents.create(ComboBox.class);
+
+        Enumeration<?> enumeration = mpp.getRange().asEnumeration();
+        ComboBox<?> component = uiComponents.create(ComboBox.class);
         component.setOptionsEnum(enumeration.getJavaClass());
+
         return component;
     }
 
