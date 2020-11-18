@@ -143,7 +143,9 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
                 operationSelector.addAction(action);
             }
 
-            operationSelector.setCaption(getOperationCaption(getOperation()));
+            if (operation != null) {
+                operationSelector.setCaption(getOperationCaption(operation));
+            }
         }
     }
 
