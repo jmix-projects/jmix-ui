@@ -429,11 +429,13 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
     public void setWidth(@Nullable String width) {
         super.setWidth(width);
 
-        if (Component.AUTO_SIZE.equals(width) || width == null) {
-            root.resetExpanded();
-            valueComponent.setWidthAuto();
-        } else {
-            root.expand(valueComponent);
+        if (valueComponent != null) {
+            if (Component.AUTO_SIZE.equals(width) || width == null) {
+                root.resetExpanded();
+                valueComponent.setWidthAuto();
+            } else {
+                root.expand(valueComponent);
+            }
         }
     }
 
