@@ -16,7 +16,6 @@
 
 package io.jmix.ui.component;
 
-import io.jmix.core.querycondition.PropertyCondition;
 import io.jmix.ui.model.DataLoader;
 
 /**
