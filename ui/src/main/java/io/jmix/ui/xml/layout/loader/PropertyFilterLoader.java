@@ -64,7 +64,7 @@ public class PropertyFilterLoader extends AbstractComponentLoader<PropertyFilter
         loadBoolean(element, "operationEditable", resultComponent::setOperationEditable);
 
         resultComponent.setParameterName(loadString(element, "parameterName")
-                .orElse(generateParameterName(resultComponent.getPropertyCondition())));
+                .orElse(generateParameterName(resultComponent.getProperty())));
 
         loadEnum(element, CaptionPosition.class, "captionPosition", resultComponent::setCaptionPosition);
         loadString(element, "captionWidth", resultComponent::setCaptionWidth);

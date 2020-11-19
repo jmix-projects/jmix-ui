@@ -49,7 +49,8 @@ public class PropertyFilterSupport {
     protected static final List<Class<?>> dateTimeClasses = ImmutableList.of(
             Date.class, java.sql.Date.class, LocalDate.class, LocalDateTime.class, OffsetDateTime.class);
 
-    protected static final List<Class<?>> timeClasses = ImmutableList.of(LocalTime.class, OffsetTime.class);
+    protected static final List<Class<?>> timeClasses = ImmutableList.of(
+            java.sql.Time.class, LocalTime.class, OffsetTime.class);
 
     protected Messages messages;
     protected MessageTools messageTools;

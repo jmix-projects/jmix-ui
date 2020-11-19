@@ -277,9 +277,8 @@ public class PropertyFilterImpl<V> extends CompositeComponent<HBoxLayout> implem
                 : Alignment.TOP_LEFT;
     }
 
-    @Override
     public PropertyCondition getPropertyCondition() {
-        return propertyCondition.copy();
+        return propertyCondition;
     }
 
     @Nullable

@@ -121,11 +121,6 @@ public interface PropertyFilter<V> extends Component, Component.BelongToFrame, H
     void setCaptionWidth(String captionWidth);
 
     /**
-     * @return associated {@link PropertyCondition} object.
-     */
-    PropertyCondition getPropertyCondition();
-
-    /**
      * @return {@code true} if the filter should be automatically applied to the
      * {@link DataLoader} when the value component value is changed
      */
