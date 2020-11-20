@@ -17,7 +17,11 @@
 package io.jmix.ui.component.factory;
 
 import com.google.common.collect.ImmutableMap;
-import io.jmix.core.*;
+import io.jmix.core.JmixOrder;
+import io.jmix.core.Messages;
+import io.jmix.core.Metadata;
+import io.jmix.core.MetadataTools;
+import io.jmix.core.metamodel.datatype.Datatype;
 import io.jmix.core.metamodel.datatype.Enumeration;
 import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.core.metamodel.model.MetaPropertyPath;
@@ -26,6 +30,7 @@ import io.jmix.ui.UiComponents;
 import io.jmix.ui.action.entitypicker.EntityClearAction;
 import io.jmix.ui.action.entitypicker.LookupAction;
 import io.jmix.ui.component.*;
+import io.jmix.ui.component.data.DataAwareComponentsTools;
 import io.jmix.ui.component.impl.EntityFieldCreationSupport;
 import io.jmix.ui.icon.Icons;
 import io.jmix.ui.screen.OpenMode;
@@ -42,7 +47,7 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
 
     protected static final String UNARY_FIELD_STYLENAME = "unary-field";
 
-    protected DataManager dataManager;
+    protected DataAwareComponentsTools dataAwareComponentsTools;
 
     @Autowired
     public PropertyFilterComponentGenerationStrategy(Messages messages,
@@ -52,9 +57,9 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
                                                      MetadataTools metadataTools,
                                                      Icons icons,
                                                      Actions actions,
-                                                     DataManager dataManager) {
+                                                     DataAwareComponentsTools dataAwareComponentsTools) {
         super(messages, uiComponents, entityFieldCreationSupport, metadata, metadataTools, icons, actions);
-        this.dataManager = dataManager;
+        this.dataAwareComponentsTools = dataAwareComponentsTools;
     }
 
     @Override
@@ -77,6 +82,33 @@ public class PropertyFilterComponentGenerationStrategy extends AbstractComponent
         }
 
         return super.createComponentInternal(context);
+    }
+
+    @Nullable
+    @Override
+    protected Component createDatatypeField(ComponentGenerationContext context, MetaPropertyPath mpp) {
+        Component field = super.createDatatypeField(context, mpp);
+        Datatype datatype = mpp.getRange().asDatatype();
+
+        if (field instanceof HasDatatype) {
+            ((HasDatatype<?>) field).setDatatype(datatype);
+        }
+
+        return field;
+    }
+
+    @SuppressWarnings("rawtypes")
+    @Override
+    protected Component createDateField(ComponentGenerationContext context) {
+        DateField dateField = (DateField) super.createDateField(context);
+
+        MetaClass metaClass = context.getMetaClass();
+        MetaPropertyPath mpp = resolveMetaPropertyPath(metaClass, context.getProperty());
+        if (mpp != null) {
+            dataAwareComponentsTools.setupDateFormat(dateField, mpp.getMetaProperty());
+        }
+
+        return dateField;
     }
 
     @Override
