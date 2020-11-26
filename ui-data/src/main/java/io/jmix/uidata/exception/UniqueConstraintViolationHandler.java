@@ -33,6 +33,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+/**
+ * Handles database unique constraint violations. Determines the exception type by searching a special marker string
+ * in the messages of all exceptions in the chain.
+ */
 @Component("ui_UniqueConstraintViolationHandler")
 public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ordered {
 
