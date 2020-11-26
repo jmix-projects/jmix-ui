@@ -62,7 +62,10 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
         if (matcher.find()) {
             String constraintName = resolveConstraintName(matcher);
             String message = getMessage(constraintName);
-            context.getNotifications().create(Notifications.NotificationType.ERROR).withDescription(message).show();
+            context.getNotifications()
+                    .create(Notifications.NotificationType.ERROR)
+                    .withDescription(message)
+                    .show();
             return true;
         }
         return false;
