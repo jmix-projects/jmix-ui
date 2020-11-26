@@ -16,16 +16,10 @@
 
 package io.jmix.ui;
 
-import io.jmix.core.Messages;
-import io.jmix.data.persistence.DbmsSpecifics;
 import io.jmix.ui.navigation.UrlHandlingMode;
 import io.jmix.ui.sanitizer.HtmlSanitizer;
 import io.jmix.ui.widget.JmixMainTabSheet;
 import io.jmix.ui.widget.JmixManagedTabSheet;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.ConstructorBinding;
 import org.springframework.boot.context.properties.bind.DefaultValue;
@@ -34,20 +28,10 @@ import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
 @ConfigurationProperties(prefix = "jmix.ui")
 @ConstructorBinding
 public class UiProperties {
-
-    private static final Logger log = LoggerFactory.getLogger(UiProperties.class);
-
-    @Autowired
-    private DbmsSpecifics dbmsSpecifics;
-
-    @Autowired
-    private Messages messages;
 
     boolean testMode;
     boolean performanceTestMode;
@@ -527,28 +511,8 @@ public class UiProperties {
         return propertyFilterAutoApply;
     }
 
-    public Pattern getUniqueConstraintViolationPattern() {
-        String defaultPatternExpression = dbmsSpecifics.getDbmsFeatures().getUniqueConstraintViolationPattern();
-
-        Pattern pattern;
-        if(StringUtils.isBlank(uniqueConstraintViolationPattern)) {
-            pattern = Pattern.compile(defaultPatternExpression);
-        } else {
-            try {
-                pattern = Pattern.compile(uniqueConstraintViolationPattern);
-            } catch (PatternSyntaxException e) {
-                pattern = Pattern.compile(defaultPatternExpression);
-                log.warn(
-                        messages.formatMessage(
-                                "",
-                                "incorrectRegexpProperty",
-                                "jmix.ui.uniqueConstraintViolationPattern",
-                                uniqueConstraintViolationPattern
-                        ),
-                        e
-                );
-            }
-        }
-        return pattern;
+    @Nullable
+    public String getUniqueConstraintViolationPattern() {
+        return uniqueConstraintViolationPattern;
     }
 }
