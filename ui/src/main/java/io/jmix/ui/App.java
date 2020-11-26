@@ -200,6 +200,7 @@ public abstract class App {
         log.debug("Initializing application");
 
         exceptionHandlers = new ExceptionHandlers(this, applicationContext);
+        initExceptionHandlers(true);
         cookies = new AppCookies();
 
         themeConstants = loadTheme();
