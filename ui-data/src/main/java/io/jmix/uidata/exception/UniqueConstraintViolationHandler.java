@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -102,12 +103,8 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
 
     private String getMessage(String constraintName) {
         String messageKey = MESSAGE_PREFIX + constraintName;
-        String message = messages.getMessage(messageKey);
-
-        if (messageKey.equals(message)) {
-            message = getDefaultMessage(constraintName);
-        }
-        return message;
+        return Optional.ofNullable(messages.findMessage(messageKey, null))
+                .orElseGet(() -> getDefaultMessage(constraintName));
     }
 
     private String getDefaultMessage(String constraintName) {
@@ -130,15 +127,8 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
                 pattern = Pattern.compile(patternExpression);
             } catch (PatternSyntaxException e) {
                 pattern = Pattern.compile(defaultPatternExpression);
-                log.warn(
-                        messages.formatMessage(
-                                "",
-                                "incorrectRegexpProperty",
-                                "jmix.ui.uniqueConstraintViolationPattern",
-                                patternExpression
-                        ),
-                        e
-                );
+                log.warn("Incorrect regexp property {}: {}",
+                        "'jmix.ui.uniqueConstraintViolationPattern'", patternExpression, e);
             }
         }
         return pattern;
