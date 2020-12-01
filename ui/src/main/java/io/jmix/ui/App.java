@@ -200,7 +200,7 @@ public abstract class App {
         log.debug("Initializing application");
 
         exceptionHandlers = new ExceptionHandlers(this, applicationContext);
-        initExceptionHandlers(true);
+        initExceptionHandlers(true); //TODO Connection is not created now
         cookies = new AppCookies();
 
         themeConstants = loadTheme();
