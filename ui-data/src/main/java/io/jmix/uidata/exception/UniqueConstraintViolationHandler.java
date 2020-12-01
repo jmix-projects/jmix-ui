@@ -43,17 +43,17 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
 
     private static final Logger log = LoggerFactory.getLogger(UniqueConstraintViolationHandler.class);
 
-    private static final String DEFAULT_MESSAGE_PROPERTY = "uniqueConstraintViolation.message";
-    private static final String MESSAGE_PREFIX = "databaseUniqueConstraintViolation.";
+    protected static final String DEFAULT_MESSAGE_PROPERTY = "uniqueConstraintViolation.message";
+    protected static final String MESSAGE_PREFIX = "databaseUniqueConstraintViolation.";
 
     @Autowired
-    private Messages messages;
+    protected Messages messages;
 
     @Autowired
-    private UiProperties uiProperties;
+    protected UiProperties uiProperties;
 
     @Autowired
-    private DbmsSpecifics dbmsSpecifics;
+    protected DbmsSpecifics dbmsSpecifics;
 
     @Override
     public boolean handle(Throwable exception, UiContext context) {
@@ -120,7 +120,7 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
         String patternExpression = uiProperties.getUniqueConstraintViolationPattern();
 
         Pattern pattern;
-        if(StringUtils.isBlank(patternExpression)) {
+        if (StringUtils.isBlank(patternExpression)) {
             pattern = Pattern.compile(defaultPatternExpression);
         } else {
             try {
