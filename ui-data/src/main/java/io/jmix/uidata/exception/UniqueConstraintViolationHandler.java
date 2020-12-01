@@ -86,7 +86,7 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
         return false;
     }
 
-    private String resolveConstraintName(Matcher matcher) {
+    protected String resolveConstraintName(Matcher matcher) {
         String constraintName = "";
         if (matcher.groupCount() == 1) {
             constraintName = matcher.group(1);
@@ -101,13 +101,13 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
         return constraintName.toUpperCase();
     }
 
-    private String getMessage(String constraintName) {
+    protected String getMessage(String constraintName) {
         String messageKey = MESSAGE_PREFIX + constraintName;
         return Optional.ofNullable(messages.findMessage(messageKey, null))
                 .orElseGet(() -> getDefaultMessage(constraintName));
     }
 
-    private String getDefaultMessage(String constraintName) {
+    protected String getDefaultMessage(String constraintName) {
         String msg = messages.getMessage(DEFAULT_MESSAGE_PROPERTY);
         if (StringUtils.isNotBlank(constraintName)) {
             msg = msg + " (" + constraintName + ")";
@@ -115,7 +115,7 @@ public class UniqueConstraintViolationHandler implements UiExceptionHandler, Ord
         return msg;
     }
 
-    private Pattern getUniqueConstraintViolationPattern() {
+    protected Pattern getUniqueConstraintViolationPattern() {
         String defaultPatternExpression = dbmsSpecifics.getDbmsFeatures().getUniqueConstraintViolationPattern();
         String patternExpression = uiProperties.getUniqueConstraintViolationPattern();
 
