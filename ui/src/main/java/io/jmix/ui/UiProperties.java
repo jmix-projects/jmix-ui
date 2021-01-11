@@ -93,6 +93,7 @@ public class UiProperties {
     int genericFilterPropertiesHierarchyDepth;
     int genericFilterColumnsCount;
     int jmxConsoleMBeanOperationTimeoutSec;
+    boolean systemInfoScriptsEnabled;
     String uniqueConstraintViolationPattern;
 
     public UiProperties(
@@ -156,6 +157,7 @@ public class UiProperties {
             @DefaultValue("2") int genericFilterPropertiesHierarchyDepth,
             @DefaultValue("3") int genericFilterColumnsCount,
             @DefaultValue("600") int jmxConsoleMBeanOperationTimeoutSec,
+            @DefaultValue("true") boolean systemInfoScriptsEnabled,
             @Nullable String uniqueConstraintViolationPattern) {
         this.testMode = testMode;
         this.performanceTestMode = performanceTestMode;
@@ -217,6 +219,7 @@ public class UiProperties {
         this.genericFilterPropertiesHierarchyDepth = genericFilterPropertiesHierarchyDepth;
         this.genericFilterColumnsCount = genericFilterColumnsCount;
         this.jmxConsoleMBeanOperationTimeoutSec = jmxConsoleMBeanOperationTimeoutSec;
+        this.systemInfoScriptsEnabled = systemInfoScriptsEnabled;
         this.uniqueConstraintViolationPattern = uniqueConstraintViolationPattern;
     }
 
@@ -533,6 +536,14 @@ public class UiProperties {
      */
     public int getJmxConsoleMBeanOperationTimeoutSec() {
         return jmxConsoleMBeanOperationTimeoutSec;
+    }
+
+    /**
+     * @return whether the controls to display SQL-scripts for creating / updating / retrieving
+     * an entity instance in the System Information window is visible
+     */
+    public boolean isSystemInfoScriptsEnabled() {
+        return systemInfoScriptsEnabled;
     }
 
     /**

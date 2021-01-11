@@ -16,28 +16,16 @@
 package io.jmix.ui.action;
 
 import io.jmix.core.Messages;
-import io.jmix.core.Metadata;
-import io.jmix.core.common.util.ParamsMap;
-import io.jmix.core.metamodel.model.MetaClass;
 import io.jmix.ui.Screens;
-import io.jmix.ui.WindowConfig;
-import io.jmix.ui.WindowInfo;
+import io.jmix.ui.app.systeminfo.SystemInfoWindow;
 import io.jmix.ui.component.Component;
 import io.jmix.ui.component.ComponentsHelper;
-import io.jmix.ui.component.ListComponent;
-import io.jmix.ui.screen.MapScreenOptions;
-import io.jmix.ui.screen.OpenMode;
-import io.jmix.ui.screen.Screen;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @ActionType(ShowInfoAction.ACTION_ID)
-public class ShowInfoAction extends BaseAction {
+public class ShowInfoAction extends ItemTrackingAction implements Action.ExecutableAction {
 
     public static final String ACTION_ID = "showSystemInfo";
-    public static final String ACTION_PERMISSION = "cuba.gui.showInfo";
-
-    protected Metadata metadata;
-    protected WindowConfig windowConfig;
 
     public ShowInfoAction() {
         super(ACTION_ID);
@@ -48,37 +36,34 @@ public class ShowInfoAction extends BaseAction {
         setCaption(messages.getMessage("table.showInfoAction"));
     }
 
-    @Autowired
-    public void setMetadata(Metadata metadata) {
-        this.metadata = metadata;
-    }
-
-    @Autowired
-    public void setWindowConfig(WindowConfig windowConfig) {
-        this.windowConfig = windowConfig;
-    }
-
     @Override
     public void actionPerform(Component component) {
-        if (component instanceof ListComponent) {
-
-            Object selectedItem = ((ListComponent) component).getSingleSelected();
-            if (selectedItem != null) {
-                showInfo(selectedItem, metadata.getClass(selectedItem), (Component.BelongToFrame) component);
-            }
+        // if standard behaviour
+        if (!hasSubscriptions(ActionPerformedEvent.class)) {
+            execute();
+        } else {
+            super.actionPerform(component);
         }
     }
 
-    public void showInfo(Object entity, MetaClass metaClass, Component.BelongToFrame component) {
+    @Override
+    public void execute() {
+        if (target == null) {
+            throw new IllegalStateException("ShowInfoAction target is not set");
+        }
+
+        Object selectedItem = target.getSingleSelected();
+        if (selectedItem != null) {
+            showInfo(selectedItem, target);
+        }
+    }
+
+    public void showInfo(Object entity, Component.BelongToFrame component) {
         Screens screens = ComponentsHelper.getScreenContext(component)
                 .getScreens();
 
-        // todo sysInfoWindow
-        WindowInfo windowInfo = windowConfig.getWindowInfo("sysInfoWindow");
-
-        Screen screen = screens.create(windowInfo.getId(), OpenMode.DIALOG, new MapScreenOptions(ParamsMap.of(
-                "metaClass", metaClass,
-                "item", entity)));
+        SystemInfoWindow screen = screens.create(SystemInfoWindow.class);
+        screen.setEntity(entity);
 
         screen.show();
     }
