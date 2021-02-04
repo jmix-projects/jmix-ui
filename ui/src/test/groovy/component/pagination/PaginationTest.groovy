@@ -22,6 +22,7 @@ import component.pagination.screen.PaginationTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.core.DataManager
 import io.jmix.data.DataConfiguration
+import io.jmix.dataeclipselink.DataEclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.impl.PaginationImpl
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -34,7 +35,8 @@ import test_support.entity.sales.Customer
 
 import java.util.stream.Collectors
 
-@ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration, UiTestConfiguration])
+@ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
+        DataEclipselinkConfiguration, UiTestConfiguration])
 class PaginationTest extends ScreenSpecification {
 
     @Autowired
