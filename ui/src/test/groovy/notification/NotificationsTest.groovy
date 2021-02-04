@@ -20,7 +20,7 @@ import com.vaadin.shared.Position
 import com.vaadin.ui.Notification
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.Notifications
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.ContentMode
@@ -30,7 +30,7 @@ import test_support.UiTestConfiguration
 
 @SuppressWarnings(["GroovyPointlessBoolean", "GroovyAccessibility"])
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class NotificationsTest extends ScreenSpecification {
 
     def "Notification can be show"() {

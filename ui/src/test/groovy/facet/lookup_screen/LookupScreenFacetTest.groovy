@@ -19,7 +19,7 @@ package facet.lookup_screen
 import facet.lookup_screen.screen.LookupScreenFacetTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.screen.OpenMode
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -28,7 +28,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.sales.Order
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class LookupScreenFacetTest extends ScreenSpecification {
 
     @Override

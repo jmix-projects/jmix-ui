@@ -18,7 +18,7 @@ package entity_fields
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.UiProperties
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,7 +27,7 @@ import spock.lang.Specification
 import test_support.UiTestConfiguration
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class EntityFieldPropertiesTest extends Specification {
 
     @Autowired

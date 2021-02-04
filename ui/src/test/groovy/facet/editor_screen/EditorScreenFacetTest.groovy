@@ -19,7 +19,7 @@ package facet.editor_screen
 import facet.editor_screen.screen.EditorScreenFacetTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.builder.EditMode
 import io.jmix.ui.screen.OpenMode
@@ -29,7 +29,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.sales.Order
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class EditorScreenFacetTest extends ScreenSpecification {
 
     @Override

@@ -20,7 +20,7 @@ import component.responsive_grid_layout.component.TestResponsiveGridLayout
 import component.responsive_grid_layout.screen.ResponsiveGridLayoutTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiComponents
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.TextField
@@ -34,7 +34,7 @@ import test_support.UiTestConfiguration
 import static io.jmix.ui.component.ResponsiveGridLayout.*
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class ResponsiveGridLayoutTest extends ScreenSpecification {
 
     @Autowired

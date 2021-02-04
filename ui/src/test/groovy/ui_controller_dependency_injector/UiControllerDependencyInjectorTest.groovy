@@ -20,7 +20,7 @@ import io.jmix.core.CoreConfiguration
 import io.jmix.core.Messages
 import io.jmix.core.common.util.ParamsMap
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.ScreenBuilders
 import io.jmix.ui.Screens
 import io.jmix.ui.UiConfiguration
@@ -39,7 +39,7 @@ import ui_controller_dependency_injector.screen.AutowireToSettersTestScreen
 import ui_controller_dependency_injector.screen.WindowParamTestScreen
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class UiControllerDependencyInjectorTest extends ScreenSpecification {
 
     @Autowired

@@ -21,7 +21,7 @@ import io.jmix.core.DataManager
 import io.jmix.core.LoadContext
 import io.jmix.core.Sort
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.model.CollectionContainer
 import io.jmix.ui.model.CollectionLoader
@@ -31,7 +31,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.sales.Order
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class SortingTest extends ScreenSpecification {
 
     private CollectionContainer<Order> container

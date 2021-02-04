@@ -21,7 +21,7 @@ import com.vaadin.ui.TabSheet
 import component.work_area.screen.TabbedScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.Window
 import io.jmix.ui.component.impl.TabWindowImpl
@@ -33,7 +33,7 @@ import test_support.UiTestConfiguration
 import javax.annotation.Nonnull
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class TabWindowPropertiesTest extends ScreenSpecification {
 
     @Override

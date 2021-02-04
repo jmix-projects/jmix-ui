@@ -18,7 +18,7 @@ package component.menu
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.mainwindow.SideMenu
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -29,7 +29,7 @@ import test_support.bean.TestSideMenuBuilder
 import test_support.UiTestConfiguration
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class SideMenuBuilderTest extends ScreenSpecification {
 
     @Autowired

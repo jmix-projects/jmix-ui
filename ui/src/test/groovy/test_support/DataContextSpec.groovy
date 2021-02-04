@@ -24,7 +24,7 @@ import io.jmix.core.entity.EntityEntryAuditable
 import io.jmix.core.entity.EntityValues
 import io.jmix.core.impl.StandardSerialization
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import org.eclipse.persistence.internal.queries.EntityFetchGroup
 import org.eclipse.persistence.queries.FetchGroupTracker
@@ -35,7 +35,7 @@ import org.springframework.transaction.support.TransactionTemplate
 import spock.lang.Specification
 
 @ContextConfiguration(
-        classes = [CoreConfiguration, UiConfiguration, DataConfiguration, DataEclipselinkConfiguration,
+        classes = [CoreConfiguration, UiConfiguration, DataConfiguration, EclipselinkConfiguration,
                 UiTestConfiguration],
         initializers = [TestContextInititalizer]
 )

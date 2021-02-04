@@ -19,7 +19,7 @@ package component.tag_field
 import component.tag_field.screen.TagFieldTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.impl.TagFieldImpl
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -29,7 +29,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.sales.OrderLine
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class TagFieldTest extends ScreenSpecification {
 
     @Override

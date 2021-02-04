@@ -22,7 +22,7 @@ import io.jmix.core.Metadata
 import io.jmix.core.pessimisticlocking.LockManager
 import io.jmix.core.pessimisticlocking.LockNotSupported
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.ScreenBuilders
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.screen.EditorScreen
@@ -37,7 +37,7 @@ import test_support.entity.sales.Address
 import test_support.entity.sales.Customer
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class PessimisticLockEditScreenTest extends ScreenSpecification {
 
     @Autowired

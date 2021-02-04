@@ -20,7 +20,7 @@ import io.jmix.core.CoreConfiguration
 import io.jmix.core.DataManager
 import io.jmix.core.entity.KeyValueEntity
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiComponents
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.TextField
@@ -36,7 +36,7 @@ import test_support.entity.sales.Customer
 import test_support.entity.sales.Order
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class KeyValueContainersTest extends ScreenSpecification {
 
     @Autowired

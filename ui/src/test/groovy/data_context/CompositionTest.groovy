@@ -18,7 +18,7 @@ package data_context
 
 import io.jmix.core.*
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.model.CollectionContainer
 import io.jmix.ui.model.DataContext
@@ -33,7 +33,7 @@ import test_support.entity.sales.*
 
 @SuppressWarnings("GroovyAssignabilityCheck")
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class CompositionTest extends ScreenSpecification {
 
     @Autowired

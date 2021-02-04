@@ -19,7 +19,7 @@ package component.data_grid
 import component.data_grid.screen.DataGridAggregationTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.AggregationInfo
 import io.jmix.ui.component.DataGrid
@@ -32,7 +32,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.model_objects.GoodStatisticObject
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class DataGridAggregationTest extends ScreenSpecification {
 
     @Override

@@ -21,7 +21,7 @@ import component_registration.screen.ExtComponentRegistrationScreen
 import component_registration.screen.NewComponentRegistrationScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.impl.ResizableTextAreaImpl
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -31,7 +31,7 @@ import org.springframework.test.context.ContextConfiguration
 import test_support.UiTestConfiguration
 
 @ContextConfiguration(classes = [CoreConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiConfiguration, UiTestConfiguration, ComponentRegistrationTestConfiguration])
+        EclipselinkConfiguration, UiConfiguration, UiTestConfiguration, ComponentRegistrationTestConfiguration])
 class ComponentRegistrationTest extends ScreenSpecification {
 
     @Autowired

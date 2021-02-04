@@ -18,7 +18,7 @@ package model_object_screens
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.RemoveOperation
 import io.jmix.ui.ScreenBuilders
 import io.jmix.ui.UiConfiguration
@@ -34,7 +34,7 @@ import test_support.entity.model_objects.OrderLineObject
 import java.time.LocalDate
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class JmixEntityScreensTest extends ScreenSpecification {
 
     @Autowired

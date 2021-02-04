@@ -19,7 +19,7 @@ package data_components
 import io.jmix.core.CoreConfiguration
 import io.jmix.core.Sort
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.Table
 import io.jmix.ui.component.data.table.ContainerTableItems
@@ -35,7 +35,7 @@ import test_support.entity.sales.Order
 import java.util.function.Consumer
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class CollectionContainerUsageTest extends ScreenSpecification {
 
     private CollectionContainer<Order> container

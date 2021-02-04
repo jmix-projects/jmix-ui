@@ -19,7 +19,7 @@ package data_components
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.model.CollectionContainer
 import io.jmix.ui.model.CollectionPropertyContainer
@@ -33,7 +33,7 @@ import test_support.entity.sales.OrderLine
 import java.util.function.Consumer
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class CollectionPropertyContainerTest extends ScreenSpecification {
 
     private Order order

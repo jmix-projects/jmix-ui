@@ -18,7 +18,7 @@ package navigation
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.navigation.NavigationState
 import io.jmix.ui.navigation.UrlTools
@@ -28,7 +28,7 @@ import org.springframework.test.context.ContextConfiguration
 import test_support.UiTestConfiguration
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class UrlToolsTest extends ScreenSpecification {
 
     @Autowired

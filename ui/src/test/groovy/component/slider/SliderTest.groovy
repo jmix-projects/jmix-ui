@@ -25,7 +25,7 @@ import io.jmix.core.metamodel.datatype.impl.DoubleDatatype
 import io.jmix.core.metamodel.datatype.impl.IntegerDatatype
 import io.jmix.core.metamodel.datatype.impl.LongDatatype
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.Slider
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -34,7 +34,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.sales.Order
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class SliderTest extends ScreenSpecification {
 
     @Override

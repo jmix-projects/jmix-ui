@@ -22,7 +22,7 @@ import io.jmix.core.DataManager
 import io.jmix.core.LoadContext
 import io.jmix.core.common.util.Dom4j
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.menu.MenuItem
 import io.jmix.ui.menu.MenuItemCommands
@@ -35,7 +35,7 @@ import test_support.entity.sales.Order
 import test_support.entity.sales.screen.OrderEdit
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class MenuItemCommandsTest extends ScreenSpecification {
 
     @Autowired

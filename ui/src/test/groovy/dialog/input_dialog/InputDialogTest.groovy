@@ -21,7 +21,7 @@ import io.jmix.core.CoreConfiguration
 import io.jmix.core.metamodel.datatype.DatatypeRegistry
 import io.jmix.core.metamodel.datatype.impl.*
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.action.DialogAction
 import io.jmix.ui.app.inputdialog.DialogActions
@@ -38,7 +38,7 @@ import test_support.entity.model_objects.GoodInfoObject
 import test_support.entity.sales.Status
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class InputDialogTest extends ScreenSpecification {
 
     @Override

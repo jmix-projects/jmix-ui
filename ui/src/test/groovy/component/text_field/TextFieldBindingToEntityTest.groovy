@@ -18,7 +18,7 @@ package component.text_field
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.TextField
 import io.jmix.ui.component.data.value.ContainerValueSource
@@ -32,7 +32,7 @@ import test_support.entity.sales.OrderLine
 import test_support.entity.sales.Status
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class TextFieldBindingToEntityTest extends ScreenSpecification {
 
     private InstanceContainer<Customer> customerDc

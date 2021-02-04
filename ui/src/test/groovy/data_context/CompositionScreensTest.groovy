@@ -20,7 +20,7 @@ import data_context.screen.OrderScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.core.DataManager
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.screen.UiControllerUtils
 import io.jmix.ui.testassist.spec.ScreenSpecification
@@ -34,7 +34,7 @@ import test_support.entity.sales.OrderLineParam
 
 @SuppressWarnings("GroovyAssignabilityCheck")
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class CompositionScreensTest extends ScreenSpecification {
 
     @Autowired

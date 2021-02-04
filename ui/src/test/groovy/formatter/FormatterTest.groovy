@@ -23,7 +23,7 @@ import io.jmix.core.metamodel.datatype.DatatypeRegistry
 import io.jmix.core.metamodel.datatype.FormatStringsRegistry
 import io.jmix.core.security.CurrentAuthentication
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.Label
 import io.jmix.ui.component.formatter.DateFormatter
@@ -37,7 +37,7 @@ import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class FormatterTest extends ScreenSpecification {
 
     @Autowired

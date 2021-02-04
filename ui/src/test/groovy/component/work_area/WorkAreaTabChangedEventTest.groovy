@@ -18,7 +18,7 @@ package component.work_area
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.screen.FrameOwner
 import io.jmix.ui.screen.OpenMode
@@ -29,7 +29,7 @@ import test_support.UiTestConfiguration
 import test_support.bean.TestWebBean
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class WorkAreaTabChangedEventTest extends ScreenSpecification {
 
     @Autowired

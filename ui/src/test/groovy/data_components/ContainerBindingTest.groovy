@@ -18,7 +18,7 @@ package data_components
 
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.Table
 import io.jmix.ui.component.TextField
@@ -32,7 +32,7 @@ import test_support.UiTestConfiguration
 import test_support.entity.sales.Order
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class ContainerBindingTest extends ScreenSpecification {
 
     def "fields with one instance container"() {

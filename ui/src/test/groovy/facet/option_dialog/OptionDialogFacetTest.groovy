@@ -19,7 +19,7 @@ package facet.option_dialog
 import facet.option_dialog.screen.OptionDialogFacetTestScreen
 import io.jmix.core.CoreConfiguration
 import io.jmix.data.DataConfiguration
-import io.jmix.dataeclipselink.DataEclipselinkConfiguration
+import io.jmix.eclipselink.EclipselinkConfiguration
 import io.jmix.ui.GuiDevelopmentException
 import io.jmix.ui.UiConfiguration
 import io.jmix.ui.component.ContentMode
@@ -31,7 +31,7 @@ import org.springframework.test.context.ContextConfiguration
 import test_support.UiTestConfiguration
 
 @ContextConfiguration(classes = [CoreConfiguration, UiConfiguration, DataConfiguration,
-        DataEclipselinkConfiguration, UiTestConfiguration])
+        EclipselinkConfiguration, UiTestConfiguration])
 class OptionDialogFacetTest extends ScreenSpecification {
 
     @Override
