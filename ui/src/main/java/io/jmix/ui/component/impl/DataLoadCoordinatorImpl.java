@@ -144,9 +144,9 @@ public class DataLoadCoordinatorImpl extends AbstractFacet implements DataLoadCo
                 addOnComponentValueChangedLoadTrigger(loader, component, parameter, likeClause);
             }
         }
-        // if the loader has no parameters in query, add trigger on BeforeShowEvent/AttachEvent
+        // if the loader has no parameters in query, add trigger on AfterInitEvent/AttachEvent
         if (queryParameters.isEmpty()) {
-            Class eventClass = frameOwner instanceof Screen ? Screen.BeforeShowEvent.class : ScreenFragment.AttachEvent.class;
+            Class eventClass = frameOwner instanceof Screen ? Screen.AfterInitEvent.class : ScreenFragment.AttachEvent.class;
             addOnFrameOwnerEventLoadTrigger(loader, eventClass);
         }
     }

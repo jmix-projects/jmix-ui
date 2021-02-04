@@ -22,6 +22,7 @@ import io.jmix.ui.component.Facet;
 import io.jmix.ui.component.TabSheet;
 import io.jmix.ui.component.Window;
 import io.jmix.ui.screen.Screen.AfterDetachEvent;
+import io.jmix.ui.screen.Screen.AfterInitEvent;
 import io.jmix.ui.screen.Screen.AfterShowEvent;
 import io.jmix.ui.screen.Screen.BeforeShowEvent;
 import io.jmix.uidata.settings.ScreenSettings;
@@ -83,7 +84,7 @@ public interface ScreenSettingsFacet extends Facet {
     ScreenSettings getSettings();
 
     /**
-     * Applies screen settings. By default facet applies setting on {@link AfterShowEvent}.
+     * Applies screen settings. By default facet applies setting on {@link BeforeShowEvent}.
      *
      * @param settings screen settings
      */
@@ -99,7 +100,7 @@ public interface ScreenSettingsFacet extends Facet {
     void applySettings(Collection<Component> components, ScreenSettings settings);
 
     /**
-     * Applies data loading settings. By default facet applies data loading settings on {@link BeforeShowEvent}.
+     * Applies data loading settings. By default facet applies data loading settings on {@link AfterInitEvent}.
      *
      * @param settings screen settings
      */

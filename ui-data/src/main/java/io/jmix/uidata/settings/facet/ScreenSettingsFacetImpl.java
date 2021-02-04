@@ -23,7 +23,7 @@ import io.jmix.ui.component.Frame;
 import io.jmix.ui.component.impl.AbstractFacet;
 import io.jmix.ui.screen.Screen;
 import io.jmix.ui.screen.Screen.AfterDetachEvent;
-import io.jmix.ui.screen.Screen.AfterShowEvent;
+import io.jmix.ui.screen.Screen.AfterInitEvent;
 import io.jmix.ui.screen.Screen.BeforeShowEvent;
 import io.jmix.ui.screen.UiControllerUtils;
 import io.jmix.uidata.settings.ScreenSettings;
@@ -197,8 +197,8 @@ public class ScreenSettingsFacetImpl extends AbstractFacet implements ScreenSett
 
         EventHub screenEvents = UiControllerUtils.getEventHub(frame.getFrameOwner());
 
+        screenEvents.subscribe(AfterInitEvent.class, this::onScreenAfterInit);
         screenEvents.subscribe(BeforeShowEvent.class, this::onScreenBeforeShow);
-        screenEvents.subscribe(AfterShowEvent.class, this::onScreenAfterShow);
         screenEvents.subscribe(AfterDetachEvent.class, this::onScreenAfterDetach);
     }
 
@@ -207,7 +207,7 @@ public class ScreenSettingsFacetImpl extends AbstractFacet implements ScreenSett
         return getOwner() == null ? null : (Screen) getOwner().getFrameOwner();
     }
 
-    protected void onScreenBeforeShow(BeforeShowEvent event) {
+    protected void onScreenAfterInit(AfterInitEvent event) {
         if (applyDataLoadingSettingsDelegate != null) {
             applyDataLoadingSettingsDelegate.accept(new SettingsContext(
                     getScreenOwner().getWindow(),
@@ -218,7 +218,7 @@ public class ScreenSettingsFacetImpl extends AbstractFacet implements ScreenSett
         }
     }
 
-    protected void onScreenAfterShow(AfterShowEvent event) {
+    protected void onScreenBeforeShow(BeforeShowEvent event) {
         if (applySettingsDelegate != null) {
             applySettingsDelegate.accept(new SettingsContext(
                     getScreenOwner().getWindow(),
