@@ -21,7 +21,6 @@ import io.jmix.core.DevelopmentException;
 import io.jmix.ui.WindowParam;
 import io.jmix.ui.action.Action;
 import io.jmix.ui.component.Component;
-import io.jmix.ui.component.Component.HasXmlDescriptor;
 import io.jmix.ui.component.ComponentsHelper;
 import io.jmix.ui.component.Facet;
 import io.jmix.ui.component.Fragment;
@@ -697,16 +696,6 @@ public class UiControllerDependencyInjector {
         Class<? extends FrameOwner> screenClass = frameOwner.getClass();
         String packageName = UiControllerUtils.getPackage(screenClass);
         messageBundle.setMessagesPack(packageName);
-
-        if (frame instanceof HasXmlDescriptor) {
-            Element xmlDescriptor = ((HasXmlDescriptor) frame).getXmlDescriptor();
-            if (xmlDescriptor != null) {
-                String messagePack = xmlDescriptor.attributeValue("messagesPack");
-                if (messagePack != null) {
-                    messageBundle.setMessagesPack(messagePack);
-                }
-            }
-        }
 
         return messageBundle;
     }

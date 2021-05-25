@@ -310,18 +310,18 @@ public class ScreensImpl implements Screens {
     protected <T extends Screen> void loadWindowFromXml(Element element, WindowInfo windowInfo, Window window, T controller,
                                                         ComponentLoaderContext componentLoaderContext) {
         if (windowInfo.getTemplate() != null) {
-            String messagesPack = element.attributeValue("messagesPack");
-            if (messagesPack != null) {
-                componentLoaderContext.setMessagesPack(messagesPack);
-            } else {
-                componentLoaderContext.setMessagesPack(getMessagePack(windowInfo.getTemplate()));
-            }
+            findMessagePack(element, windowInfo.getTemplate(), componentLoaderContext);
         }
 
         LayoutLoader layoutLoader = applicationContext.getBean(LayoutLoader.class, componentLoaderContext);
         ComponentLoader<Window> windowLoader = layoutLoader.createWindowContent(window, element);
 
         windowLoader.loadComponent();
+    }
+
+    protected void findMessagePack(Element element, String descriptorPath,
+                                   ComponentLoaderContext componentLoaderContext) {
+        componentLoaderContext.setMessagesPack(getMessagePack(descriptorPath));
     }
 
     protected String getMessagePack(String descriptorPath) {

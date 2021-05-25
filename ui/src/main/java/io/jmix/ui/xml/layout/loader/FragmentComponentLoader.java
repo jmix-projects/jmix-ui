@@ -105,10 +105,7 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
             Element rootElement = screenXmlLoader.load(windowInfo.getTemplate(), windowInfo.getId(),
                     getComponentContext().getParams());
 
-            String messagesPack = rootElement.attributeValue("messagesPack");
-            if (messagesPack != null) {
-                innerContext.setMessagesPack(messagesPack);
-            }
+            loadAdditionalData(rootElement);
 
             this.fragmentLoader = layoutLoader.createFragmentContent(fragment, rootElement);
         }
@@ -116,6 +113,10 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
         createSample.stop(createScreenTimer(getMeterRegistry(), ScreenLifeCycle.CREATE, windowInfo.getId()));
 
         this.resultComponent = fragment;
+    }
+
+    protected void loadAdditionalData(Element rootElement) {
+        // do nothing
     }
 
     protected Fragment createComponentInternal() {
