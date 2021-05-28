@@ -24,15 +24,15 @@ import io.jmix.core.Messages;
 public interface MessageBundle {
 
     /**
-     * Sets source message pack.
+     * Sets source message group.
      *
-     * @param messagePack associated message pack
+     * @param messageGroup associated message group
      */
-    void setMessagesPack(String messagePack);
+    void setMessageGroup(String messageGroup);
     /**
-     * @return associated message pack
+     * @return associated message group
      */
-    String getMessagesPack();
+    String getMessageGroup();
 
     /**
      * Get localized message from the message pack associated with this frame or window.

@@ -91,7 +91,7 @@ public class FragmentComponentLoader extends ContainerLoader<Fragment> {
             }
 
             innerContext = createInnerContext();
-            innerContext.setMessagesPack(fragmentHelper.getMessagePack(windowInfo.getTemplate()));
+            innerContext.setMessageGroup(fragmentHelper.getMessageGroup(windowInfo.getTemplate()));
             innerContext.setCurrentFrameId(fragmentId);
             innerContext.setFullFrameId(frameId);
             innerContext.setFrame(fragment);

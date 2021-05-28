@@ -47,7 +47,6 @@ import io.jmix.ui.sys.event.UiEventListenerMethodAdapter;
 import io.jmix.ui.theme.ThemeConstants;
 import io.jmix.ui.theme.ThemeConstantsManager;
 import org.apache.commons.lang3.StringUtils;
-import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
@@ -695,7 +694,7 @@ public class UiControllerDependencyInjector {
 
         Class<? extends FrameOwner> screenClass = frameOwner.getClass();
         String packageName = UiControllerUtils.getPackage(screenClass);
-        messageBundle.setMessagesPack(packageName);
+        messageBundle.setMessageGroup(packageName);
 
         return messageBundle;
     }

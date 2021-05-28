@@ -197,7 +197,7 @@ public class ScreensImpl implements Screens {
 
         componentLoaderContext.setFullFrameId(windowInfo.getId());
         componentLoaderContext.setCurrentFrameId(windowInfo.getId());
-        componentLoaderContext.setMessagesPack(getPackage(resolvedScreenClass));
+        componentLoaderContext.setMessageGroup(getPackage(resolvedScreenClass));
         componentLoaderContext.setFrame(window);
 
         if (element != null) {
@@ -310,7 +310,7 @@ public class ScreensImpl implements Screens {
     protected <T extends Screen> void loadWindowFromXml(Element element, WindowInfo windowInfo, Window window, T controller,
                                                         ComponentLoaderContext componentLoaderContext) {
         if (windowInfo.getTemplate() != null) {
-            findMessagePack(element, windowInfo.getTemplate(), componentLoaderContext);
+            findMessageGroup(element, windowInfo.getTemplate(), componentLoaderContext);
         }
 
         LayoutLoader layoutLoader = applicationContext.getBean(LayoutLoader.class, componentLoaderContext);
@@ -319,20 +319,20 @@ public class ScreensImpl implements Screens {
         windowLoader.loadComponent();
     }
 
-    protected void findMessagePack(Element element, String descriptorPath,
-                                   ComponentLoaderContext componentLoaderContext) {
-        componentLoaderContext.setMessagesPack(getMessagePack(descriptorPath));
+    protected void findMessageGroup(Element element, String descriptorPath,
+                                    ComponentLoaderContext componentLoaderContext) {
+        componentLoaderContext.setMessageGroup(getMessageGroup(descriptorPath));
     }
 
-    protected String getMessagePack(String descriptorPath) {
+    protected String getMessageGroup(String descriptorPath) {
         if (descriptorPath.contains("/")) {
             descriptorPath = StringUtils.substring(descriptorPath, 0, descriptorPath.lastIndexOf("/"));
         }
 
-        String messagesPack = descriptorPath.replace("/", ".");
-        int start = messagesPack.startsWith(".") ? 1 : 0;
-        messagesPack = messagesPack.substring(start);
-        return messagesPack;
+        String messageGroup = descriptorPath.replace("/", ".");
+        int start = messageGroup.startsWith(".") ? 1 : 0;
+        messageGroup = messageGroup.substring(start);
+        return messageGroup;
     }
 
     @Override

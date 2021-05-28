@@ -37,7 +37,7 @@ public interface ComponentLoader<T extends Component> {
         /**
          * @return message pack of the context, should be used with {@link MessageTools#loadString(String)} in loaders
          */
-        String getMessagesPack();
+        String getMessageGroup();
     }
 
     interface ComponentContext extends Context {
