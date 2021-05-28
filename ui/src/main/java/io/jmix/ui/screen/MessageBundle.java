@@ -19,7 +19,7 @@ package io.jmix.ui.screen;
 import io.jmix.core.Messages;
 
 /**
- * Interface that provides messages from a message pack bound to screen controller.
+ * Interface that provides messages from a message group bound to screen controller.
  */
 public interface MessageBundle {
 
