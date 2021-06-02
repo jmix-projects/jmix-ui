@@ -18,6 +18,9 @@ package io.jmix.charts.component;
 
 
 import io.jmix.charts.model.chart.XYChartModel;
+import io.jmix.ui.meta.CanvasBehaviour;
+import io.jmix.ui.meta.CanvasIconSize;
+import io.jmix.ui.meta.StudioComponent;
 
 /**
  * XY chart component. It can represent XY, bubble and scatter charts. Supports multiple axes with simple or
@@ -27,6 +30,18 @@ import io.jmix.charts.model.chart.XYChartModel;
  * <br>
  * <a href="http://docs.amcharts.com/3/javascriptcharts/AmXYChart">http://docs.amcharts.com/3/javascriptcharts/AmXYChart</a>
  */
+@StudioComponent(
+        caption = "XYChart",
+        category = "Charts",
+        xmlElement = "xyChart",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        icon = "io/jmix/charts/icon/component/xyChart.svg",
+        canvasBehaviour = CanvasBehaviour.BOX,
+        canvasIcon = "io/jmix/charts/icon/component/xyChart.svg",
+        canvasIconSize = CanvasIconSize.LARGE,
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+)
 public interface XYChart extends RectangularChart<XYChart>, XYChartModel<XYChart> {
     String NAME = "xyChart";
 }

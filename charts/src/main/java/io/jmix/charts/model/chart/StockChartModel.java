@@ -27,7 +27,11 @@ import io.jmix.charts.model.export.Export;
 import io.jmix.charts.model.period.PeriodSelector;
 import io.jmix.charts.model.settings.*;
 import io.jmix.charts.model.stock.StockEventsSettings;
+import io.jmix.ui.meta.PropertyType;
+import io.jmix.ui.meta.StudioProperty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 public interface StockChartModel<T extends StockChartModel> extends HasColors<T> {
@@ -42,6 +46,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param addClassNames add class names option
      * @return stock chart model
      */
+    @StudioProperty
     T setAddClassNames(Boolean addClassNames);
 
     /**
@@ -69,6 +74,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param animationPlayed animation played option
      * @return stock chart model
      */
+    @StudioProperty
     T setAnimationPlayed(Boolean animationPlayed);
 
     /**
@@ -83,6 +89,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param autoResize auto resize option
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setAutoResize(Boolean autoResize);
 
     /**
@@ -141,12 +148,13 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
 
     /**
      * Sets the class name prefix. This prefix is added to all class names which are added to all visual elements of
-     * a chart in case addClassNames is set to true. If not set the default value is false. If not set the default
+     * a chart in case addClassNames is set to true. If not set the default
      * value is "amcharts".
      *
      * @param classNamePrefix class name prefix string
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "amcharts")
     T setClassNamePrefix(String classNamePrefix);
 
     /**
@@ -160,6 +168,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param comparedDataSets compared data sets
      * @return stock chart model
      */
+    @StudioProperty(type = PropertyType.STRING)
     T setComparedDataSets(List<String> comparedDataSets);
 
     /**
@@ -181,6 +190,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param dataDateFormat data date format string
      * @return stock chart model
      */
+    @StudioProperty
     T setDataDateFormat(String dataDateFormat);
 
     /**
@@ -239,6 +249,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param extendToFullPeriod extend to full period option
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setExtendToFullPeriod(Boolean extendToFullPeriod);
 
     /**
@@ -252,6 +263,9 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param firstDayOfWeek first day of week
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "1")
+    @Max(6)
+    @Min(0)
     T setFirstDayOfWeek(Integer firstDayOfWeek);
 
     /**
@@ -266,6 +280,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param glueToTheEnd glue to the end option
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setGlueToTheEnd(Boolean glueToTheEnd);
 
     /**
@@ -280,6 +295,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param language language string
      * @return stock chart model
      */
+    @StudioProperty
     T setLanguage(String language);
 
     /**
@@ -306,6 +322,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param mainDataSet main data set
      * @return stock chart model
      */
+    @StudioProperty
     T setMainDataSet(String mainDataSet);
 
     /**
@@ -320,6 +337,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param mouseWheelScrollEnabled mouse wheel scroll option
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setMouseWheelScrollEnabled(Boolean mouseWheelScrollEnabled);
 
     /**
@@ -443,6 +461,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param zoomOutOnDataSetChange zoom out on data set change option
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setZoomOutOnDataSetChange(Boolean zoomOutOnDataSetChange);
 
     /**
@@ -473,5 +492,6 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param processTimeout process timeout
      * @return stock chart model
      */
+    @StudioProperty(defaultValue = "0")
     T setProcessTimeout(Integer processTimeout);
 }

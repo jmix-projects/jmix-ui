@@ -28,6 +28,9 @@ import io.jmix.charts.model.date.DatePeriod;
 import io.jmix.charts.model.period.PeriodType;
 import io.jmix.charts.model.stock.StockEvent;
 import io.jmix.charts.model.stock.StockGraph;
+import io.jmix.ui.meta.CanvasBehaviour;
+import io.jmix.ui.meta.CanvasIconSize;
+import io.jmix.ui.meta.StudioComponent;
 
 import javax.annotation.Nullable;
 import java.util.Date;
@@ -41,6 +44,18 @@ import java.util.function.Consumer;
  * <br>
  * <a href="http://docs.amcharts.com/3/javascriptstockchart/AmStockChart">http://docs.amcharts.com/3/javascriptstockchart/AmStockChart</a>
  */
+@StudioComponent(
+        caption = "StockChart",
+        category = "Charts",
+        xmlElement = "stockChart",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        icon = "io/jmix/charts/icon/component/stockChart.svg",
+        canvasBehaviour = CanvasBehaviour.BOX,
+        canvasIcon = "io/jmix/charts/icon/component/stockChart.svg",
+        canvasIconSize = CanvasIconSize.LARGE,
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+)
 public interface StockChart extends Component, StockChartModel<StockChart>, Component.BelongToFrame,
         Component.HasIcon, Component.HasCaption {
     String NAME = "stockChart";

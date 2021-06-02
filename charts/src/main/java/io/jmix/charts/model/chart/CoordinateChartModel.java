@@ -20,7 +20,10 @@ import io.jmix.charts.model.*;
 import io.jmix.charts.model.animation.HasStartEffect;
 import io.jmix.charts.model.axis.ValueAxis;
 import io.jmix.charts.model.graph.Graph;
+import io.jmix.ui.meta.StudioProperty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.List;
 
 public interface CoordinateChartModel<T extends CoordinateChartModel>
@@ -102,6 +105,7 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param gridAboveGraphs grid above graphs option
      * @return  coordinate chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setGridAboveGraphs(Boolean gridAboveGraphs);
 
     /**
@@ -116,6 +120,7 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param sequencedAnimation sequenced animation option
      * @return  coordinate chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setSequencedAnimation(Boolean sequencedAnimation);
 
     /**
@@ -130,6 +135,9 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param startAlpha - the start alpha
      * @return  coordinate chart model
      */
+    @StudioProperty(defaultValue = "1")
+    @Max(1)
+    @Min(0)
     T setStartAlpha(Double startAlpha);
 
     /**
@@ -143,5 +151,6 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param urlTarget the URL target string
      * @return  coordinate chart model
      */
+    @StudioProperty(defaultValue = "_self")
     T setUrlTarget(String urlTarget);
 }

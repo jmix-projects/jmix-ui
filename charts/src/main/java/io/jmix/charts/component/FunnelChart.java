@@ -18,6 +18,9 @@ package io.jmix.charts.component;
 
 
 import io.jmix.charts.model.chart.FunnelChartModel;
+import io.jmix.ui.meta.CanvasBehaviour;
+import io.jmix.ui.meta.CanvasIconSize;
+import io.jmix.ui.meta.StudioComponent;
 
 /**
  * Funnel / pyramid chart component.
@@ -26,6 +29,18 @@ import io.jmix.charts.model.chart.FunnelChartModel;
  * <br>
  * <a href="http://docs.amcharts.com/3/javascriptcharts/AmFunnelChart">http://docs.amcharts.com/3/javascriptcharts/AmFunnelChart</a>
  */
+@StudioComponent(
+        caption = "FunnelChart",
+        category = "Charts",
+        xmlElement = "funnelChart",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        icon = "io/jmix/charts/icon/component/funnelChart.svg",
+        canvasBehaviour = CanvasBehaviour.BOX,
+        canvasIcon = "io/jmix/charts/icon/component/funnelChart.svg",
+        canvasIconSize = CanvasIconSize.LARGE,
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+)
 public interface FunnelChart extends SlicedChart<FunnelChart>, FunnelChartModel<FunnelChart> {
     String NAME = "funnelChart";
 }

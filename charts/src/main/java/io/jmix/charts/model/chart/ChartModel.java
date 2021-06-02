@@ -27,7 +27,14 @@ import io.jmix.charts.model.graph.AbstractGraph;
 import io.jmix.charts.model.label.Label;
 import io.jmix.charts.model.legend.Legend;
 import io.jmix.charts.model.settings.*;
+import io.jmix.ui.meta.PropertyType;
+import io.jmix.ui.meta.StudioElement;
+import io.jmix.ui.meta.StudioElementsGroup;
+import io.jmix.ui.meta.StudioProperty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
 
 public interface ChartModel<T extends ChartModel> {
@@ -47,6 +54,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param addClassNames add CSS class names option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setAddClassNames(Boolean addClassNames);
 
     /**
@@ -60,6 +68,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param allLabels list of labels
      * @return chart model
      */
+    @StudioElementsGroup(caption = "Labels", xmlElement = "allLabels")
     T setAllLabels(List<Label> allLabels);
 
     /**
@@ -95,6 +104,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param backgroundColor the background color
      * @return chart model
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
     T setBackgroundColor(Color backgroundColor);
 
     /**
@@ -108,6 +118,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param balloon the balloon
      * @return chart model
      */
+    @StudioElement
     T setBalloon(Balloon balloon);
 
     /**
@@ -121,6 +132,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param legend the legend
      * @return chart model
      */
+    @StudioElement
     T setLegend(Legend legend);
 
     /**
@@ -134,6 +146,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param decimalSeparator the decimal separator string
      * @return chart model
      */
+    @StudioProperty(defaultValue = ".")
     T setDecimalSeparator(String decimalSeparator);
 
     /**
@@ -148,6 +161,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param percentPrecision the percent precision
      * @return chart model
      */
+    @StudioProperty(defaultValue = "2")
     T setPercentPrecision(Integer percentPrecision);
 
     /**
@@ -162,6 +176,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param precision the precision
      * @return chart model
      */
+    @StudioProperty(defaultValue = "-1")
     T setPrecision(Integer precision);
 
     DataProvider getDataProvider();
@@ -172,6 +187,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param dataProvider the data provider
      * @return chart model
      */
+    @StudioProperty(name = "dataContainer", type = PropertyType.COLLECTION_DATACONTAINER_REF)
     T setDataProvider(DataProvider dataProvider);
 
     /**
@@ -219,6 +235,9 @@ public interface ChartModel<T extends ChartModel> {
      * @param borderAlpha the border alpha
      * @return chart model
      */
+    @StudioProperty(defaultValue = "0")
+    @Max(1)
+    @Min(0)
     T setBorderAlpha(Double borderAlpha);
 
     /**
@@ -233,6 +252,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param borderColor the border color
      * @return chart model
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
     T setBorderColor(Color borderColor);
 
     /**
@@ -247,6 +267,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param classNamePrefix class name prefix string
      * @return chart model
      */
+    @StudioProperty(defaultValue = "amcharts")
     T setClassNamePrefix(String classNamePrefix);
 
     /**
@@ -274,6 +295,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param color the text color
      * @return chart model
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
     T setColor(Color color);
 
     /**
@@ -287,6 +309,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param fontFamily font family string
      * @return chart model
      */
+    @StudioProperty(defaultValue = "Verdana")
     T setFontFamily(String fontFamily);
 
     /**
@@ -300,6 +323,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param fontSize the font size
      * @return chart model
      */
+    @StudioProperty(defaultValue = "11")
+    @PositiveOrZero
     T setFontSize(Integer fontSize);
 
     /**
@@ -315,6 +340,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param handDrawn hand drawn option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setHandDrawn(Boolean handDrawn);
 
     /**
@@ -329,6 +355,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param handDrawScatter the hand drawn scatter
      * @return chart model
      */
+    @StudioProperty(defaultValue = "2")
+    @PositiveOrZero
     T setHandDrawScatter(Integer handDrawScatter);
 
     /**
@@ -343,6 +371,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param handDrawThickness the hand draw thickness
      * @return chart model
      */
+    @StudioProperty(defaultValue = "1")
+    @PositiveOrZero
     T setHandDrawThickness(Integer handDrawThickness);
 
     /**
@@ -358,6 +388,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param hideBalloonTime the hide balloon time in milliseconds
      * @return chart model
      */
+    @StudioProperty(defaultValue = "150")
+    @PositiveOrZero
     T setHideBalloonTime(Integer hideBalloonTime);
 
     /**
@@ -375,6 +407,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param panEventsEnabled pan events enabled option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setPanEventsEnabled(Boolean panEventsEnabled);
 
     /**
@@ -454,6 +487,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param thousandsSeparator - thousands separator string
      * @return chart model
      */
+    @StudioProperty(defaultValue = ".")
     T setThousandsSeparator(String thousandsSeparator);
 
     /**
@@ -467,6 +501,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param titles the titles
      * @return chart model
      */
+    @StudioElementsGroup(caption = "Titles", xmlElement = "titles")
     T setTitles(List<Title> titles);
 
     /**
@@ -491,6 +526,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param usePrefixes the use prefixes option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setUsePrefixes(Boolean usePrefixes);
 
     /**
@@ -527,6 +563,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param autoDisplay auto display option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setAutoDisplay(Boolean autoDisplay);
 
     /**
@@ -541,6 +578,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param autoResize auto resize option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setAutoResize(Boolean autoResize);
 
     /**
@@ -555,6 +593,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param backgroundAlpha background alpha option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "0")
+    @PositiveOrZero
     T setBackgroundAlpha(Double backgroundAlpha);
 
     /**
@@ -569,6 +609,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param language language string
      * @return chart model
      */
+    @StudioProperty
     T setLanguage(String language);
 
     /**
@@ -595,6 +636,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param svgIcons svgIcons option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setSvgIcons(Boolean svgIcons);
 
     /**
@@ -613,6 +655,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param tapToActivate tap to activate option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setTapToActivate(Boolean tapToActivate);
 
     /**
@@ -627,6 +670,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param defs defs string
      * @return chart model
      */
+    @StudioProperty
     T setDefs(String defs);
 
     /**
@@ -641,6 +685,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param accessible accessible option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "true")
     T setAccessible(Boolean accessible);
 
     /**
@@ -654,6 +699,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param accessibleTitle accessible title string
      * @return chart model
      */
+    @StudioProperty
     T setAccessibleTitle(String accessibleTitle);
 
     /**
@@ -681,6 +727,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param processCount the process count
      * @return chart model
      */
+    @StudioProperty(defaultValue = "1000")
+    @PositiveOrZero
     T setProcessCount(Integer processCount);
 
     /**
@@ -697,6 +745,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param processTimeout the process timeout
      * @return chart model
      */
+    @StudioProperty(defaultValue = "0")
+    @PositiveOrZero
     T setProcessTimeout(Integer processTimeout);
 
     /**
@@ -712,6 +762,8 @@ public interface ChartModel<T extends ChartModel> {
      * @param touchClickDuration the touch click duration in milliseconds
      * @return chart model
      */
+    @StudioProperty(defaultValue = "0")
+    @PositiveOrZero
     T setTouchClickDuration(Integer touchClickDuration);
 
     /**
@@ -727,6 +779,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param autoTransform auto transform option
      * @return chart model
      */
+    @StudioProperty(defaultValue = "false")
     T setAutoTransform(Boolean autoTransform);
 
     /**
@@ -740,5 +793,6 @@ public interface ChartModel<T extends ChartModel> {
      * @param accessibleDescription description string
      * @return chart model
      */
+    @StudioProperty
     T setAccessibleDescription(String accessibleDescription);
 }
