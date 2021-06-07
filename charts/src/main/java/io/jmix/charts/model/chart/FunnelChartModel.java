@@ -19,6 +19,7 @@ package io.jmix.charts.model.chart;
 
 import io.jmix.charts.model.FunnelValueRepresentation;
 import io.jmix.charts.model.label.LabelPosition;
+import io.jmix.ui.meta.PropertyType;
 import io.jmix.ui.meta.StudioProperty;
 
 public interface FunnelChartModel<T extends FunnelChartModel> extends SlicedChartModel<T> {
@@ -66,6 +67,7 @@ public interface FunnelChartModel<T extends FunnelChartModel> extends SlicedChar
      * @param labelPosition the label position
      * @return funnel chart model
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "CENTER")
     T setLabelPosition(LabelPosition labelPosition);
 
     /**
@@ -170,6 +172,7 @@ public interface FunnelChartModel<T extends FunnelChartModel> extends SlicedChar
      * @param valueRepresents the value represents
      * @return funnel chart model
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "HEIGHT")
     T setValueRepresents(FunnelValueRepresentation valueRepresents);
 
     /**

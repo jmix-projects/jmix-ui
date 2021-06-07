@@ -149,6 +149,7 @@ public interface GanttChartModel<T extends GanttChartModel> extends SeriesBasedC
      * @param graph the graph
      * @return  gantt chart model
      */
+    @StudioElement
     T setGraph(Graph graph);
 
     /**
@@ -234,6 +235,7 @@ public interface GanttChartModel<T extends GanttChartModel> extends SeriesBasedC
      * @param valueAxis the value axis
      * @return  gantt chart model
      */
+    @StudioElement
     T setValueAxis(ValueAxis valueAxis);
 
     /**

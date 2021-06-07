@@ -17,7 +17,15 @@
 package io.jmix.charts.model.graph;
 
 import io.jmix.charts.model.AbstractChartObject;
+import io.jmix.ui.meta.StudioElement;
+import io.jmix.ui.meta.StudioProperty;
 
+@StudioElement(
+        caption = "Pattern",
+        xmlElement = "pattern",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
 public class Pattern extends AbstractChartObject {
 
     private static final long serialVersionUID = 952770895827665737L;
@@ -32,6 +40,7 @@ public class Pattern extends AbstractChartObject {
         return height;
     }
 
+    @StudioProperty
     public Pattern setHeight(Integer height) {
         this.height = height;
         return this;
@@ -41,6 +50,7 @@ public class Pattern extends AbstractChartObject {
         return url;
     }
 
+    @StudioProperty
     public Pattern setUrl(String url) {
         this.url = url;
         return this;
@@ -50,6 +60,7 @@ public class Pattern extends AbstractChartObject {
         return width;
     }
 
+    @StudioProperty
     public Pattern setWidth(Integer width) {
         this.width = width;
         return this;

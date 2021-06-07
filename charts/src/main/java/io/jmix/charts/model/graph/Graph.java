@@ -16,11 +16,19 @@
 
 package io.jmix.charts.model.graph;
 
+import io.jmix.ui.meta.StudioElement;
+
 /**
  * See documentation for properties of AmGraph JS Object. <br>
  *
  * <a href="http://docs.amcharts.com/3/javascriptcharts/AmGraph">http://docs.amcharts.com/3/javascriptcharts/AmGraph</a>
  */
+@StudioElement(
+        caption = "ValueAxis",
+        xmlElement = "valueAxis",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
 public class Graph extends AbstractGraph<Graph> {
 
     private static final long serialVersionUID = -3464633427729211728L;

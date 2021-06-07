@@ -21,7 +21,12 @@ import io.jmix.charts.model.axis.CategoryAxis;
 import io.jmix.charts.model.chart.impl.RadarChartModelImpl;
 import io.jmix.charts.model.chart.impl.SerialChartModelImpl;
 import io.jmix.charts.model.chart.impl.XYChartModelImpl;
+import io.jmix.ui.meta.PropertyType;
+import io.jmix.ui.meta.StudioElement;
+import io.jmix.ui.meta.StudioProperty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 
 /**
@@ -32,6 +37,12 @@ import java.util.Date;
  *
  * <a href="http://docs.amcharts.com/3/javascriptcharts/Guide">http://docs.amcharts.com/3/javascriptcharts/Guide</a>
  */
+@StudioElement(
+        caption = "Guide",
+        xmlElement = "guide",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
 public class Guide extends AbstractChartObject {
 
     private static final long serialVersionUID = -6465377479319328449L;
@@ -105,6 +116,7 @@ public class Guide extends AbstractChartObject {
      * @param above above option
      * @return guide
      */
+    @StudioProperty(defaultValue = "false")
     public Guide setAbove(Boolean above) {
         this.above = above;
         return this;
@@ -123,6 +135,7 @@ public class Guide extends AbstractChartObject {
      * @param angle angle
      * @return guide
      */
+    @StudioProperty
     public Guide setAngle(Integer angle) {
         this.angle = angle;
         return this;
@@ -141,6 +154,7 @@ public class Guide extends AbstractChartObject {
      * @param balloonColor fill color
      * @return guide
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public Guide setBalloonColor(Color balloonColor) {
         this.balloonColor = balloonColor;
         return this;
@@ -159,6 +173,7 @@ public class Guide extends AbstractChartObject {
      * @param balloonText balloon text
      * @return guide
      */
+    @StudioProperty
     public Guide setBalloonText(String balloonText) {
         this.balloonText = balloonText;
         return this;
@@ -177,6 +192,8 @@ public class Guide extends AbstractChartObject {
      * @param category category value
      * @return guide
      */
+
+    @StudioProperty
     public Guide setCategory(String category) {
         this.category = category;
         return this;
@@ -195,6 +212,7 @@ public class Guide extends AbstractChartObject {
      * @param dashLength dash length
      * @return guide
      */
+    @StudioProperty
     public Guide setDashLength(Integer dashLength) {
         this.dashLength = dashLength;
         return this;
@@ -214,6 +232,7 @@ public class Guide extends AbstractChartObject {
      * @param date date
      * @return guide
      */
+    @StudioProperty
     public Guide setDate(Date date) {
         this.date = date;
         return this;
@@ -232,6 +251,9 @@ public class Guide extends AbstractChartObject {
      * @param fillAlpha fill opacity
      * @return guide
      */
+    @StudioProperty
+    @Max(1)
+    @Min(0)
     public Guide setFillAlpha(Double fillAlpha) {
         this.fillAlpha = fillAlpha;
         return this;
@@ -250,6 +272,7 @@ public class Guide extends AbstractChartObject {
      * @param fillColor fill color
      * @return guide
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public Guide setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         return this;
@@ -268,6 +291,7 @@ public class Guide extends AbstractChartObject {
      * @param fontSize font size
      * @return guide
      */
+    @StudioProperty
     public Guide setFontSize(Integer fontSize) {
         this.fontSize = fontSize;
         return this;
@@ -286,6 +310,7 @@ public class Guide extends AbstractChartObject {
      * @param inside inside option
      * @return guide
      */
+    @StudioProperty
     public Guide setInside(Boolean inside) {
         this.inside = inside;
         return this;
@@ -304,6 +329,7 @@ public class Guide extends AbstractChartObject {
      * @param label label string
      * @return guide
      */
+    @StudioProperty
     public Guide setLabel(String label) {
         this.label = label;
         return this;
@@ -322,6 +348,7 @@ public class Guide extends AbstractChartObject {
      * @param labelRotation rotation angle
      * @return guide
      */
+    @StudioProperty
     public Guide setLabelRotation(Integer labelRotation) {
         this.labelRotation = labelRotation;
         return this;
@@ -340,6 +367,9 @@ public class Guide extends AbstractChartObject {
      * @param lineAlpha line opacity
      * @return guide
      */
+    @StudioProperty
+    @Max(1)
+    @Min(0)
     public Guide setLineAlpha(Double lineAlpha) {
         this.lineAlpha = lineAlpha;
         return this;
@@ -358,6 +388,7 @@ public class Guide extends AbstractChartObject {
      * @param lineColor line color
      * @return guide
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public Guide setLineColor(Color lineColor) {
         this.lineColor = lineColor;
         return this;
@@ -376,6 +407,7 @@ public class Guide extends AbstractChartObject {
      * @param lineThickness line thickness
      * @return guide
      */
+    @StudioProperty
     public Guide setLineThickness(Integer lineThickness) {
         this.lineThickness = lineThickness;
         return this;
@@ -395,6 +427,7 @@ public class Guide extends AbstractChartObject {
      * @param position position of guide label
      * @return guide
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public Guide setPosition(Position position) {
         this.position = position;
         return this;
@@ -413,6 +446,7 @@ public class Guide extends AbstractChartObject {
      * @param tickLength tick length
      * @return guide
      */
+    @StudioProperty
     public Guide setTickLength(Integer tickLength) {
         this.tickLength = tickLength;
         return this;
@@ -431,6 +465,7 @@ public class Guide extends AbstractChartObject {
      * @param toAngle angle
      * @return guide
      */
+    @StudioProperty
     public Guide setToAngle(Integer toAngle) {
         this.toAngle = toAngle;
         return this;
@@ -449,6 +484,7 @@ public class Guide extends AbstractChartObject {
      * @param toCategory to category
      * @return guide
      */
+    @StudioProperty
     public Guide setToCategory(String toCategory) {
         this.toCategory = toCategory;
         return this;
@@ -468,6 +504,7 @@ public class Guide extends AbstractChartObject {
      * @param toDate date
      * @return guide
      */
+    @StudioProperty
     public Guide setToDate(Date toDate) {
         this.toDate = toDate;
         return this;
@@ -486,6 +523,7 @@ public class Guide extends AbstractChartObject {
      * @param toValue to value
      * @return guide
      */
+    @StudioProperty(type = PropertyType.DOUBLE)
     public Guide setToValue(Object toValue) {
         this.toValue = toValue;
         return this;
@@ -504,6 +542,7 @@ public class Guide extends AbstractChartObject {
      * @param value value
      * @return guide
      */
+    @StudioProperty(type = PropertyType.DOUBLE)
     public Guide setValue(Object value) {
         this.value = value;
         return this;
@@ -522,6 +561,7 @@ public class Guide extends AbstractChartObject {
      * @param boldLabel boldLabel option
      * @return guide
      */
+    @StudioProperty(defaultValue = "false")
     public Guide setBoldLabel(Boolean boldLabel) {
         this.boldLabel = boldLabel;
         return this;
@@ -540,6 +580,7 @@ public class Guide extends AbstractChartObject {
      * @param color color
      * @return guide
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public Guide setColor(Color color) {
         this.color = color;
         return this;
@@ -561,6 +602,7 @@ public class Guide extends AbstractChartObject {
      * @param expand expand option
      * @return guide
      */
+    @StudioProperty(defaultValue = "false")
     public Guide setExpand(Boolean expand) {
         this.expand = expand;
         return this;
@@ -579,6 +621,7 @@ public class Guide extends AbstractChartObject {
      * @param id id
      * @return guide
      */
+    @StudioProperty
     public Guide setId(String id) {
         this.id = id;
         return this;
@@ -598,6 +641,7 @@ public class Guide extends AbstractChartObject {
      * @param valueAxis value axis id
      * @return guide
      */
+    @StudioProperty
     public Guide setValueAxis(String valueAxis) {
         this.valueAxis = valueAxis;
         return this;

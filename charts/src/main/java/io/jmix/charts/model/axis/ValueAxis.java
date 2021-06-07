@@ -24,6 +24,9 @@ import io.jmix.charts.model.chart.impl.SerialChartModelImpl;
 import io.jmix.charts.model.chart.impl.XYChartModelImpl;
 import io.jmix.charts.model.date.DatePeriod;
 import io.jmix.charts.model.date.Duration;
+import io.jmix.ui.meta.PropertyType;
+import io.jmix.ui.meta.StudioElement;
+import io.jmix.ui.meta.StudioProperty;
 
 import java.util.Date;
 import java.util.Map;
@@ -36,6 +39,12 @@ import java.util.Map;
  *
  * <a href="http://docs.amcharts.com/3/javascriptcharts/ValueAxis">http://docs.amcharts.com/3/javascriptcharts/ValueAxis</a>
  */
+@StudioElement(
+        caption = "ValueAxis",
+        xmlElement = "valueAxis",
+        xmlns = "http://jmix.io/schema/ui/charts",
+        xmlnsAlias = "chart",
+        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
 public class ValueAxis extends AbstractAxis<ValueAxis> {
 
     private static final long serialVersionUID = -8718385614937510600L;
@@ -134,6 +143,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param axisTitleOffset axis title offset
      * @return value axis
      */
+    @StudioProperty(defaultValue = "10")
     public ValueAxis setAxisTitleOffset(Integer axisTitleOffset) {
         this.axisTitleOffset = axisTitleOffset;
         return this;
@@ -152,6 +162,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param baseValue base value
      * @return value axis
      */
+    @StudioProperty(defaultValue = "0")
     public ValueAxis setBaseValue(Double baseValue) {
         this.baseValue = baseValue;
         return this;
@@ -171,6 +182,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param duration duration
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public ValueAxis setDuration(Duration duration) {
         this.duration = duration;
         return this;
@@ -212,6 +224,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param gridType grid type
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "POLYGONS")
     public ValueAxis setGridType(GridType gridType) {
         this.gridType = gridType;
         return this;
@@ -231,6 +244,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param id id
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setId(String id) {
         this.id = id;
         return this;
@@ -250,6 +264,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param includeGuidesInMinMax includeGuidesInMinMax option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setIncludeGuidesInMinMax(Boolean includeGuidesInMinMax) {
         this.includeGuidesInMinMax = includeGuidesInMinMax;
         return this;
@@ -269,6 +284,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param includeHidden includeHidden option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setIncludeHidden(Boolean includeHidden) {
         this.includeHidden = includeHidden;
         return this;
@@ -287,6 +303,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param integersOnly integersOnly option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setIntegersOnly(Boolean integersOnly) {
         this.integersOnly = integersOnly;
         return this;
@@ -305,6 +322,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param logarithmic logarithmic option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setLogarithmic(Boolean logarithmic) {
         this.logarithmic = logarithmic;
         return this;
@@ -324,6 +342,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param maximum maximum value
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setMaximum(Double maximum) {
         this.maximum = maximum;
         return this;
@@ -343,6 +362,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param minimum minimum value
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setMinimum(Double minimum) {
         this.minimum = minimum;
         return this;
@@ -362,6 +382,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param minMaxMultiplier minimum and maximum multiplier
      * @return value axis
      */
+    @StudioProperty(defaultValue = "1")
     public ValueAxis setMinMaxMultiplier(Double minMaxMultiplier) {
         this.minMaxMultiplier = minMaxMultiplier;
         return this;
@@ -380,6 +401,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param precision precision
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setPrecision(Integer precision) {
         this.precision = precision;
         return this;
@@ -399,6 +421,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param radarCategoriesEnabled radarCategoriesEnabled option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "true")
     public ValueAxis setRadarCategoriesEnabled(Boolean radarCategoriesEnabled) {
         this.radarCategoriesEnabled = radarCategoriesEnabled;
         return this;
@@ -419,6 +442,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param recalculateToPercents recalculateToPercents option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setRecalculateToPercents(Boolean recalculateToPercents) {
         this.recalculateToPercents = recalculateToPercents;
         return this;
@@ -438,6 +462,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param reversed reversed option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setReversed(Boolean reversed) {
         this.reversed = reversed;
         return this;
@@ -457,6 +482,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param stackType stack type
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "NONE")
     public ValueAxis setStackType(StackType stackType) {
         this.stackType = stackType;
         return this;
@@ -475,6 +501,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param synchronizationMultiplier synchronization multiplier
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setSynchronizationMultiplier(Double synchronizationMultiplier) {
         this.synchronizationMultiplier = synchronizationMultiplier;
         return this;
@@ -494,6 +521,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param totalText total text
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setTotalText(String totalText) {
         this.totalText = totalText;
         return this;
@@ -512,6 +540,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param totalTextColor color
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public ValueAxis setTotalTextColor(Color totalTextColor) {
         this.totalTextColor = totalTextColor;
         return this;
@@ -530,6 +559,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param unit unit
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setUnit(String unit) {
         this.unit = unit;
         return this;
@@ -549,6 +579,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param unitPosition unit position
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "RIGHT")
     public ValueAxis setUnitPosition(UnitPosition unitPosition) {
         this.unitPosition = unitPosition;
         return this;
@@ -570,6 +601,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param usePrefixes usePrefixes option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setUsePrefixes(Boolean usePrefixes) {
         this.usePrefixes = usePrefixes;
         return this;
@@ -590,6 +622,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param useScientificNotation useScientificNotation option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setUseScientificNotation(Boolean useScientificNotation) {
         this.useScientificNotation = useScientificNotation;
         return this;
@@ -609,6 +642,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param synchronizeWith id of the axis
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setSynchronizeWith(String synchronizeWith) {
         this.synchronizeWith = synchronizeWith;
         return this;
@@ -627,6 +661,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param totalTextOffset total text offset
      * @return value axis
      */
+    @StudioProperty(defaultValue = "0")
     public ValueAxis setTotalTextOffset(Integer totalTextOffset) {
         this.totalTextOffset = totalTextOffset;
         return this;
@@ -646,6 +681,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param treatZeroAs treatZeroAs value
      * @return value axis
      */
+    @StudioProperty(defaultValue = "0")
     public ValueAxis setTreatZeroAs(Double treatZeroAs) {
         this.treatZeroAs = treatZeroAs;
         return this;
@@ -665,6 +701,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param includeAllValues includeAllValues option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setIncludeAllValues(Boolean includeAllValues) {
         this.includeAllValues = includeAllValues;
         return this;
@@ -704,6 +741,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param maximumDate maximum date
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setMaximumDate(Date maximumDate) {
         this.maximumDate = maximumDate;
         return this;
@@ -722,6 +760,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param minimumDate minimum date
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setMinimumDate(Date minimumDate) {
         this.minimumDate = minimumDate;
         return this;
@@ -741,6 +780,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param pointPosition point position
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "START")
     public ValueAxis setPointPosition(PointPosition pointPosition) {
         this.pointPosition = pointPosition;
         return this;
@@ -761,6 +801,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param strictMinMax strictMinMax option
      * @return value axis
      */
+    @StudioProperty(defaultValue = "false")
     public ValueAxis setStrictMinMax(Boolean strictMinMax) {
         this.strictMinMax = strictMinMax;
         return this;
@@ -780,6 +821,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param type type
      * @return value axis
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "NUMERIC")
     public ValueAxis setType(ValueAxisType type) {
         this.type = type;
         return this;
@@ -798,6 +840,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param zeroGridAlpha opacity
      * @return value axis
      */
+    @StudioProperty
     public ValueAxis setZeroGridAlpha(Double zeroGridAlpha) {
         this.zeroGridAlpha = zeroGridAlpha;
         return this;
@@ -817,6 +860,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param axisFrequency axis frequency
      * @return value axis
      */
+    @StudioProperty(defaultValue = "1")
     public ValueAxis setAxisFrequency(Double axisFrequency) {
         this.axisFrequency = axisFrequency;
         return this;
@@ -854,6 +898,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      *
      * @param autoWrap autoWrap option
      */
+    @StudioProperty(defaultValue = "false")
     public void setAutoWrap(Boolean autoWrap) {
         this.autoWrap = autoWrap;
     }
@@ -871,6 +916,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      *
      * @param minPeriod shortest period
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "DAYS")
     public void setMinPeriod(DatePeriod minPeriod) {
         this.minPeriod = minPeriod;
     }

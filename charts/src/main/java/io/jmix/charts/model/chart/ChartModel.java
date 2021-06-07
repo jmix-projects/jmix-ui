@@ -90,6 +90,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param export the export
      * @return chart model
      */
+    @StudioElement
     T setExport(Export export);
 
     /**
@@ -282,6 +283,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param creditsPosition the credits position
      * @return chart model
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     T setCreditsPosition(CreditsPosition creditsPosition);
 
     /**
@@ -713,6 +715,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param responsive the responsive
      * @return chart model
      */
+    @StudioElement
     T setResponsive(Responsive responsive);
 
     /**

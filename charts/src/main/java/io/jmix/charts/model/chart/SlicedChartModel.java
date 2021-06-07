@@ -32,7 +32,10 @@ import java.util.List;
         @StudioProperty(name = "marginBottom", type = PropertyType.INTEGER, defaultValue = "0"),
         @StudioProperty(name = "marginLeft", type = PropertyType.INTEGER, defaultValue = "0"),
         @StudioProperty(name = "marginRight", type = PropertyType.INTEGER, defaultValue = "0"),
-        @StudioProperty(name = "marginTop", type = PropertyType.INTEGER, defaultValue = "0")
+        @StudioProperty(name = "marginTop", type = PropertyType.INTEGER, defaultValue = "0"),
+        @StudioProperty(name = "startEffect", type = PropertyType.ENUMERATION,
+                options = {"@link io.jmix.charts.model.animation.AnimationEffect"}, defaultValue = "BOUNCE"),
+        @StudioProperty(name = "startDuration", type = PropertyType.DOUBLE, defaultValue = "1")
 },
         groups = {
                 @PropertiesGroup(constraint = PropertiesConstraint.ALL_OR_NOTHING,
@@ -143,6 +146,13 @@ public interface SlicedChartModel<T extends SlicedChartModel>
      * @param gradientRatio list of gradient ratio
      * @return sliced chart model
      */
+    @StudioCollection(xmlElement = "gradientRatios",
+            itemXmlElement = "ratio",
+            itemCaption = "Gradient Ratio",
+            itemProperties = {
+                    @StudioProperty(name = "value", type = PropertyType.DOUBLE)
+            },
+            documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
     T setGradientRatio(List<Double> gradientRatio);
 
     /**
