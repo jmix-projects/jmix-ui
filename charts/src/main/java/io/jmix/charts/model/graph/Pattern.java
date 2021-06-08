@@ -24,8 +24,7 @@ import io.jmix.ui.meta.StudioProperty;
         caption = "Pattern",
         xmlElement = "pattern",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class Pattern extends AbstractChartObject {
 
     private static final long serialVersionUID = 952770895827665737L;

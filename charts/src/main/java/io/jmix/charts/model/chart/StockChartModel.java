@@ -28,6 +28,8 @@ import io.jmix.charts.model.period.PeriodSelector;
 import io.jmix.charts.model.settings.*;
 import io.jmix.charts.model.stock.StockEventsSettings;
 import io.jmix.ui.meta.PropertyType;
+import io.jmix.ui.meta.StudioElement;
+import io.jmix.ui.meta.StudioElementsGroup;
 import io.jmix.ui.meta.StudioProperty;
 
 import javax.validation.constraints.Max;
@@ -116,6 +118,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param categoryAxesSettings category axis settings
      * @return stock chart model
      */
+    @StudioElement
     T setCategoryAxesSettings(CategoryAxesSettings categoryAxesSettings);
 
     /**
@@ -129,6 +132,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param chartCursorSettings chart cursor settings
      * @return stock chart model
      */
+    @StudioElement
     T setChartCursorSettings(ChartCursorSettings chartCursorSettings);
 
     ChartScrollbarSettings getChartScrollbarSettings();
@@ -139,6 +143,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param chartScrollbarSettings chart scrollbar settings
      * @return stock chart model
      */
+    @StudioElement
     T setChartScrollbarSettings(ChartScrollbarSettings chartScrollbarSettings);
 
     /**
@@ -212,6 +217,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param dataSets list of data sets
      * @return stock chart model
      */
+    @StudioElementsGroup(caption = "Data Sets", xmlElement = "dataSets")
     T setDataSets(List<DataSet> dataSets);
 
     /**
@@ -234,6 +240,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param dataSetSelector data set selector
      * @return stock chart model
      */
+    @StudioElement
     T setDataSetSelector(DataSetSelector dataSetSelector);
 
     /**
@@ -309,6 +316,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param legendSettings legend settings
      * @return stock chart model
      */
+    @StudioElement
     T setLegendSettings(LegendSettings legendSettings);
 
     /**
@@ -351,6 +359,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param panels list of stock panels
      * @return stock chart model
      */
+    @StudioElementsGroup(caption = "Panels", xmlElement = "panels")
     T setPanels(List<StockPanel> panels);
 
     /**
@@ -372,6 +381,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param panelsSettings panel settings
      * @return stock chart model
      */
+    @StudioElement
     T setPanelsSettings(PanelsSettings panelsSettings);
 
     /**
@@ -422,6 +432,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param stockEventsSettings stock events settings
      * @return stock chart model
      */
+    @StudioElement
     T setStockEventsSettings(StockEventsSettings stockEventsSettings);
 
     /**
@@ -448,6 +459,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param valueAxesSettings value axes settings
      * @return stock chart model
      */
+    @StudioElement
     T setValueAxesSettings(ValueAxesSettings valueAxesSettings);
 
     /**

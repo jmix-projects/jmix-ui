@@ -39,8 +39,7 @@ import io.jmix.ui.meta.StudioProperty;
         icon = "io/jmix/charts/icon/component/serialChart.svg",
         canvasBehaviour = CanvasBehaviour.BOX,
         canvasIcon = "io/jmix/charts/icon/component/serialChart.svg",
-        canvasIconSize = CanvasIconSize.LARGE,
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+        canvasIconSize = CanvasIconSize.LARGE
 )
 public interface SerialChart extends SeriesBasedChart<SerialChart> {
     String NAME = "serialChart";

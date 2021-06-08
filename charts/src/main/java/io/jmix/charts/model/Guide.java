@@ -41,8 +41,7 @@ import java.util.Date;
         caption = "Guide",
         xmlElement = "guide",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class Guide extends AbstractChartObject {
 
     private static final long serialVersionUID = -6465377479319328449L;

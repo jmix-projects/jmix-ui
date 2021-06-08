@@ -21,8 +21,7 @@ import io.jmix.charts.model.GaugeArrow;
 import io.jmix.charts.model.GaugeAxis;
 import io.jmix.charts.model.animation.HasStartEffect;
 import io.jmix.charts.model.graph.Pattern;
-import io.jmix.ui.meta.PropertyType;
-import io.jmix.ui.meta.StudioProperty;
+import io.jmix.ui.meta.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -56,6 +55,7 @@ public interface AngularGaugeChartModel<T extends AngularGaugeChartModel>
      * @param arrows the arrows
      * @return chart model
      */
+    @StudioElementsGroup(caption = "Arrows", xmlElement = "arrows")
     T setArrows(List<GaugeArrow> arrows);
 
     /**
@@ -77,6 +77,7 @@ public interface AngularGaugeChartModel<T extends AngularGaugeChartModel>
      * @param axes the axes
      * @return chart model
      */
+    @StudioElementsGroup(caption = "Axes", xmlElement = "axes")
     T setAxes(List<GaugeAxis> axes);
 
     /**

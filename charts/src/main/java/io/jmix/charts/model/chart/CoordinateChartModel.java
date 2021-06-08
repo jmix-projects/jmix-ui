@@ -20,6 +20,7 @@ import io.jmix.charts.model.*;
 import io.jmix.charts.model.animation.HasStartEffect;
 import io.jmix.charts.model.axis.ValueAxis;
 import io.jmix.charts.model.graph.Graph;
+import io.jmix.ui.meta.StudioElementsGroup;
 import io.jmix.ui.meta.StudioProperty;
 
 import javax.validation.constraints.Max;
@@ -39,6 +40,7 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param graphs list of graphs
      * @return  coordinate chart model
      */
+    @StudioElementsGroup(caption = "Graphs", xmlElement = "graphs")
     T setGraphs(List<Graph> graphs);
 
     /**
@@ -83,6 +85,7 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param guides list of guides
      * @return  coordinate chart model
      */
+    @StudioElementsGroup(caption = "Guides", xmlElement = "guides")
     T setGuides(List<Guide> guides);
 
     /**

@@ -24,8 +24,7 @@ import io.jmix.ui.meta.StudioProperty;
         caption = "ExportLibs",
         xmlElement = "libs",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class ExportLibs extends AbstractChartObject {
 
     private static final long serialVersionUID = -729310699528694421L;

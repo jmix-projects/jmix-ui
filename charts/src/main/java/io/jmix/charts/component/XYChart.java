@@ -39,8 +39,7 @@ import io.jmix.ui.meta.StudioComponent;
         icon = "io/jmix/charts/icon/component/xyChart.svg",
         canvasBehaviour = CanvasBehaviour.BOX,
         canvasIcon = "io/jmix/charts/icon/component/xyChart.svg",
-        canvasIconSize = CanvasIconSize.LARGE,
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+        canvasIconSize = CanvasIconSize.LARGE
 )
 public interface XYChart extends RectangularChart<XYChart>, XYChartModel<XYChart> {
     String NAME = "xyChart";

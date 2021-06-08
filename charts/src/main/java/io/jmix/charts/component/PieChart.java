@@ -38,8 +38,7 @@ import io.jmix.ui.meta.StudioComponent;
         icon = "io/jmix/charts/icon/component/pieChart.svg",
         canvasBehaviour = CanvasBehaviour.BOX,
         canvasIcon = "io/jmix/charts/icon/component/pieChart.svg",
-        canvasIconSize = CanvasIconSize.LARGE,
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+        canvasIconSize = CanvasIconSize.LARGE
 )
 public interface PieChart extends SlicedChart<PieChart>, PieChartModel<PieChart> {
     String NAME = "pieChart";

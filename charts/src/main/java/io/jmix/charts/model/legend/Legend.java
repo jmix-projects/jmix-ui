@@ -27,8 +27,7 @@ import io.jmix.ui.meta.StudioElement;
         caption = "Legend",
         xmlElement = "legend",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class Legend extends AbstractLegend<Legend> {
 
     private static final long serialVersionUID = 120277626796190884L;

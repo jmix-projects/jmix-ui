@@ -53,8 +53,7 @@ import java.util.function.Consumer;
         icon = "io/jmix/charts/icon/component/stockChart.svg",
         canvasBehaviour = CanvasBehaviour.BOX,
         canvasIcon = "io/jmix/charts/icon/component/stockChart.svg",
-        canvasIconSize = CanvasIconSize.LARGE,
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+        canvasIconSize = CanvasIconSize.LARGE
 )
 public interface StockChart extends Component, StockChartModel<StockChart>, Component.BelongToFrame,
         Component.HasIcon, Component.HasCaption {

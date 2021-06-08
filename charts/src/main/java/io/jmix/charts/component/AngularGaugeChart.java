@@ -38,8 +38,7 @@ import io.jmix.ui.meta.StudioComponent;
         icon = "io/jmix/charts/icon/component/gaugeChart.svg",
         canvasBehaviour = CanvasBehaviour.BOX,
         canvasIcon = "io/jmix/charts/icon/component/gaugeChart.svg",
-        canvasIconSize = CanvasIconSize.LARGE,
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+        canvasIconSize = CanvasIconSize.LARGE
 )
 public interface AngularGaugeChart extends Chart<AngularGaugeChart>, AngularGaugeChartModel<AngularGaugeChart> {
     String NAME = "gaugeChart";

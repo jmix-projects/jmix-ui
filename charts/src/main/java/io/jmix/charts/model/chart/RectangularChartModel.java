@@ -21,9 +21,7 @@ package io.jmix.charts.model.chart;
 import io.jmix.charts.model.*;
 import io.jmix.charts.model.cursor.Cursor;
 import io.jmix.charts.model.trendline.TrendLine;
-import io.jmix.ui.meta.PropertyType;
-import io.jmix.ui.meta.StudioProperties;
-import io.jmix.ui.meta.StudioProperty;
+import io.jmix.ui.meta.*;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -48,6 +46,7 @@ public interface RectangularChartModel<T extends RectangularChartModel>
      * @param chartCursor the chart cursor
      * @return  rectangular chart model
      */
+    @StudioElement
     T setChartCursor(Cursor chartCursor);
 
     /**
@@ -74,6 +73,7 @@ public interface RectangularChartModel<T extends RectangularChartModel>
      * @param trendLines list of trend lines
      * @return  rectangular chart model
      */
+    @StudioElementsGroup(caption = "Trend Lines", xmlElement = "trendLines")
     T setTrendLines(List<TrendLine> trendLines);
 
     /**
@@ -220,6 +220,13 @@ public interface RectangularChartModel<T extends RectangularChartModel>
      * @param plotAreaFillColors list of plot area colors
      * @return  rectangular chart model
      */
+    @StudioCollection(xmlElement = "plotAreaFillColors",
+            itemXmlElement = "color",
+            itemCaption = "Plot Area Fill Color",
+            itemProperties = {
+                    @StudioProperty(name = "value", type = PropertyType.ENUMERATION,
+                            options = {"@link io.jmix.charts.model.Color"})
+            })
     T setPlotAreaFillColors(List<Color> plotAreaFillColors);
 
     /**

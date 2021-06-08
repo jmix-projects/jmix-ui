@@ -28,6 +28,8 @@ import io.jmix.ui.meta.PropertyType;
 import io.jmix.ui.meta.StudioElement;
 import io.jmix.ui.meta.StudioProperty;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import java.util.Date;
 import java.util.Map;
 
@@ -43,8 +45,7 @@ import java.util.Map;
         caption = "ValueAxis",
         xmlElement = "valueAxis",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class ValueAxis extends AbstractAxis<ValueAxis> {
 
     private static final long serialVersionUID = -8718385614937510600L;
@@ -841,6 +842,8 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @return value axis
      */
     @StudioProperty
+    @Max(1)
+    @Min(0)
     public ValueAxis setZeroGridAlpha(Double zeroGridAlpha) {
         this.zeroGridAlpha = zeroGridAlpha;
         return this;

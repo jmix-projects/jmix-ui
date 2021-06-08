@@ -38,8 +38,7 @@ import io.jmix.ui.meta.StudioComponent;
         icon = "io/jmix/charts/icon/component/radarChart.svg",
         canvasBehaviour = CanvasBehaviour.BOX,
         canvasIcon = "io/jmix/charts/icon/component/radarChart.svg",
-        canvasIconSize = CanvasIconSize.LARGE,
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html"
+        canvasIconSize = CanvasIconSize.LARGE
 )
 public interface RadarChart extends CoordinateChart<RadarChart>, RadarChartModel<RadarChart> {
     String NAME = "radarChart";

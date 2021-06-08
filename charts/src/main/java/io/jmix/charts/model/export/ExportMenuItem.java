@@ -30,8 +30,7 @@ import javax.validation.constraints.Min;
         caption = "ExportMenuItem",
         xmlElement = "item",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class ExportMenuItem extends AbstractChartObject {
 
     private static final long serialVersionUID = 7821740492043242236L;

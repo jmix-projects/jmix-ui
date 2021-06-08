@@ -31,8 +31,7 @@ import io.jmix.ui.meta.StudioProperty;
         caption = "Rule",
         xmlElement = "rule",
         xmlns = "http://jmix.io/schema/ui/charts",
-        xmlnsAlias = "chart",
-        documentationURL = "https://docs.jmix.io/jmix/%VERSION%/backoffice-ui/charts.html")
+        xmlnsAlias = "chart")
 public class Rule extends AbstractChartObject {
 
     private static final long serialVersionUID = -7360797549434731632L;

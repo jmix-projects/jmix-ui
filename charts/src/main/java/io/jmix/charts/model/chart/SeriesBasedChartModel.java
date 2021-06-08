@@ -41,6 +41,7 @@ public interface SeriesBasedChartModel<T extends SeriesBasedChartModel> extends 
      * @param categoryAxis the category axis
      * @return  chart model
      */
+    @StudioElement
     T setCategoryAxis(CategoryAxis categoryAxis);
 
     /**
