@@ -419,6 +419,7 @@ public interface StockChartModel<T extends StockChartModel> extends HasColors<T>
      * @param periodSelector period selector
      * @return stock chart model
      */
+    @StudioElement
     T setPeriodSelector(PeriodSelector periodSelector);
 
     /**
