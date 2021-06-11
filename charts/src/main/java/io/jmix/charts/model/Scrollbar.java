@@ -22,6 +22,12 @@ import io.jmix.charts.model.chart.impl.SerialChartModelImpl;
 import io.jmix.charts.model.chart.impl.XYChartModelImpl;
 import io.jmix.charts.model.graph.AbstractGraph;
 import io.jmix.charts.model.graph.GraphType;
+import io.jmix.ui.meta.PropertyType;
+import io.jmix.ui.meta.StudioElement;
+import io.jmix.ui.meta.StudioProperty;
+
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 /**
  * Creates a scrollbar for {@link SerialChartModelImpl} and {@link XYChartModelImpl} charts.
@@ -30,6 +36,7 @@ import io.jmix.charts.model.graph.GraphType;
  * <br>
  * <a href="http://docs.amcharts.com/3/javascriptcharts/ChartScrollbar">http://docs.amcharts.com/3/javascriptcharts/ChartScrollbar</a>
  */
+@StudioElement
 public class Scrollbar extends AbstractChartObject {
 
     private static final long serialVersionUID = 6850646494521513508L;
@@ -134,6 +141,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param autoGridCount autoGridCount option
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "false")
     public Scrollbar setAutoGridCount(Boolean autoGridCount) {
         this.autoGridCount = autoGridCount;
         return this;
@@ -152,6 +160,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param backgroundAlpha background opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "1")
+    @Max(1)
+    @Min(0)
     public Scrollbar setBackgroundAlpha(Double backgroundAlpha) {
         this.backgroundAlpha = backgroundAlpha;
         return this;
@@ -170,6 +181,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param backgroundColor background color of the scrollbar
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#D4D4D4")
     public Scrollbar setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;
@@ -188,6 +200,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param color text color
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
     public Scrollbar setColor(Color color) {
         this.color = color;
         return this;
@@ -207,6 +220,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param dragIconHeight drag icon height
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "35")
     public Scrollbar setDragIconHeight(Integer dragIconHeight) {
         this.dragIconHeight = dragIconHeight;
         return this;
@@ -226,6 +240,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param dragIconWidth drag icon width
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "35")
     public Scrollbar setDragIconWidth(Integer dragIconWidth) {
         this.dragIconWidth = dragIconWidth;
         return this;
@@ -244,6 +259,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphFillAlpha graph fill opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "1")
+    @Max(1)
+    @Min(0)
     public Scrollbar setGraphFillAlpha(Double graphFillAlpha) {
         this.graphFillAlpha = graphFillAlpha;
         return this;
@@ -262,6 +280,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphFillColor graph fill color
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#BBBBBB")
     public Scrollbar setGraphFillColor(Color graphFillColor) {
         this.graphFillColor = graphFillColor;
         return this;
@@ -280,6 +299,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphLineAlpha graph line opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "0")
+    @Max(1)
+    @Min(0)
     public Scrollbar setGraphLineAlpha(Double graphLineAlpha) {
         this.graphLineAlpha = graphLineAlpha;
         return this;
@@ -298,6 +320,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphLineColor graph line color
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#BBBBBB")
     public Scrollbar setGraphLineColor(Color graphLineColor) {
         this.graphLineColor = graphLineColor;
         return this;
@@ -318,6 +341,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphType graph type
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION)
     public Scrollbar setGraphType(GraphType graphType) {
         this.graphType = graphType;
         return this;
@@ -336,6 +360,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param gridAlpha grid opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "0.7")
+    @Max(1)
+    @Min(0)
     public Scrollbar setGridAlpha(Double gridAlpha) {
         this.gridAlpha = gridAlpha;
         return this;
@@ -354,6 +381,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param gridColor grid color
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
     public Scrollbar setGridColor(Color gridColor) {
         this.gridColor = gridColor;
         return this;
@@ -372,6 +400,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param gridCount number of grid lines
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "0")
     public Scrollbar setGridCount(Integer gridCount) {
         this.gridCount = gridCount;
         return this;
@@ -391,6 +420,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param hideResizeGrips hideResizeGrips option
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "false")
     public Scrollbar setHideResizeGrips(Boolean hideResizeGrips) {
         this.hideResizeGrips = hideResizeGrips;
         return this;
@@ -409,6 +439,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param maximum maximum value
      * @return scrollbar
      */
+    @StudioProperty
     public Scrollbar setMaximum(Double maximum) {
         this.maximum = maximum;
         return this;
@@ -427,6 +458,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param minimum minimum value
      * @return scrollbar
      */
+    @StudioProperty
     public Scrollbar setMinimum(Double minimum) {
         this.minimum = minimum;
         return this;
@@ -447,6 +479,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param resizeEnabled resizeEnabled option
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "true")
     public Scrollbar setResizeEnabled(Boolean resizeEnabled) {
         this.resizeEnabled = resizeEnabled;
         return this;
@@ -465,6 +498,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param scrollbarHeight scrollbar height
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "20")
     public Scrollbar setScrollbarHeight(Integer scrollbarHeight) {
         this.scrollbarHeight = scrollbarHeight;
         return this;
@@ -484,6 +518,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param scrollDuration scroll duration, in seconds
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "1")
     public Scrollbar setScrollDuration(Double scrollDuration) {
         this.scrollDuration = scrollDuration;
         return this;
@@ -502,6 +537,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedBackgroundAlpha opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "1")
+    @Max(1)
+    @Min(0)
     public Scrollbar setSelectedBackgroundAlpha(Double selectedBackgroundAlpha) {
         this.selectedBackgroundAlpha = selectedBackgroundAlpha;
         return this;
@@ -520,6 +558,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedBackgroundColor color
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#EFEFEF")
     public Scrollbar setSelectedBackgroundColor(Color selectedBackgroundColor) {
         this.selectedBackgroundColor = selectedBackgroundColor;
         return this;
@@ -538,6 +577,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedGraphFillAlpha opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "1")
+    @Max(1)
+    @Min(0)
     public Scrollbar setSelectedGraphFillAlpha(Double selectedGraphFillAlpha) {
         this.selectedGraphFillAlpha = selectedGraphFillAlpha;
         return this;
@@ -556,6 +598,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedGraphFillColor color.
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#888888")
     public Scrollbar setSelectedGraphFillColor(Color selectedGraphFillColor) {
         this.selectedGraphFillColor = selectedGraphFillColor;
         return this;
@@ -574,6 +617,9 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedGraphLineAlpha opacity
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "0")
+    @Max(1)
+    @Min(0)
     public Scrollbar setSelectedGraphLineAlpha(Double selectedGraphLineAlpha) {
         this.selectedGraphLineAlpha = selectedGraphLineAlpha;
         return this;
@@ -592,6 +638,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedGraphLineColor color
      * @return scrollbar
      */
+    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#888888")
     public Scrollbar setSelectedGraphLineColor(Color selectedGraphLineColor) {
         this.selectedGraphLineColor = selectedGraphLineColor;
         return this;
@@ -611,6 +658,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param updateOnReleaseOnly updateOnReleaseOnly option
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "false")
     public Scrollbar setUpdateOnReleaseOnly(Boolean updateOnReleaseOnly) {
         this.updateOnReleaseOnly = updateOnReleaseOnly;
         return this;
@@ -649,6 +697,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param enabled enabled option
      * @return scrollbar
      */
+    @StudioProperty
     public Scrollbar setEnabled(Boolean enabled) {
         this.enabled = enabled;
         return this;
@@ -667,6 +716,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param offset distance, in pixels
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "0")
     public Scrollbar setOffset(Integer offset) {
         this.offset = offset;
         return this;
@@ -689,6 +739,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param dragIcon icon file name
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "dragIconRoundBig")
     public Scrollbar setDragIcon(String dragIcon) {
         this.dragIcon = dragIcon;
         return this;
@@ -709,6 +760,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param ignoreCustomColors ignoreCustomColors option
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "false")
     public Scrollbar setIgnoreCustomColors(Boolean ignoreCustomColors) {
         this.ignoreCustomColors = ignoreCustomColors;
         return this;
@@ -730,6 +782,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param oppositeAxis oppositeAxis option
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "true")
     public Scrollbar setOppositeAxis(Boolean oppositeAxis) {
         this.oppositeAxis = oppositeAxis;
         return this;
@@ -749,6 +802,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param dragCursorDown drag cursor down string
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "cursor: move; cursor: grab; cursor: -moz-grabbing; cursor: -webkit-grabbing;")
     public Scrollbar setDragCursorDown(String dragCursorDown) {
         this.dragCursorDown = dragCursorDown;
         return this;
@@ -768,6 +822,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param dragCursorHover drag cursor hover string
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "cursor: move; cursor: grab; cursor: -moz-grab; cursor: -webkit-grab;")
     public Scrollbar setDragCursorHover(String dragCursorHover) {
         this.dragCursorHover = dragCursorHover;
         return this;
@@ -789,6 +844,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param tabIndex tab index
      * @return scrollbar
      */
+    @StudioProperty
     public Scrollbar setTabIndex(Integer tabIndex) {
         this.tabIndex = tabIndex;
         return this;
@@ -811,6 +867,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param accessibleLabel accessible label string
      * @return scrollbar
      */
+    @StudioProperty(defaultValue = "Zoom chart using cursor arrows")
     public Scrollbar setAccessibleLabel(String accessibleLabel) {
         this.accessibleLabel = accessibleLabel;
         return this;
@@ -829,6 +886,7 @@ public class Scrollbar extends AbstractChartObject {
      *
      * @param hResizeCursor hResizeCursor value
      */
+    @StudioProperty(defaultValue = "ew-resize")
     public void setHResizeCursor(String hResizeCursor) {
         this.hResizeCursor = hResizeCursor;
     }
@@ -846,6 +904,7 @@ public class Scrollbar extends AbstractChartObject {
      *
      * @param hResizeCursorDown CSS value
      */
+    @StudioProperty
     public void setHResizeCursorDown(String hResizeCursorDown) {
         this.hResizeCursorDown = hResizeCursorDown;
     }
@@ -862,6 +921,7 @@ public class Scrollbar extends AbstractChartObject {
      *
      * @param hResizeCursorHover CSS value
      */
+    @StudioProperty
     public void setHResizeCursorHover(String hResizeCursorHover) {
         this.hResizeCursorHover = hResizeCursorHover;
     }
@@ -879,6 +939,7 @@ public class Scrollbar extends AbstractChartObject {
      *
      * @param vResizeCursor vResizeCursor value
      */
+    @StudioProperty(defaultValue = "ns-resize")
     public void setVResizeCursor(String vResizeCursor) {
         this.vResizeCursor = vResizeCursor;
     }
@@ -896,6 +957,7 @@ public class Scrollbar extends AbstractChartObject {
      *
      * @param vResizeCursorDown CSS value
      */
+    @StudioProperty
     public void setVResizeCursorDown(String vResizeCursorDown) {
         this.vResizeCursorDown = vResizeCursorDown;
     }
@@ -912,6 +974,7 @@ public class Scrollbar extends AbstractChartObject {
      *
      * @param vResizeCursorHover CSS value
      */
+    @StudioProperty
     public void setVResizeCursorHover(String vResizeCursorHover) {
         this.vResizeCursorHover = vResizeCursorHover;
     }

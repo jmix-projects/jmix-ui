@@ -152,6 +152,7 @@ public class StockPanel extends AbstractSerialChart<StockPanel> implements Serie
      * @param drawOnAxis value axis
      * @return stock panel
      */
+    @StudioElement(caption = "Draw on Axis", xmlElement = "drawOnAxis")
     public StockPanel setDrawOnAxis(ValueAxis drawOnAxis) {
         this.drawOnAxis = drawOnAxis;
         return this;

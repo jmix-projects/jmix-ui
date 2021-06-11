@@ -425,6 +425,7 @@ public class TrendLine extends AbstractChartObject {
      * @param finalImage final image
      * @return trend line
      */
+    @StudioElement(caption = "Final Image", xmlElement = "finalImage")
     public TrendLine setFinalImage(Image finalImage) {
         this.finalImage = finalImage;
         return this;
@@ -443,6 +444,7 @@ public class TrendLine extends AbstractChartObject {
      * @param initialImage initial image
      * @return trend line
      */
+    @StudioElement(caption = "Initial Image", xmlElement = "initialImage")
     public TrendLine setInitialImage(Image initialImage) {
         this.initialImage = initialImage;
         return this;

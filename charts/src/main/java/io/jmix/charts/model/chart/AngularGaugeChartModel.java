@@ -187,6 +187,7 @@ public interface AngularGaugeChartModel<T extends AngularGaugeChartModel>
      * @param facePattern the face pattern
      * @return chart model
      */
+    @StudioElement(caption = "Face Pattern", xmlElement = "facePattern")
     T setFacePattern(Pattern facePattern);
 
     /**

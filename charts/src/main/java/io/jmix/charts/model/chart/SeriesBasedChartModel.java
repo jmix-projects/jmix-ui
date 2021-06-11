@@ -249,6 +249,7 @@ public interface SeriesBasedChartModel<T extends SeriesBasedChartModel> extends 
      * @param valueScrollbar the value scrollbar
      * @return  chart model
      */
+    @StudioElement(caption = "Value Scrollbar", xmlElement = "valueScrollbar")
     T setValueScrollbar(Scrollbar valueScrollbar);
 
     /**

@@ -42,7 +42,7 @@ import java.util.Map;
  * <a href="http://docs.amcharts.com/3/javascriptcharts/ValueAxis">http://docs.amcharts.com/3/javascriptcharts/ValueAxis</a>
  */
 @StudioElement(
-        caption = "ValueAxis",
+        caption = "Value Axis",
         xmlElement = "valueAxis",
         xmlns = "http://jmix.io/schema/ui/charts",
         xmlnsAlias = "chart")

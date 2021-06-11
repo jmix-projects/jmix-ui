@@ -175,6 +175,7 @@ public class StockGraph extends AbstractGraph<StockGraph> {
      * @param compareGraph graph
      * @return stock graph
      */
+    @StudioElement(caption = "Compare Graph", xmlElement = "compareGraph")
     public StockGraph setCompareGraph(Graph compareGraph) {
         this.compareGraph = compareGraph;
         return this;

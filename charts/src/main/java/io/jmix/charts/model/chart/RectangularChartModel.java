@@ -60,6 +60,7 @@ public interface RectangularChartModel<T extends RectangularChartModel>
      * @param chartScrollbar the chart scrollbar
      * @return  rectangular chart model
      */
+    @StudioElement(caption = "Chart Scrollbar", xmlElement = "chartScrollbar")
     T setChartScrollbar(Scrollbar chartScrollbar);
 
     /**

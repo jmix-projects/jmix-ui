@@ -62,6 +62,7 @@ public interface CoordinateChartModel<T extends CoordinateChartModel>
      * @param valueAxes list of ValueAxis
      * @return  coordinate chart model
      */
+    @StudioElementsGroup(caption = "Value Axes", xmlElement = "valueAxes", elementXmlName = "axis")
     T setValueAxes(List<ValueAxis> valueAxes);
 
     /**
