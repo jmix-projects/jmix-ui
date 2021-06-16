@@ -252,7 +252,8 @@ public class StockPanel extends AbstractSerialChart<StockPanel> implements Serie
      * @param recalculateToPercents recalculate to percents value
      * @return stock panel
      */
-    @StudioProperty(defaultValue = "whenComparing")
+    @StudioProperty(type = PropertyType.OPTIONS, options = {"never", "always", "whenComparing"},
+            defaultValue = "whenComparing")
     public StockPanel setRecalculateToPercents(String recalculateToPercents) {
         this.recalculateToPercents = recalculateToPercents;
         return this;

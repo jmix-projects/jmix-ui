@@ -685,7 +685,8 @@ public class CategoryAxesSettings extends AbstractChartObject {
      * @param minPeriod the shortest period
      * @return category axes settings
      */
-    @StudioProperty(defaultValue = "DD")
+    @StudioProperty(type = PropertyType.OPTIONS, options = {"fff", "ss", "mm", "hh", "DD", "MM", "YYYY"},
+            defaultValue = "DD")
     public CategoryAxesSettings setMinPeriod(String minPeriod) {
         this.minPeriod = minPeriod;
         return this;

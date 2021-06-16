@@ -253,7 +253,8 @@ public class StockGraph extends AbstractGraph<StockGraph> {
      * @param compareGraphBullet compare graph bullet string
      * @return stock graph
      */
-    @StudioProperty
+    @StudioProperty(type = PropertyType.OPTIONS, options = {"round", "square", "diamond", "triangleUp",
+            "triangleDown", "triangleLeft", "triangleRight", "bubble"})
     public StockGraph setCompareGraphBullet(String compareGraphBullet) {
         this.compareGraphBullet = compareGraphBullet;
         return this;
