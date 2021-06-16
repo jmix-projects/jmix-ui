@@ -190,7 +190,7 @@ public interface RectangularChartModel<T extends RectangularChartModel>
      * @param plotAreaBorderColor the plot area border color
      * @return  rectangular chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     T setPlotAreaBorderColor(Color plotAreaBorderColor);
 
     /**
@@ -272,7 +272,7 @@ public interface RectangularChartModel<T extends RectangularChartModel>
      * @param zoomOutButtonColor zoom-out button background color
      * @return  rectangular chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#E5E5E5")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#E5E5E5")
     T setZoomOutButtonColor(Color zoomOutButtonColor);
 
     /**

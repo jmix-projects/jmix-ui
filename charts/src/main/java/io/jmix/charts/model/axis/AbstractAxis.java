@@ -192,7 +192,7 @@ public abstract class AbstractAxis<T extends AbstractAxis> extends AbstractChart
      * @param axisColor axis color
      * @return axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public T setAxisColor(Color axisColor) {
         this.axisColor = axisColor;
         return (T) this;
@@ -230,7 +230,7 @@ public abstract class AbstractAxis<T extends AbstractAxis> extends AbstractChart
      * @param color color of axis value labels
      * @return axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setColor(Color color) {
         this.color = color;
         return (T) this;
@@ -291,7 +291,7 @@ public abstract class AbstractAxis<T extends AbstractAxis> extends AbstractChart
      * @param fillColor fill color
      * @return axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public T setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         return (T) this;
@@ -350,7 +350,7 @@ public abstract class AbstractAxis<T extends AbstractAxis> extends AbstractChart
      * @param gridColor color of grid lines
      * @return axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public T setGridColor(Color gridColor) {
         this.gridColor = gridColor;
         return (T) this;
@@ -768,7 +768,7 @@ public abstract class AbstractAxis<T extends AbstractAxis> extends AbstractChart
      * @param titleColor color of axis title
      * @return axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setTitleColor(Color titleColor) {
         this.titleColor = titleColor;
         return (T) this;

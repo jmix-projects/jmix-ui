@@ -91,7 +91,7 @@ public class StockEventsSettings extends AbstractChartObject {
      * @param backgroundColor color
      * @return stock event settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#DADADA")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#DADADA")
     public StockEventsSettings setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;
@@ -110,7 +110,7 @@ public class StockEventsSettings extends AbstractChartObject {
      * @param balloonColor balloon color
      * @return stock event settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#CC0000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#CC0000")
     public StockEventsSettings setBalloonColor(Color balloonColor) {
         this.balloonColor = balloonColor;
         return this;
@@ -150,7 +150,7 @@ public class StockEventsSettings extends AbstractChartObject {
      * @param borderColor color
      * @return stock event settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#888888")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#888888")
     public StockEventsSettings setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
         return this;
@@ -169,7 +169,7 @@ public class StockEventsSettings extends AbstractChartObject {
      * @param rollOverColor color
      * @return stock event settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#CC0000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#CC0000")
     public StockEventsSettings setRollOverColor(Color rollOverColor) {
         this.rollOverColor = rollOverColor;
         return this;

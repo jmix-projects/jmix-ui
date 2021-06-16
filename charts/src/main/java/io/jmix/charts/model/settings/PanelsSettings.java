@@ -499,7 +499,7 @@ public class PanelsSettings extends AbstractChartObject implements HasMargins<Pa
      * @param plotAreaBorderColor color
      * @return panels settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public PanelsSettings setPlotAreaBorderColor(Color plotAreaBorderColor) {
         this.plotAreaBorderColor = plotAreaBorderColor;
         return this;

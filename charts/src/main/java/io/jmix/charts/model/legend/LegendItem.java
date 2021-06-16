@@ -42,7 +42,7 @@ public class LegendItem extends AbstractChartObject {
         return color;
     }
 
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public LegendItem setColor(Color color) {
         this.color = color;
         return this;

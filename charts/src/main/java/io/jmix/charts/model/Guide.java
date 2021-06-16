@@ -153,7 +153,7 @@ public class Guide extends AbstractChartObject {
      * @param balloonColor fill color
      * @return guide
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Guide setBalloonColor(Color balloonColor) {
         this.balloonColor = balloonColor;
         return this;
@@ -271,7 +271,7 @@ public class Guide extends AbstractChartObject {
      * @param fillColor fill color
      * @return guide
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Guide setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         return this;
@@ -387,7 +387,7 @@ public class Guide extends AbstractChartObject {
      * @param lineColor line color
      * @return guide
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Guide setLineColor(Color lineColor) {
         this.lineColor = lineColor;
         return this;
@@ -579,7 +579,7 @@ public class Guide extends AbstractChartObject {
      * @param color color
      * @return guide
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Guide setColor(Color color) {
         this.color = color;
         return this;

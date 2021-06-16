@@ -466,7 +466,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param balloonColor value balloon color
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setBalloonColor(Color balloonColor) {
         this.balloonColor = balloonColor;
         return (T) this;
@@ -587,7 +587,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param bulletBorderColor bullet border color
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setBulletBorderColor(Color bulletBorderColor) {
         this.bulletBorderColor = bulletBorderColor;
         return (T) this;
@@ -625,7 +625,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param bulletColor bullet color
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setBulletColor(Color bulletColor) {
         this.bulletColor = bulletColor;
         return (T) this;
@@ -761,7 +761,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param color color of value labels
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setColor(Color color) {
         this.color = color;
         return (T) this;
@@ -1326,7 +1326,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param legendColor legend marker color
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setLegendColor(Color legendColor) {
         this.legendColor = legendColor;
         return (T) this;
@@ -1409,7 +1409,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param lineColor color of the line (or column border)
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setLineColor(Color lineColor) {
         this.lineColor = lineColor;
         return (T) this;
@@ -1634,7 +1634,7 @@ public class AbstractGraph<T extends AbstractGraph> extends AbstractChartObject 
      * @param negativeLineColor color
      * @return graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setNegativeLineColor(Color negativeLineColor) {
         this.negativeLineColor = negativeLineColor;
         return (T) this;

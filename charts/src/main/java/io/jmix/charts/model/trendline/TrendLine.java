@@ -330,7 +330,7 @@ public class TrendLine extends AbstractChartObject {
      * @param lineColor color
      * @return trend line
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#00CC00")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#00CC00")
     public TrendLine setLineColor(Color lineColor) {
         this.lineColor = lineColor;
         return this;

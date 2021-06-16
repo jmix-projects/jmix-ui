@@ -143,7 +143,7 @@ public class GaugeArrow extends AbstractChartObject {
      * @param color color
      * @return gauge arrow
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public GaugeArrow setColor(Color color) {
         this.color = color;
         return this;

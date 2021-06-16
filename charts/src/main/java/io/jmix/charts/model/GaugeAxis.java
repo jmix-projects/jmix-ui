@@ -175,7 +175,7 @@ public class GaugeAxis extends AbstractChartObject {
      * @param axisColor color
      * @return gauge axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public GaugeAxis setAxisColor(Color axisColor) {
         this.axisColor = axisColor;
         return this;
@@ -255,7 +255,7 @@ public class GaugeAxis extends AbstractChartObject {
      * @param bandOutlineColor color
      * @return gauge axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public GaugeAxis setBandOutlineColor(Color bandOutlineColor) {
         this.bandOutlineColor = bandOutlineColor;
         return this;
@@ -331,7 +331,7 @@ public class GaugeAxis extends AbstractChartObject {
      * @param bottomTextColor color
      * @return gauge axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public GaugeAxis setBottomTextColor(Color bottomTextColor) {
         this.bottomTextColor = bottomTextColor;
         return this;
@@ -698,7 +698,7 @@ public class GaugeAxis extends AbstractChartObject {
      * @param tickColor tick color
      * @return gauge axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#555555")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#555555")
     public GaugeAxis setTickColor(Color tickColor) {
         this.tickColor = tickColor;
         return this;
@@ -793,7 +793,7 @@ public class GaugeAxis extends AbstractChartObject {
      * @param topTextColor color
      * @return gauge axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public GaugeAxis setTopTextColor(Color topTextColor) {
         this.topTextColor = topTextColor;
         return this;
@@ -1039,7 +1039,7 @@ public class GaugeAxis extends AbstractChartObject {
      * @param color color
      * @return gauge axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public GaugeAxis setColor(Color color) {
         this.color = color;
         return this;

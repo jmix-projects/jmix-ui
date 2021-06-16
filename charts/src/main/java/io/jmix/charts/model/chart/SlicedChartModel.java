@@ -103,7 +103,7 @@ public interface SlicedChartModel<T extends SlicedChartModel>
      * @param baseColor color of the first slice
      * @return sliced chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     T setBaseColor(Color baseColor);
 
     /**
@@ -191,7 +191,7 @@ public interface SlicedChartModel<T extends SlicedChartModel>
      * @param groupedColor grouped color
      * @return sliced chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     T setGroupedColor(Color groupedColor);
 
     /**
@@ -323,7 +323,7 @@ public interface SlicedChartModel<T extends SlicedChartModel>
      * @param labelTickColor label tick color
      * @return sliced chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     T setLabelTickColor(Color labelTickColor);
 
     /**
@@ -353,7 +353,7 @@ public interface SlicedChartModel<T extends SlicedChartModel>
      * @param outlineColor the outline color
      * @return sliced chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     T setOutlineColor(Color outlineColor);
 
     /**
@@ -633,7 +633,7 @@ public interface SlicedChartModel<T extends SlicedChartModel>
      * @param labelColorField label color field string
      * @return sliced chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     T setLabelColorField(Color labelColorField);
 
     /**

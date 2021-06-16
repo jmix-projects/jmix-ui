@@ -194,7 +194,7 @@ public class StockGraph extends AbstractGraph<StockGraph> {
      * @param compareGraphBalloonColor color
      * @return stock graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public StockGraph setCompareGraphBalloonColor(Color compareGraphBalloonColor) {
         this.compareGraphBalloonColor = compareGraphBalloonColor;
         return this;
@@ -293,7 +293,7 @@ public class StockGraph extends AbstractGraph<StockGraph> {
      * @param compareGraphBulletBorderColor color
      * @return stock graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public StockGraph setCompareGraphBulletBorderColor(Color compareGraphBulletBorderColor) {
         this.compareGraphBulletBorderColor = compareGraphBulletBorderColor;
         return this;
@@ -331,7 +331,7 @@ public class StockGraph extends AbstractGraph<StockGraph> {
      * @param compareGraphBulletColor color
      * @return stock graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public StockGraph setCompareGraphBulletColor(Color compareGraphBulletColor) {
         this.compareGraphBulletColor = compareGraphBulletColor;
         return this;
@@ -474,7 +474,7 @@ public class StockGraph extends AbstractGraph<StockGraph> {
      * @param compareGraphLineColor color
      * @return stock graph
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public StockGraph setCompareGraphLineColor(Color compareGraphLineColor) {
         this.compareGraphLineColor = compareGraphLineColor;
         return this;

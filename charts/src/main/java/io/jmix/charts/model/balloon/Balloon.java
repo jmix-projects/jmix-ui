@@ -171,7 +171,7 @@ public class Balloon extends AbstractChartObject {
      * @param borderColor border color
      * @return balloon
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public Balloon setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
         return this;
@@ -209,7 +209,7 @@ public class Balloon extends AbstractChartObject {
      * @param color color of the text
      * @return balloon
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public Balloon setColor(Color color) {
         this.color = color;
         return this;
@@ -288,7 +288,7 @@ public class Balloon extends AbstractChartObject {
      * @param fillColor background color
      * @return balloon
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public Balloon setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         return this;
@@ -466,7 +466,7 @@ public class Balloon extends AbstractChartObject {
      * @param shadowColor shadow color
      * @return balloon
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public Balloon setShadowColor(Color shadowColor) {
         this.shadowColor = shadowColor;
         return this;

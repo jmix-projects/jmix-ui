@@ -171,7 +171,7 @@ public class ValueAxesSettings extends AbstractChartObject {
      * @param axisColor color
      * @return value axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ValueAxesSettings setAxisColor(Color axisColor) {
         this.axisColor = axisColor;
         return this;
@@ -209,7 +209,7 @@ public class ValueAxesSettings extends AbstractChartObject {
      * @param color color
      * @return value axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ValueAxesSettings setColor(Color color) {
         this.color = color;
         return this;
@@ -269,7 +269,7 @@ public class ValueAxesSettings extends AbstractChartObject {
      * @param fillColor color
      * @return value axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ValueAxesSettings setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         return this;
@@ -309,7 +309,7 @@ public class ValueAxesSettings extends AbstractChartObject {
      * @param gridColor color
      * @return value axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ValueAxesSettings setGridColor(Color gridColor) {
         this.gridColor = gridColor;
         return this;

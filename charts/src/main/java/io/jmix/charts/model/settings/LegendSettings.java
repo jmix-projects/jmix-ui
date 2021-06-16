@@ -243,7 +243,7 @@ public class LegendSettings extends AbstractChartObject {
      * @param markerBorderColor color
      * @return legend settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public LegendSettings setMarkerBorderColor(Color markerBorderColor) {
         this.markerBorderColor = markerBorderColor;
         return this;
@@ -281,7 +281,7 @@ public class LegendSettings extends AbstractChartObject {
      * @param markerDisabledColor color
      * @return legend settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public LegendSettings setMarkerDisabledColor(Color markerDisabledColor) {
         this.markerDisabledColor = markerDisabledColor;
         return this;
@@ -377,7 +377,7 @@ public class LegendSettings extends AbstractChartObject {
      * @param rollOverColor color
      * @return legend settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public LegendSettings setRollOverColor(Color rollOverColor) {
         this.rollOverColor = rollOverColor;
         return this;
@@ -435,7 +435,7 @@ public class LegendSettings extends AbstractChartObject {
      * @param switchColor color
      * @return legend settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public LegendSettings setSwitchColor(Color switchColor) {
         this.switchColor = switchColor;
         return this;

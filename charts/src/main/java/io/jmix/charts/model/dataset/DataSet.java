@@ -121,7 +121,7 @@ public class DataSet extends AbstractChartObject {
      * @param color color
      * @return data set
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public DataSet setColor(Color color) {
         this.color = color;
         return this;

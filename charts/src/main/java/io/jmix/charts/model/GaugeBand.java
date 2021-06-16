@@ -98,7 +98,7 @@ public class GaugeBand extends AbstractChartObject {
      * @param color color
      * @return gauge band
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public GaugeBand setColor(Color color) {
         this.color = color;
         return this;

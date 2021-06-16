@@ -60,7 +60,7 @@ public class Image extends AbstractChartObject {
      * @param balloonColor color
      * @return image
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public Image setBalloonColor(Color balloonColor) {
         this.balloonColor = balloonColor;
         return this;
@@ -99,7 +99,7 @@ public class Image extends AbstractChartObject {
      * @param color color
      * @return image
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public Image setColor(Color color) {
         this.color = color;
         return this;
@@ -175,7 +175,7 @@ public class Image extends AbstractChartObject {
      * @param outlineColor color
      * @return image
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Image setOutlineColor(Color outlineColor) {
         this.outlineColor = outlineColor;
         return this;

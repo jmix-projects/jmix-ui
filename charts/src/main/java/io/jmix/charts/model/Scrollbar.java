@@ -181,7 +181,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param backgroundColor background color of the scrollbar
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#D4D4D4")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#D4D4D4")
     public Scrollbar setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;
@@ -200,7 +200,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param color text color
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public Scrollbar setColor(Color color) {
         this.color = color;
         return this;
@@ -280,7 +280,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphFillColor graph fill color
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#BBBBBB")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#BBBBBB")
     public Scrollbar setGraphFillColor(Color graphFillColor) {
         this.graphFillColor = graphFillColor;
         return this;
@@ -320,7 +320,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param graphLineColor graph line color
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#BBBBBB")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#BBBBBB")
     public Scrollbar setGraphLineColor(Color graphLineColor) {
         this.graphLineColor = graphLineColor;
         return this;
@@ -381,7 +381,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param gridColor grid color
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public Scrollbar setGridColor(Color gridColor) {
         this.gridColor = gridColor;
         return this;
@@ -558,7 +558,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedBackgroundColor color
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#EFEFEF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#EFEFEF")
     public Scrollbar setSelectedBackgroundColor(Color selectedBackgroundColor) {
         this.selectedBackgroundColor = selectedBackgroundColor;
         return this;
@@ -598,7 +598,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedGraphFillColor color.
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#888888")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#888888")
     public Scrollbar setSelectedGraphFillColor(Color selectedGraphFillColor) {
         this.selectedGraphFillColor = selectedGraphFillColor;
         return this;
@@ -638,7 +638,7 @@ public class Scrollbar extends AbstractChartObject {
      * @param selectedGraphLineColor color
      * @return scrollbar
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#888888")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#888888")
     public Scrollbar setSelectedGraphLineColor(Color selectedGraphLineColor) {
         this.selectedGraphLineColor = selectedGraphLineColor;
         return this;

@@ -228,7 +228,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param backgroundColor background color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public T setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
         return (T) this;
@@ -269,7 +269,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param borderColor border color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public T setBorderColor(Color borderColor) {
         this.borderColor = borderColor;
         return (T) this;
@@ -307,7 +307,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param color text color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     public T setColor(Color color) {
         this.color = color;
         return (T) this;
@@ -527,7 +527,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param markerBorderColor marker border color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public T setMarkerBorderColor(Color markerBorderColor) {
         this.markerBorderColor = markerBorderColor;
         return (T) this;
@@ -566,7 +566,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param markerDisabledColor marker disabled color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#AAB3B3")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#AAB3B3")
     public T setMarkerDisabledColor(Color markerDisabledColor) {
         this.markerDisabledColor = markerDisabledColor;
         return (T) this;
@@ -745,7 +745,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param rollOverColor roll over color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#CC0000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#CC0000")
     public T setRollOverColor(Color rollOverColor) {
         this.rollOverColor = rollOverColor;
         return (T) this;
@@ -844,7 +844,7 @@ public class AbstractLegend<T extends AbstractLegend> extends AbstractChartObjec
      * @param switchColor switch color
      * @return legend
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public T setSwitchColor(Color switchColor) {
         this.switchColor = switchColor;
         return (T) this;

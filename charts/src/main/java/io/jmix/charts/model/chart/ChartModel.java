@@ -105,7 +105,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param backgroundColor the background color
      * @return chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     T setBackgroundColor(Color backgroundColor);
 
     /**
@@ -253,7 +253,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param borderColor the border color
      * @return chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     T setBorderColor(Color borderColor);
 
     /**
@@ -297,7 +297,7 @@ public interface ChartModel<T extends ChartModel> {
      * @param color the text color
      * @return chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#000000")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#000000")
     T setColor(Color color);
 
     /**

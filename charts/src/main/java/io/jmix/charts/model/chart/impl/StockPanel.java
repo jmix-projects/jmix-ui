@@ -404,7 +404,7 @@ public class StockPanel extends AbstractSerialChart<StockPanel> implements Serie
      * @param trendLineColor color
      * @return stock panel
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#00CC00")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#00CC00")
     public StockPanel setTrendLineColor(Color trendLineColor) {
         this.trendLineColor = trendLineColor;
         return this;

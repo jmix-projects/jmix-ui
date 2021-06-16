@@ -541,7 +541,7 @@ public class ValueAxis extends AbstractAxis<ValueAxis> {
      * @param totalTextColor color
      * @return value axis
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ValueAxis setTotalTextColor(Color totalTextColor) {
         this.totalTextColor = totalTextColor;
         return this;

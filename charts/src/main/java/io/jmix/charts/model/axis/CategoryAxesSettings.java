@@ -191,7 +191,7 @@ public class CategoryAxesSettings extends AbstractChartObject {
      * @param axisColor axis color
      * @return category axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public CategoryAxesSettings setAxisColor(Color axisColor) {
         this.axisColor = axisColor;
         return this;
@@ -268,7 +268,7 @@ public class CategoryAxesSettings extends AbstractChartObject {
      * @param color text color
      * @return category axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public CategoryAxesSettings setColor(Color color) {
         this.color = color;
         return this;
@@ -384,7 +384,7 @@ public class CategoryAxesSettings extends AbstractChartObject {
      * @param fillColor fill color
      * @return category axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public CategoryAxesSettings setFillColor(Color fillColor) {
         this.fillColor = fillColor;
         return this;
@@ -443,7 +443,7 @@ public class CategoryAxesSettings extends AbstractChartObject {
      * @param gridColor color of grid lines
      * @return category axes settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public CategoryAxesSettings setGridColor(Color gridColor) {
         this.gridColor = gridColor;
         return this;

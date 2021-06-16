@@ -193,7 +193,7 @@ public class ChartCursorSettings extends AbstractChartObject {
      * @param categoryBalloonColor color of the category balloon
      * @return chart cursor settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartCursorSettings setCategoryBalloonColor(Color categoryBalloonColor) {
         this.categoryBalloonColor = categoryBalloonColor;
         return this;
@@ -317,7 +317,7 @@ public class ChartCursorSettings extends AbstractChartObject {
      * @param cursorColor color of the cursor line
      * @return chart cursor settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FFFFFF")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FFFFFF")
     public ChartCursorSettings setCursorColor(Color cursorColor) {
         this.cursorColor = cursorColor;
         return this;
@@ -598,7 +598,7 @@ public class ChartCursorSettings extends AbstractChartObject {
      * @param color text color
      * @return chart cursor settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartCursorSettings setColor(Color color) {
         this.color = color;
         return this;

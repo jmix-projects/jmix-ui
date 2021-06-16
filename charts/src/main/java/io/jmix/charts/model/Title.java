@@ -106,7 +106,7 @@ public class Title extends AbstractChartObject {
      * @param color color
      * @return title
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Title setColor(Color color) {
         this.color = color;
         return this;

@@ -161,7 +161,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param backgroundColor background color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;
@@ -180,7 +180,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param color text color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setColor(Color color) {
         this.color = color;
         return this;
@@ -317,7 +317,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param graphFillColor graph fill color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setGraphFillColor(Color graphFillColor) {
         this.graphFillColor = graphFillColor;
         return this;
@@ -357,7 +357,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param graphLineColor graph line color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setGraphLineColor(Color graphLineColor) {
         this.graphLineColor = graphLineColor;
         return this;
@@ -418,7 +418,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param gridColor grid color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setGridColor(Color gridColor) {
         this.gridColor = gridColor;
         return this;
@@ -593,7 +593,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param selectedBackgroundColor color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setSelectedBackgroundColor(Color selectedBackgroundColor) {
         this.selectedBackgroundColor = selectedBackgroundColor;
         return this;
@@ -633,7 +633,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param selectedGraphFillColor color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setSelectedGraphFillColor(Color selectedGraphFillColor) {
         this.selectedGraphFillColor = selectedGraphFillColor;
         return this;
@@ -673,7 +673,7 @@ public class ChartScrollbarSettings extends AbstractChartObject {
      * @param selectedGraphLineColor color
      * @return chart scrollbar settings
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public ChartScrollbarSettings setSelectedGraphLineColor(Color selectedGraphLineColor) {
         this.selectedGraphLineColor = selectedGraphLineColor;
         return this;

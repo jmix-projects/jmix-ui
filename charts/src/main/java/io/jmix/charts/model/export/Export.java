@@ -147,7 +147,7 @@ public class Export extends AbstractChartObject {
      * @param backgroundColor color
      * @return export
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Export setBackgroundColor(Color backgroundColor) {
         this.backgroundColor = backgroundColor;
         return this;

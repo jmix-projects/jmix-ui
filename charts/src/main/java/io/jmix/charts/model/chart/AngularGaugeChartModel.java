@@ -145,7 +145,7 @@ public interface AngularGaugeChartModel<T extends AngularGaugeChartModel>
      * @param faceBorderColor the face border color
      * @return chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#555555")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#555555")
     T setFaceBorderColor(Color faceBorderColor);
 
     /**
@@ -173,7 +173,7 @@ public interface AngularGaugeChartModel<T extends AngularGaugeChartModel>
      * @param faceColor the face color
      * @return chart model
      */
-    @StudioProperty(type = PropertyType.ENUMERATION, defaultValue = "#FAFAFA")
+    @StudioProperty(type = PropertyType.OPTIONS, defaultValue = "#FAFAFA")
     T setFaceColor(Color faceColor);
 
     /**

@@ -138,7 +138,7 @@ public class Label extends AbstractChartObject {
      * @param color color
      * @return label
      */
-    @StudioProperty(type = PropertyType.ENUMERATION)
+    @StudioProperty(type = PropertyType.OPTIONS)
     public Label setColor(Color color) {
         this.color = color;
         return this;
