@@ -20,7 +20,11 @@ apply plugin: 'io.jmix'
 group = 'io.jmix.ui'
 archivesBaseName = 'jmix-ui'
 
+def jmixUiDataContainer = project(':ui-data-container')
+
 dependencies {
+    api(jmixUiDataContainer)
+
     api 'io.jmix.core:jmix-core'
 
     api 'com.vaadin:vaadin-server'
