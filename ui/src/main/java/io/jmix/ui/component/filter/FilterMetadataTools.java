@@ -132,10 +132,9 @@ public class FilterMetadataTools {
             return true;
         }
 
-        MetaProperty metaProperty = propertyPath.getMetaProperty();
-        MetaClass domainMetaClass = metaProperty.getDomain();
-        MetaClass propertyMetaClass = metaProperty.getRange().isClass()
-                ? metaProperty.getRange().asClass()
+        MetaClass domainMetaClass = propertyPath.getMetaProperty().getDomain();
+        MetaClass propertyMetaClass = propertyPath.getMetaProperty().getRange().isClass()
+                ? propertyPath.getMetaProperty().getRange().asClass()
                 : null;
 
         if (!domainMetaClass.equals(filterMetaClass)) {
