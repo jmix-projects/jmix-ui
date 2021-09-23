@@ -17,9 +17,13 @@
 package io.jmix.uiexport.exporter;
 
 import io.jmix.ui.component.DataGrid;
+import io.jmix.ui.component.ListComponent;
 import io.jmix.ui.component.Table;
 import io.jmix.ui.download.Downloader;
 import io.jmix.uiexport.action.ExportAction;
+
+import javax.annotation.Nullable;
+import java.util.function.Function;
 
 /**
  * Table exporter interface.
@@ -41,4 +45,54 @@ public interface TableExporter {
      * returns exporter caption
      */
     String getCaption();
+
+    /**
+     * Adds a function to get value from the column.
+     *
+     * @param columnId       column id
+     * @param exportProvider export provider function
+     */
+    void addColumnExportProvider(String columnId, Function<ExportColumnContext, Object> exportProvider);
+
+    /**
+     * Removes an export provider function by column id.
+     *
+     * @param columnId column id
+     */
+    void removeColumnExportProvider(String columnId);
+
+    /**
+     * @param columnId column id
+     * @return export provider function for the column id
+     */
+    @Nullable
+    Function<ExportColumnContext, Object> getColumnExportProvider(String columnId);
+
+    /**
+     * Describes export column context.
+     */
+    class ExportColumnContext {
+        protected Object column;
+        protected Object entity;
+
+        protected ListComponent target;
+
+        public ExportColumnContext(ListComponent target, Object column, Object entity) {
+            this.target = target;
+            this.column = column;
+            this.entity = entity;
+        }
+
+        public <C> C getColumn() {
+            return (C) column;
+        }
+
+        public <T> T getTarget() {
+            return (T) target;
+        }
+
+        public <E> E getEntity() {
+            return (E) entity;
+        }
+    }
 }
