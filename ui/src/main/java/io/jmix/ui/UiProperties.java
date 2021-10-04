@@ -60,7 +60,6 @@ public class UiProperties {
     String mainScreenId;
     String initialScreenId;
     boolean localeSelectVisible;
-    boolean forceRefreshAuthenticatedTabs;
     int mainTabCaptionLength;
 
     public UiProperties(
@@ -90,7 +89,6 @@ public class UiProperties {
             @DefaultValue("main") String mainScreenId,
             String initialScreenId,
             @DefaultValue("true") boolean localeSelectVisible,
-            @DefaultValue("false") boolean forceRefreshAuthenticatedTabs,
             @DefaultValue("25") int mainTabCaptionLength
     ) {
         this.testMode = testMode;
@@ -121,7 +119,6 @@ public class UiProperties {
         this.mainScreenId = mainScreenId;
         this.initialScreenId = initialScreenId;
         this.localeSelectVisible = localeSelectVisible;
-        this.forceRefreshAuthenticatedTabs = forceRefreshAuthenticatedTabs;
         this.mainTabCaptionLength = mainTabCaptionLength;
     }
 
@@ -278,14 +275,6 @@ public class UiProperties {
      */
     public String getInitialScreenId() {
         return initialScreenId;
-    }
-
-    /**
-     * @return true if app should perform force refresh for browser tabs with authenticated sessions
-     * or false otherwise
-     */
-    public boolean isForceRefreshAuthenticatedTabs() {
-        return forceRefreshAuthenticatedTabs;
     }
 
     /**

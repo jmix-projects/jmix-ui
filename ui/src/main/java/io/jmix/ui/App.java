@@ -456,8 +456,7 @@ public abstract class App {
                 .stream()
                 .filter(ui ->
                         ui.hasAuthenticatedSession() &&
-                                (Objects.equals(auth, ui.currentAuthentication.getAuthentication())
-                                        || uiProperties.isForceRefreshAuthenticatedTabs())
+                                (Objects.equals(auth, ui.currentAuthentication.getAuthentication()))
                 )
                 .collect(Collectors.toList());
 
