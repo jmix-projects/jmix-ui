@@ -628,6 +628,10 @@ public abstract class App {
 
     protected void forceRefreshUIsExceptCurrent() {
         AppUI current = AppUI.getCurrent();
+        if (current == null) {
+            // The current AppUI may be null in case REST API auth token is requested
+            return;
+        }
 
         List<AppUI> uis = getAppUIs()
                 .stream()
