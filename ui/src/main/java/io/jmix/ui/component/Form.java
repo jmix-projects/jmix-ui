@@ -31,7 +31,7 @@ import java.util.Collection;
  */
 @StudioComponent(
         caption = "Form",
-        category = "Components",
+        category = "Containers",
         xmlElement = "form",
         icon = "io/jmix/ui/icon/component/form.svg",
         canvasBehaviour = CanvasBehaviour.CONTAINER,
