@@ -93,33 +93,34 @@ public class ExportAction extends ListAction implements ApplicationContextAware 
      * Adds a function to get value from the column.
      *
      * @param columnId       column id
-     * @param exportProvider export provider function
+     * @param columnValueProvider column value provider function
      */
-    public void addColumnExportProvider(String columnId, Function<TableExporter.ExportColumnContext, Object> exportProvider) {
+    public void addColumnValueProvider(String columnId,
+                                       Function<TableExporter.ColumnValueContext, Object> columnValueProvider) {
         if (tableExporter != null) {
-            tableExporter.addColumnExportProvider(columnId, exportProvider);
+            tableExporter.addColumnValueProvider(columnId, columnValueProvider);
         }
     }
 
     /**
-     * Removes an export provider function by column id.
+     * Removes an column value provider function by column id.
      *
      * @param columnId column id
      */
-    public void removeColumnExportProvider(String columnId) {
+    public void removeColumnValueProvider(String columnId) {
         if (tableExporter != null) {
-            tableExporter.removeColumnExportProvider(columnId);
+            tableExporter.removeColumnValueProvider(columnId);
         }
     }
 
     /**
      * @param columnId column id
-     * @return export provider function for the column id
+     * @return column value provider function for the column id
      */
     @Nullable
-    public Function<TableExporter.ExportColumnContext, Object> getColumnExportProvider(String columnId) {
+    public Function<TableExporter.ColumnValueContext, Object> getColumnValueProvider(String columnId) {
         return tableExporter != null
-                ? tableExporter.getColumnExportProvider(columnId)
+                ? tableExporter.getColumnValueProvider(columnId)
                 : null;
     }
 

@@ -215,7 +215,7 @@ public abstract class AbstractTable<T extends com.vaadin.v7.ui.Table & JmixEnhan
     protected AggregationDistributionProvider<E> distributionProvider;
 
     // Map column id to Printable representation
-    // @deprecated, see ExportAction#addColumnExportProvider()
+    // @deprecated, see ExportAction#addColumnValueProvider()
     protected Map<String, Printable> printables; // lazily initialized Map
 
     protected TableDataContainer<E> dataBinding;

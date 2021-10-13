@@ -50,34 +50,34 @@ public interface TableExporter {
      * Adds a function to get value from the column.
      *
      * @param columnId       column id
-     * @param exportProvider export provider function
+     * @param columnValueProvider column value provider function
      */
-    void addColumnExportProvider(String columnId, Function<ExportColumnContext, Object> exportProvider);
+    void addColumnValueProvider(String columnId, Function<ColumnValueContext, Object> columnValueProvider);
 
     /**
-     * Removes an export provider function by column id.
+     * Removes an column value provider function by column id.
      *
      * @param columnId column id
      */
-    void removeColumnExportProvider(String columnId);
+    void removeColumnValueProvider(String columnId);
 
     /**
      * @param columnId column id
-     * @return export provider function for the column id
+     * @return column value provider function for the column id
      */
     @Nullable
-    Function<ExportColumnContext, Object> getColumnExportProvider(String columnId);
+    Function<ColumnValueContext, Object> getColumnValueProvider(String columnId);
 
     /**
-     * Describes export column context.
+     * Describes a context for a column value provider.
      */
-    class ExportColumnContext {
+    class ColumnValueContext {
         protected Object column;
         protected Object entity;
 
         protected ListComponent target;
 
-        public ExportColumnContext(ListComponent target, Object column, Object entity) {
+        public ColumnValueContext(ListComponent target, Object column, Object entity) {
             this.target = target;
             this.column = column;
             this.entity = entity;

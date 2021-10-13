@@ -70,7 +70,7 @@ public abstract class AbstractTableExporter<T extends AbstractTableExporter> imp
 
     protected String fileName;
 
-    protected Map<String, Function<ExportColumnContext, Object>> columnExportProviders;
+    protected Map<String, Function<ColumnValueContext, Object>> columnValueProviders;
 
     public String getFileName() {
         return fileName;
@@ -86,26 +86,26 @@ public abstract class AbstractTableExporter<T extends AbstractTableExporter> imp
     }
 
     @Override
-    public void addColumnExportProvider(String columnId, Function<ExportColumnContext, Object> columnExportProvider) {
-        if (columnExportProviders == null) {
-            columnExportProviders = new HashMap<>();
+    public void addColumnValueProvider(String columnId, Function<ColumnValueContext, Object> columnValueProvider) {
+        if (columnValueProviders == null) {
+            columnValueProviders = new HashMap<>();
         }
 
-        columnExportProviders.put(columnId, columnExportProvider);
+        columnValueProviders.put(columnId, columnValueProvider);
     }
 
     @Override
-    public void removeColumnExportProvider(String columnId) {
-        if (MapUtils.isNotEmpty(columnExportProviders)) {
-            columnExportProviders.remove(columnId);
+    public void removeColumnValueProvider(String columnId) {
+        if (MapUtils.isNotEmpty(columnValueProviders)) {
+            columnValueProviders.remove(columnId);
         }
     }
 
     @Nullable
     @Override
-    public Function<ExportColumnContext, Object> getColumnExportProvider(String columnId) {
-        return MapUtils.isNotEmpty(columnExportProviders)
-                ? columnExportProviders.get(columnId)
+    public Function<ColumnValueContext, Object> getColumnValueProvider(String columnId) {
+        return MapUtils.isNotEmpty(columnValueProviders)
+                ? columnValueProviders.get(columnId)
                 : null;
     }
 
@@ -130,11 +130,11 @@ public abstract class AbstractTableExporter<T extends AbstractTableExporter> imp
     }
 
     protected Object getColumnValue(Table table, Table.Column column, Object instance) {
-        Function<ExportColumnContext, Object> exportProvider = MapUtils.isNotEmpty(columnExportProviders)
-                ? columnExportProviders.get(column.getStringId())
+        Function<ColumnValueContext, Object> columnValueProvider = MapUtils.isNotEmpty(columnValueProviders)
+                ? columnValueProviders.get(column.getStringId())
                 : null;
-        if (exportProvider != null) {
-            return exportProvider.apply(new ExportColumnContext(table, column, instance));
+        if (columnValueProvider != null) {
+            return columnValueProvider.apply(new ColumnValueContext(table, column, instance));
         }
 
         Table.Printable printable = table.getPrintable(column);
@@ -163,11 +163,11 @@ public abstract class AbstractTableExporter<T extends AbstractTableExporter> imp
     }
 
     protected Object getColumnValue(DataGrid dataGrid, DataGrid.Column column, Object instance) {
-        Function<ExportColumnContext, Object> exportProvider = MapUtils.isNotEmpty(columnExportProviders)
-                ? columnExportProviders.get(column.getId())
+        Function<ColumnValueContext, Object> columnValueProvider = MapUtils.isNotEmpty(columnValueProviders)
+                ? columnValueProviders.get(column.getId())
                 : null;
-        if (exportProvider != null) {
-            return exportProvider.apply(new ExportColumnContext(dataGrid, column, instance));
+        if (columnValueProvider != null) {
+            return columnValueProvider.apply(new ColumnValueContext(dataGrid, column, instance));
         }
 
         Object cellValue = null;
