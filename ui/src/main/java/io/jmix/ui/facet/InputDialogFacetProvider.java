@@ -346,7 +346,7 @@ public class InputDialogFacetProvider implements FacetProvider<InputDialogFacet>
             return null;
         } else if (elements.size() > 1) {
             throw new GuiDevelopmentException(
-                    String.format("InputParameter '%s' element cannot contains " +
+                    String.format("InputParameter '%s' element cannot contain " +
                                     "two or more custom field definitions", paramId), context);
         }
 
@@ -357,8 +357,8 @@ public class InputDialogFacetProvider implements FacetProvider<InputDialogFacet>
         // Check field type before loading attributes
         if (!(component instanceof Field)) {
             throw new GuiDevelopmentException(
-                    String.format("InputParameter '%s' - element cannot contains " +
-                            "two or more custom field definitions", paramId), context);
+                    String.format("InputParameter '%s' custom field must implement " +
+                            "io.jmix.ui.component.Field", paramId), context);
         }
 
         loader.loadComponent();
