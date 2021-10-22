@@ -22,6 +22,7 @@ import com.vaadin.spring.VaadinConfiguration;
 import io.jmix.core.metamodel.datatype.FormatStrings;
 import io.jmix.core.metamodel.datatype.FormatStringsRegistry;
 import io.jmix.ui.AppUI;
+import io.jmix.ui.testassist.ui.AppUiManager;
 import io.jmix.ui.testassist.ui.TestAppUI;
 import io.jmix.ui.testassist.ui.TestVaadinSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,6 +60,11 @@ public class UiTestAssistConfiguration {
     @Primary
     public AppUI createTestAppUI() {
         return new TestAppUI();
+    }
+
+    @Bean
+    public AppUiManager appUiManager() {
+        return new AppUiManager();
     }
 
     protected VaadinSession createTestVaadinSession() {
