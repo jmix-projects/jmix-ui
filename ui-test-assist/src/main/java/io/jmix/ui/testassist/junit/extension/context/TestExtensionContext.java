@@ -16,10 +16,12 @@
 
 package io.jmix.ui.testassist.junit.extension.context;
 
+import io.jmix.core.annotation.Internal;
 import io.jmix.ui.testassist.ui.AppUiManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.TestContextManager;
 
+@Internal
 public class TestExtensionContext {
 
     protected TestContextManager testContextManager;

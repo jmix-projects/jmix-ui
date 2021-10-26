@@ -25,6 +25,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+/**
+ * Base test class for JUnit tests.
+ */
 @UiTest
 public abstract class UiTestAssistJUnit {
 
@@ -33,13 +36,15 @@ public abstract class UiTestAssistJUnit {
 
     @BeforeEach
     protected void setupJmixApp() {
-        appUiManager.setupUi();
         setupAuthentication();
+
+        appUiManager.setupUi();
     }
 
     @AfterEach
     protected void cleanupJmixApp() {
         appUiManager.cleanupUi();
+
         cleanupAuthentication();
     }
 

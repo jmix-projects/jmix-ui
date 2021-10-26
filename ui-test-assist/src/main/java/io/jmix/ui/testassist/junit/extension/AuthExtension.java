@@ -28,6 +28,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collections;
 import java.util.Locale;
 
+/**
+ * Sets default authentication before each test and removes it after each test.
+ *
+ * @see UiTestJUnit
+ */
 public class AuthExtension implements BeforeEachCallback, AfterEachCallback {
 
     @Override

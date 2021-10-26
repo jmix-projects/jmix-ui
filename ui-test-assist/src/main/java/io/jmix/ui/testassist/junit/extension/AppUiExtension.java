@@ -21,6 +21,11 @@ import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+/**
+ * Initialize UI before each test and cleans it after each test.
+ *
+ * @see UiTestJUnit
+ */
 public class AppUiExtension implements BeforeEachCallback, AfterEachCallback {
 
     protected static final ExtensionContext.Namespace APP_UI_EXTENSION_NAMESPACE = ExtensionContext.Namespace.create(AppUiExtension.class);

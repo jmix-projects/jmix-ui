@@ -81,7 +81,7 @@ public class AppUiManager {
             getDeclaredField(App.class, "cookies", true)
                     .set(app, new AppCookies());
         } catch (IllegalAccessException e) {
-            // todo rp
+            throw new RuntimeException("Cannot initialize " + JmixApp.class.getName(), e);
         }
 
         TestVaadinSession vaadinSession = new TestVaadinSession(new WebBrowser(), Locale.ENGLISH);
@@ -102,7 +102,7 @@ public class AppUiManager {
             getDeclaredField(UI.class, "session", true)
                     .set(vaadinUi, vaadinSession);
         } catch (IllegalAccessException e) {
-            // todo rp
+            throw new RuntimeException("Cannot initialize " + UI.class.getName(), e);
         }
 
         RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(Mockito.mock(HttpServletRequest.class)));
@@ -115,8 +115,7 @@ public class AppUiManager {
             method.setAccessible(true);
             method.invoke(vaadinUi, vaadinRequest);
         } catch (InvocationTargetException | IllegalAccessException e) {
-            // todo rp
-            e.printStackTrace();
+            throw new RuntimeException("Cannot invoke init method of " + AppUI.class.getName(), e);
         }
     }
 
@@ -139,7 +138,7 @@ public class AppUiManager {
             getDeclaredField(WindowConfig.class, "initialized", true)
                     .set(windowConfig, false);
         } catch (IllegalAccessException e) {
-            // todo rp
+            throw new RuntimeException("Cannot reset screen config", e);
         }
     }
 
@@ -150,7 +149,6 @@ public class AppUiManager {
         injector.autowireBean(configuration);
 
         configuration.setBasePackages(packages);
-
 
         try {
             Field configurationsField = getDeclaredField(WindowConfig.class, "configurations", true);
@@ -166,7 +164,7 @@ public class AppUiManager {
             getDeclaredField(WindowConfig.class, "initialized", true)
                     .set(windowConfig, false);
         } catch (IllegalAccessException e) {
-            // todo rp
+            throw new RuntimeException("Cannot export screen packages", e);
         }
     }
 

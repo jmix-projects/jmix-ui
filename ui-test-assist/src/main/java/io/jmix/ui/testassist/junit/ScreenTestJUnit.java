@@ -16,14 +16,11 @@
 
 package io.jmix.ui.testassist.junit;
 
-import io.jmix.core.annotation.Internal;
 import io.jmix.core.security.ClientDetails;
 import io.jmix.core.security.SecurityContextHelper;
-import io.jmix.ui.UiProperties;
 import io.jmix.ui.screen.OpenMode;
 import io.jmix.ui.screen.Screen;
 import org.junit.jupiter.api.BeforeEach;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,11 +28,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collections;
 import java.util.Locale;
 
-@Internal
-public class BaseScreenTest extends UiTestAssistJUnit {
-
-    @Autowired
-    protected UiProperties uiProperties;
+/**
+ * Implementation of base test class. It implements default authentication
+ * and exports test main screen package.
+ */
+public class ScreenTestJUnit extends UiTestAssistJUnit {
 
     @BeforeEach
     protected void exportTestMainScreenPackage() {

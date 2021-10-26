@@ -17,19 +17,34 @@
 package io.jmix.ui.testassist.junit.extension;
 
 import io.jmix.ui.screen.OpenMode;
+import io.jmix.ui.testassist.app.main.TestMainScreen;
 import io.jmix.ui.testassist.ui.AppUiManager;
 import io.jmix.ui.testassist.junit.extension.context.TestExtensionContext;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
+import java.lang.reflect.Method;
 import java.util.Collections;
 
+/**
+ * Exports screen package for {@link TestMainScreen} and opens it before each test.
+ *
+ * @see UiTestJUnit
+ */
 public class MainScreenExtension implements BeforeEachCallback {
 
     protected static final ExtensionContext.Namespace MAIN_SCREEN_EXTENSION_NAMESPACE = ExtensionContext.Namespace.create(MainScreenExtension.class);
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
+        if (context.getTestMethod().isPresent()) {
+            Method method = context.getTestMethod().get();
+            DoNotOpenMainScreen doNotOpenMainScreen = method.getAnnotation(DoNotOpenMainScreen.class);
+            if (doNotOpenMainScreen != null) {
+                return;
+            }
+        }
+
         AppUiManager appUiManager = getContextStore(context).getAppUiManager();
 
         appUiManager.exportScreensPackages(Collections.singletonList("io.jmix.ui.testassist.app.main"));
