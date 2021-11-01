@@ -23,13 +23,13 @@ import io.jmix.core.MetadataTools
 import io.jmix.core.impl.scanning.AnnotationScanMetadataReaderFactory
 import io.jmix.ui.*
 import io.jmix.ui.model.DataComponents
-import io.jmix.ui.testassist.UiTest
+import io.jmix.ui.testassist.JmixUiTest
 import io.jmix.ui.testassist.ui.AppUiManager
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import spock.lang.Specification
 
-@UiTest
+@JmixUiTest
 abstract class UiTestAssistSpecification extends Specification {
 
     @Autowired
@@ -74,6 +74,7 @@ abstract class UiTestAssistSpecification extends Specification {
 
     void cleanup() {
         appUiManager.cleanupUi()
+
         cleanupAuthentication()
     }
 

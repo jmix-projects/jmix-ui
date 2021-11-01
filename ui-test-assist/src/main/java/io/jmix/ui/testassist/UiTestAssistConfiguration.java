@@ -56,13 +56,13 @@ public class UiTestAssistConfiguration {
                 "True", "False"));
     }
 
-    @Bean
+    @Bean("ui_testAppUi")
     @Primary
-    public AppUI createTestAppUI() {
+    public AppUI testAppUI() {
         return new TestAppUI();
     }
 
-    @Bean
+    @Bean("ui_appUiManager")
     public AppUiManager appUiManager() {
         return new AppUiManager();
     }

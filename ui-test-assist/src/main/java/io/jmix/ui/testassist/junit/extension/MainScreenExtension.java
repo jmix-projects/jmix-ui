@@ -28,7 +28,7 @@ import java.util.Collections;
 /**
  * Exports screen package for {@link TestMainScreen} and opens it before each test.
  *
- * @see UiTestJUnit
+ * @see UiTest
  */
 public class MainScreenExtension implements BeforeEachCallback {
 

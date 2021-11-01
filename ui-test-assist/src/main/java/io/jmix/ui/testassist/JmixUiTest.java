@@ -16,17 +16,23 @@
 
 package io.jmix.ui.testassist;
 
+import io.jmix.ui.testassist.ui.AppUiManager;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.*;
 
+/**
+ * The annotation includes test configuration for Jmix application.
+ *
+ * @see AppUiManager
+ */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {UiTestAssistConfiguration.class}, initializers = {TestContextInititalizer.class})
-public @interface UiTest {
+public @interface JmixUiTest {
 }

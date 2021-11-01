@@ -16,42 +16,41 @@
 
 package io.jmix.ui.testassist.junit.extension;
 
-import io.jmix.core.security.ClientDetails;
-import io.jmix.core.security.SecurityContextHelper;
+import io.jmix.core.security.*;
+import io.jmix.ui.testassist.junit.extension.context.TestExtensionContext;
 import org.junit.jupiter.api.extension.AfterEachCallback;
 import org.junit.jupiter.api.extension.BeforeEachCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collections;
-import java.util.Locale;
 
 /**
  * Sets default authentication before each test and removes it after each test.
  *
- * @see UiTestJUnit
+ * @see UiTest
  */
-public class AuthExtension implements BeforeEachCallback, AfterEachCallback {
+public class SystemAuthExtension implements BeforeEachCallback, AfterEachCallback {
+
+    protected static final ExtensionContext.Namespace SYSTEM_AUTH_EXTENSION_NAMESPACE =
+            ExtensionContext.Namespace.create(SystemAuthExtension.class);
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
-        UserDetails user = User.builder()
-                .username("system")
-                .password("")
-                .authorities(Collections.emptyList())
-                .build();
-
-        UsernamePasswordAuthenticationToken authentication =
-                new UsernamePasswordAuthenticationToken(user, null, Collections.emptyList());
-        authentication.setDetails(ClientDetails.builder().locale(Locale.US).build());
-
-        SecurityContextHelper.setAuthentication(authentication);
+        getTestContext(context).getApplicationContext()
+                .getBean(SystemAuthenticator.class)
+                .begin();
     }
 
     @Override
     public void afterEach(ExtensionContext context) throws Exception {
-        SecurityContextHelper.setAuthentication(null);
+        getTestContext(context).getApplicationContext()
+                .getBean(SystemAuthenticator.class)
+                .end();
+    }
+
+    protected TestExtensionContext getTestContext(ExtensionContext context) {
+        Class<?> testClass = context.getRequiredTestClass();
+
+        ExtensionContext.Store store = context.getStore(SYSTEM_AUTH_EXTENSION_NAMESPACE);
+
+        return store.getOrComputeIfAbsent(testClass, TestExtensionContext::new, TestExtensionContext.class);
     }
 }
