@@ -323,7 +323,7 @@ public class ViewAction<E> extends SecuredListAction implements Action.ScreenOpe
         if (editor instanceof ReadOnlyAwareScreen) {
             ((ReadOnlyAwareScreen) editor).setReadOnly(true);
 
-            if (!isEditingButtonShouldBeVisible(editor)) {
+            if (isReadOnlyCompositionEditor(editor)) {
                 readOnlyScreensSupport.setScreenReadOnly(editor, true, false);
             }
         } else {
@@ -334,7 +334,14 @@ public class ViewAction<E> extends SecuredListAction implements Action.ScreenOpe
         editor.show();
     }
 
-    protected boolean isEditingButtonShouldBeVisible(Screen editor) {
+    /**
+     * In case of composition relation, editor for nested entities should be in read-only mode with hidden
+     * "enableEditing" action if master editor is in read-only mode too.
+     *
+     * @param editor editor to check
+     * @return {@code true} if relation between entities is composition
+     */
+    protected boolean isReadOnlyCompositionEditor(Screen editor) {
         Frame frame = target.getFrame();
         if (frame == null) {
             throw new IllegalStateException("Component is not attached to the Frame");
@@ -344,17 +351,17 @@ public class ViewAction<E> extends SecuredListAction implements Action.ScreenOpe
         if (!(origin instanceof ReadOnlyAwareScreen)
                 || !((ReadOnlyAwareScreen) origin).isReadOnly()
                 || !(editor instanceof StandardEditor)) {
-            return true;
+            return false;
         }
 
         DataUnit items = target.getItems();
         if (!(items instanceof ContainerDataUnit)) {
-            return true;
+            return false;
         }
 
         CollectionContainer container = ((ContainerDataUnit) target.getItems()).getContainer();
         if (!(container instanceof CollectionPropertyContainer)) {
-            return true;
+            return false;
         }
 
         InstanceContainer masterContainer = ((CollectionPropertyContainer) container).getMaster();
@@ -363,6 +370,6 @@ public class ViewAction<E> extends SecuredListAction implements Action.ScreenOpe
         MetaClass metaClass = masterContainer.getEntityMetaClass();
         MetaProperty metaProperty = metaClass.getProperty(property);
 
-        return metaProperty.getType() != MetaProperty.Type.COMPOSITION;
+        return metaProperty.getType() == MetaProperty.Type.COMPOSITION;
     }
 }
