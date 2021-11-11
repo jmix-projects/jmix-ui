@@ -537,7 +537,7 @@ public class BulkEditorWindow<E> extends Screen implements BulkEditorController<
 
     protected boolean isManagedAttribute(MetaClass metaClass, MetaProperty metaProperty) {
         if (metadataTools.isSystem(metaProperty)
-                || !metadataTools.isJpa(metaProperty)
+                || (!metadataTools.isJpa(metaProperty) && metadataTools.getCrossDataStoreReferenceIdProperty(metaProperty.getStore().getName(), metaProperty)==null)
                 || metadataTools.isSystemLevel(metaProperty)
                 || metaProperty.getRange().getCardinality().isMany()
                 || !isEntityAttributeModifyPermitted(metaClass, metaProperty)) {
