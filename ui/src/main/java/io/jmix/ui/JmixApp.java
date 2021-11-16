@@ -18,8 +18,11 @@ package io.jmix.ui;
 
 import com.google.common.base.Strings;
 import com.vaadin.spring.annotation.VaadinSessionScope;
+import io.jmix.core.AccessManager;
 import io.jmix.core.security.SecurityContextHelper;
+import io.jmix.ui.accesscontext.UiShowScreenContext;
 import io.jmix.ui.util.OperationResult;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -27,6 +30,9 @@ import org.springframework.stereotype.Component;
 @Component("ui_App")
 @VaadinSessionScope
 public class JmixApp extends App {
+
+    @Autowired
+    protected AccessManager accessManager;
 
     @Override
     public void loginOnStart() {
@@ -36,6 +42,16 @@ public class JmixApp extends App {
     @Override
     protected String routeTopLevelWindowId() {
         if (isAnonymousAuthentication()) {
+            String initialScreenId = uiProperties.getInitialScreenId();
+            if (!Strings.isNullOrEmpty(initialScreenId)
+                    && windowConfig.hasWindow(initialScreenId)) {
+                UiShowScreenContext context = new UiShowScreenContext(initialScreenId);
+                accessManager.applyRegisteredConstraints(context);
+                if (context.isPermitted()) {
+                    return initialScreenId;
+                }
+            }
+
             String screenId = uiProperties.getLoginScreenId();
             if (!windowConfig.hasWindow(screenId)) {
                 screenId = uiProperties.getMainScreenId();
