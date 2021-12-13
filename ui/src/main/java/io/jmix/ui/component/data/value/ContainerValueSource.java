@@ -164,11 +164,11 @@ public class ContainerValueSource<E, V> implements EntityValueSource<E, V>, Appl
     public void setValue(@Nullable V value) {
         E item = container.getItemOrNull();
         if (item != null) {
-            // Do not set collection value if it's not changed. Due to
+            // Do not set collection value if it's not changed. As
             // EntityValues#propertyValueEquals() returns true only if
-            // the new value is the same instance as old one. it may cause
+            // the new value is the same instance as old one, there may be
             // false unsaved changes in the editor screen.
-            if (isPropertyCollectionType() && equalCollectionValue(value)) {
+            if (isCollectionPropertyType() && isEqualCollectionValue(value)) {
                 return;
             }
 
@@ -342,12 +342,12 @@ public class ContainerValueSource<E, V> implements EntityValueSource<E, V>, Appl
         return container;
     }
 
-    protected boolean isPropertyCollectionType() {
+    protected boolean isCollectionPropertyType() {
         Class<?> propertyType = metaPropertyPath.getMetaProperty().getJavaType();
         return Collection.class.isAssignableFrom(propertyType);
     }
 
-    protected boolean equalCollectionValue(@Nullable V a) {
+    protected boolean isEqualCollectionValue(@Nullable V a) {
         Collection<V> newValue = (Collection<V>) a;
         Collection<V> oldValue = EntityValues.getValueEx(getItem(), metaPropertyPath.toPathString());
 
