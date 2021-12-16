@@ -255,7 +255,7 @@ public class EditAction<E> extends SecuredListAction
 
         UiEntityContext entityContext = new UiEntityContext(metaClass);
         accessManager.applyRegisteredConstraints(entityContext);
-        InMemoryCrudEntityContext inMemoryCrudEntityContext = new InMemoryCrudEntityContext(metaClass);
+        InMemoryCrudEntityContext inMemoryCrudEntityContext = new InMemoryCrudEntityContext(metaClass, applicationContext);
         accessManager.applyRegisteredConstraints(inMemoryCrudEntityContext);
 
         if (!entityContext.isViewPermitted() && !entityContext.isEditPermitted()) {
@@ -273,7 +273,7 @@ public class EditAction<E> extends SecuredListAction
     public void refreshState() {
         super.refreshState();
 
-        if (!(target.getItems() instanceof EntityDataUnit)) {
+        if (target == null || !(target.getItems() instanceof EntityDataUnit)) {
             return;
         }
         if (!captionInitialized) {
@@ -281,7 +281,7 @@ public class EditAction<E> extends SecuredListAction
 
             UiEntityContext entityContext = new UiEntityContext(metaClass);
             accessManager.applyRegisteredConstraints(entityContext);
-            InMemoryCrudEntityContext inMemoryContext = new InMemoryCrudEntityContext(metaClass);
+            InMemoryCrudEntityContext inMemoryContext = new InMemoryCrudEntityContext(metaClass, applicationContext);
             accessManager.applyRegisteredConstraints(inMemoryContext);
 
             if (metaClass != null) {
