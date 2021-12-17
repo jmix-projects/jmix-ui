@@ -16,8 +16,10 @@
 
 package io.jmix.ui.testassist.junit;
 
+import io.jmix.ui.Screens;
 import io.jmix.ui.UiProperties;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.context.ApplicationContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.lang.annotation.*;
@@ -28,7 +30,7 @@ import java.lang.annotation.*;
  * For instance:
  * <pre>
  * &#64;UiTest(authenticatedUser = "admin", mainScreenId = "MainScreen", screenBasePackages = "com.company.demo.screen")
- * &#64;ContextConfiguration(classes = {DemoApplication.class, DemoTestConfiguration.class})
+ * &#64;ContextConfiguration(classes = {DemoApplication.class, UiTestAssistConfiguration.class})
  * public class UserBrowseTest {
  *
  *     &#64;Test
@@ -38,6 +40,7 @@ import java.lang.annotation.*;
  *     }
  * }
  * </pre>
+ * {@link Screens} bean can be obtained from method parameters or via {@link ApplicationContext#getBean(Class)}.
  *
  * @see JmixUiTestExtension
  */
@@ -63,7 +66,8 @@ public @interface UiTest {
     String mainScreenId() default "";
 
     /**
-     * Screens under these packages will be available in test.
+     * Screens under these packages will be available in test. If packages are not set, all application screens
+     * will be available depending on the test's configuration.
      */
     String[] screenBasePackages() default {};
 }

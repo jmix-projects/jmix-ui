@@ -34,16 +34,15 @@ import io.jmix.ui.theme.ThemeConstants;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.jupiter.api.extension.*;
 import org.junit.platform.commons.support.AnnotationSupport;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
+import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Nullable;
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -54,9 +53,9 @@ import static org.apache.commons.lang3.reflect.FieldUtils.getDeclaredField;
 /**
  * Extension starts Vaadin UI before each test and configures screen packages,
  * main screen id, username to perform authentication. For instance:
- *
  * <pre>
- * &#64;ContextConfiguration(classes = {DemoApplication.class, DemoTestConfiguration.class})
+ * &#64;ExtendWith(SpringExtension.class)
+ * &#64;ContextConfiguration(classes = {DemoApplication.class, UiTestAssistConfiguration.class})
  * public class UserBrowseTest {
  *
  *     &#64;RegisterExtension
@@ -72,6 +71,8 @@ import static org.apache.commons.lang3.reflect.FieldUtils.getDeclaredField;
  *     }
  * }
  * </pre>
+ * {@link Screens} bean can be obtained from method parameters or via {@link ApplicationContext#getBean(Class)}.
+ *
  * @see UiTest
  */
 public class JmixUiTestExtension implements BeforeEachCallback, AfterEachCallback, ParameterResolver {
@@ -141,6 +142,8 @@ public class JmixUiTestExtension implements BeforeEachCallback, AfterEachCallbac
 
     /**
      * Sets screen packages. Screens under these packages will be available in test.
+     * If packages are not set, all application screens will be available depending on
+     * the test's configuration.
      *
      * @param screenBasePackages screen packages
      * @return current instance
@@ -246,7 +249,7 @@ public class JmixUiTestExtension implements BeforeEachCallback, AfterEachCallbac
             throw new RuntimeException("Cannot initialize " + UI.class.getName(), e);
         }
 
-        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(Mockito.mock(HttpServletRequest.class)));
+        RequestContextHolder.setRequestAttributes(new ServletRequestAttributes(new MockHttpServletRequest()));
 
         TestVaadinRequest vaadinRequest = new TestVaadinRequest();
         vaadinUi.getPage().init(vaadinRequest);
