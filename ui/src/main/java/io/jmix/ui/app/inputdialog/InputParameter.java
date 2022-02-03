@@ -277,8 +277,8 @@ public class InputParameter {
     /**
      * Sets time zone to the parameter. InputDialog supports time zones for
      * <ul>
-     *     <li>{@link OffsetDateTime}</li> as {@link OffsetDateTimeDatatype}
-     *     <li>{@link Date}</li> as {@link DateTimeDatatype}
+     *     <li>{@link OffsetDateTimeDatatype}</li>
+     *     <li>{@link DateTimeDatatype}</li>
      * </ul>
      * If time zone not set and {@link #isUseUserTimeZone()} is false, component will use system time zone.
      *
@@ -301,8 +301,8 @@ public class InputParameter {
     /**
      * Sets to the parameter whether to use user's {@link TimeZone}. InputDialog supports time zones for
      * <ul>
-     *     <li>{@link OffsetDateTime}</li>  as {@link OffsetDateTimeDatatype}
-     *     <li>{@link Date}</li>  as {@link DateTimeDatatype}
+     *     <li>{@link OffsetDateTimeDatatype}</li>
+     *     <li>{@link DateTimeDatatype}</li>
      * </ul>
      * Default value is {@code false}. If users' time zone is not used and time zone is not set, component will use
      * system time zone.
