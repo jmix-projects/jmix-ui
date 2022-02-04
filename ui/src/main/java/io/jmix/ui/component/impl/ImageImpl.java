@@ -145,7 +145,7 @@ public class ImageImpl<T> extends AbstractResourceView<JmixImage> implements Ima
                 return applicationContext.getBean(UrlResource.class)
                         .setUrl(url);
             } catch (MalformedURLException e) {
-                throw new IllegalArgumentException("Cannot convert provided URI type `" + uri + "' to URL");
+                throw new IllegalArgumentException("Cannot convert provided URI type `" + uri + "' to URL", e);
             }
         }
 
