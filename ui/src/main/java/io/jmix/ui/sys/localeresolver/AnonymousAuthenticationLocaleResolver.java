@@ -14,50 +14,49 @@
  * limitations under the License.
  */
 
-package io.jmix.ui;
+package io.jmix.ui.sys.localeresolver;
 
 import io.jmix.core.JmixOrder;
 import io.jmix.core.MessageTools;
 import io.jmix.core.security.AuthenticationLocaleResolver;
 import io.jmix.core.security.CurrentAuthentication;
+import io.jmix.ui.App;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.RememberMeAuthenticationToken;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Nullable;
 import java.util.Locale;
 
 /**
- * Provides {@link Locale} from {@link App} instance that should be used if current authentication is Remember Me.
+ * Provides {@link Locale} from {@link App} instance that should be used if current authentication is anonymous.
  *
  * @see CurrentAuthentication
  */
-@Component("ui_RememberMeAuthenticationLocaleResolver")
-public class RememberMeAuthenticationLocaleResolver implements AuthenticationLocaleResolver {
+@Component("ui_AnonymousAuthenticationLocaleResolver")
+public class AnonymousAuthenticationLocaleResolver implements AuthenticationLocaleResolver {
 
     @Autowired
     protected MessageTools messageTools;
 
     @Override
     public boolean supports(Authentication authentication) {
-        return authentication instanceof RememberMeAuthenticationToken;
+        return authentication instanceof AnonymousAuthenticationToken;
     }
 
+    @Nullable
     @Override
     public Locale getLocale(Authentication authentication) {
-        // During the App initialization process, the actual Locale
-        // is resolved considering Cookie value, so we can rely on
-        // App.getLocale() value instead of getting the cookie value
-        // ourselves.
         if (App.isBound()) {
             return App.getInstance().getLocale();
         }
 
-        return messageTools.getDefaultLocale();
+        return null;
     }
 
     @Override
     public int getOrder() {
-        return JmixOrder.HIGHEST_PRECEDENCE + 90;
+        return JmixOrder.HIGHEST_PRECEDENCE + 100;
     }
 }
